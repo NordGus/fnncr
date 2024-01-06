@@ -37,7 +37,8 @@
           "markdown.preview.fontFamily": "'Geist Mono Medium', -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",
           "markdown.preview.fontSize": 16,
           "markdown.preview.lineHeight": 1.2,
-          "workbench.iconTheme": "vscode-icons"
+          "workbench.iconTheme": "vscode-icons",
+          "gopls": { "ui.semanticTokens": true }
         }
       }
     },

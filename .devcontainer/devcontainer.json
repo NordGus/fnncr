@@ -13,19 +13,19 @@
   "customizations": {
     "vscode": {
       "extensions": [
-          "golang.Go",
-          "davidanson.vscode-markdownlint",
-          "shardulm94.trailing-spaces",
-          "IBM.output-colorizer",
-          "rangav.vscode-thunder-client",
-          "donjayamanne.githistory",
-          "streetsidesoftware.code-spell-checker",
-          "alexcvzz.vscode-sqlite",
-          "bradlc.vscode-tailwindcss",
-          "vscode-icons-team.vscode-icons",
-          "zhuangtongfa.material-theme",
-          "a-h.templ",
-          "tamasfe.even-better-toml"
+        "golang.Go",
+        "davidanson.vscode-markdownlint",
+        "shardulm94.trailing-spaces",
+        "IBM.output-colorizer",
+        "rangav.vscode-thunder-client",
+        "donjayamanne.githistory",
+        "streetsidesoftware.code-spell-checker",
+        "alexcvzz.vscode-sqlite",
+        "bradlc.vscode-tailwindcss",
+        "vscode-icons-team.vscode-icons",
+        "zhuangtongfa.material-theme",
+        "a-h.templ",
+        "tamasfe.even-better-toml"
       ],
       "settings": {
         "go.useLanguageServer": true,
@@ -48,18 +48,29 @@
         },
         "tailwindCSS.includeLanguages": {
           "templ": "html"
-        },
-        "files.associations": {
-          "*.templ": "html"
         }
       }
     }
   },
-  "capAdd": ["SYS_PTRACE"],
-  "securityOpt": ["seccomp=unconfined"],
+  "capAdd": [
+    "SYS_PTRACE"
+  ],
+  "securityOpt": [
+    "seccomp=unconfined"
+  ],
   "containerUser": "vscode",
-  "mounts": [{ "source": "${env:HOME}/.ssh", "target": "/home/vscode/.ssh:ro", "type": "bind" }],
-  "forwardPorts": [80, 443, 4269],
+  "mounts": [
+    {
+      "source": "${env:HOME}/.ssh",
+      "target": "/home/vscode/.ssh:ro",
+      "type": "bind"
+    }
+  ],
+  "forwardPorts": [
+    80,
+    443,
+    4269
+  ],
   "portsAttributes": {
     "80": {
       "label": "Go HTTP Server",

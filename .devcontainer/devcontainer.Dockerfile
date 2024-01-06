@@ -8,6 +8,7 @@ ARG NODE_VERSION
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as node
 FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION}
 ARG GO_AIR_VERSION
+ARG GO_TEMPL_VERSION
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -33,6 +34,9 @@ RUN apk add -q --update --progress --no-cache git sudo openssh-client zsh nano
 
 # installing cosmtrek/air for hot reloading
 RUN go install github.com/cosmtrek/air@$GO_AIR_VERSION
+
+# installing a-h/templ for templating
+RUN go install github.com/a-h/templ/cmd/templ@$GO_TEMPL_VERSION
 
 # Setup shell
 USER $USERNAME

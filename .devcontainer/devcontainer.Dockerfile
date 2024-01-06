@@ -35,6 +35,9 @@ RUN apk add -q --update --progress --no-cache git sudo openssh-client zsh nano
 # installing cosmtrek/air for hot reloading
 RUN go install github.com/cosmtrek/air@$GO_AIR_VERSION
 
+# installing gopls
+RUN go install golang.org/x/tools/gopls@latest
+
 # installing a-h/templ for templating
 RUN go install github.com/a-h/templ/cmd/templ@$GO_TEMPL_VERSION
 

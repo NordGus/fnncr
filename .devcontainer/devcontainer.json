@@ -24,7 +24,8 @@
             "bradlc.vscode-tailwindcss",
             "vscode-icons-team.vscode-icons",
             "zhuangtongfa.material-theme",
-            "a-h.templ"
+            "a-h.templ",
+            "tamasfe.even-better-toml"
         ],
         "settings": {
           "go.useLanguageServer": true,

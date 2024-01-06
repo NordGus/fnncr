@@ -30,6 +30,7 @@
       "settings": {
         "go.useLanguageServer": true,
         "workbench.colorTheme": "One Dark Pro Darker",
+        "editor.formatOnSave": true,
         "editor.fontSize": 16,
         "editor.fontFamily": "'Geist Mono Medium', 'monospace', monospace",
         "editor.fontLigatures": true,
@@ -39,7 +40,18 @@
         "markdown.preview.fontSize": 16,
         "markdown.preview.lineHeight": 1.2,
         "workbench.iconTheme": "vscode-icons",
-        "gopls": { "ui.semanticTokens": true }
+        "gopls": {
+          "ui.semanticTokens": true
+        },
+        "[templ]": {
+          "editor.defaultFormatter": "a-h.templ"
+        },
+        "tailwindCSS.includeLanguages": {
+          "templ": "html"
+        },
+        "files.associations": {
+          "*.templ": "html"
+        }
       }
     }
   },

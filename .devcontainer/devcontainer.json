@@ -45,10 +45,20 @@
     "securityOpt": ["seccomp=unconfined"],
     "containerUser": "vscode",
     "mounts": [{ "source": "${env:HOME}/.ssh", "target": "/home/vscode/.ssh:ro", "type": "bind" }],
-    "forwardPorts": [4269],
+    "forwardPorts": [80, 443, 4269],
     "portsAttributes": {
+      "80": {
+        "label": "Go HTTP Server",
+        "onAutoForward": "notify",
+        "requireLocalPort": true
+      },
+      "443": {
+        "label": "Go HTTPS Server",
+        "onAutoForward": "notify",
+        "requireLocalPort": true
+      },
       "4269": {
-        "label": "Go HTTP Server entrypoint",
+        "label": "Persistent Service",
         "onAutoForward": "notify",
         "requireLocalPort": true
       }

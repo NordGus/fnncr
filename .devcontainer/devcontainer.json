@@ -30,6 +30,10 @@
       "settings": {
         "go.useLanguageServer": true,
         "workbench.colorTheme": "One Dark Pro Darker",
+        "editor.rulers": [
+          80,
+          120
+        ],
         "editor.formatOnSave": true,
         "editor.fontSize": 16,
         "editor.fontFamily": "'Geist Mono Medium', 'monospace', monospace",

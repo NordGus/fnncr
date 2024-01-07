@@ -20,6 +20,7 @@ func main() {
 	}, auth.AuthenticateMiddleware)
 
 	app.GET("/login", auth.LoginHandler)
+	app.POST("/authenticate", auth.AuthenticateHandler)
 
 	app.Logger.Fatal(app.Start(":4269"))
 }

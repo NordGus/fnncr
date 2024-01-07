@@ -10,6 +10,17 @@ templ Login() {
 		</head>
 		<body>
 			<h1>Login to fnncr</h1>
+			<form action="/authenticate" method="post">
+				<label for="username">
+					Username
+					<input type="text" name="username" id="username"/>
+				</label>
+				<label for="password">
+					Password
+					<input type="password" name="password" id="password"/>
+				</label>
+				<input type="submit" value="Log In"/>
+			</form>
 		</body>
 	</html>
 }

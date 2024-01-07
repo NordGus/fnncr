@@ -9,6 +9,8 @@
         "fnncr",
         "githistory",
         "gopls",
+        "labstack",
+        "Nord",
         "PTRACE",
         "rangav",
         "seccomp",

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-
 	"github.com/NordGus/fnncr/authentication"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -10,10 +8,9 @@ import (
 
 func main() {
 	var (
-		ctx, cancel = context.WithCancelCause(context.Background())
-		app         = echo.New()
+		app = echo.New()
 
-		auth = authentication.New(ctx, cancel)
+		auth = authentication.New()
 	)
 
 	app.Use(middleware.Logger())

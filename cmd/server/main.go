@@ -2,15 +2,27 @@ package main
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/NordGus/fnncr/authentication"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
-	ctx, cancel := context.WithCancelCause(context.Background())
+	var (
+		ctx, cancel = context.WithCancelCause(context.Background())
+		app         = echo.New()
 
-	auth := authentication.New(ctx, cancel)
+		auth = authentication.New(ctx, cancel)
+	)
 
-	fmt.Println(auth)
+	app.Use(middleware.Logger())
+
+	app.GET("/", func(c echo.Context) error {
+		return home().Render(c.Request().Context(), c.Response())
+	}, auth.AuthenticateMiddleware)
+
+	app.GET("/login", auth.LoginHandler)
+
+	app.Logger.Fatal(app.Start(":4269"))
 }

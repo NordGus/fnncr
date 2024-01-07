@@ -74,21 +74,9 @@
     }
   ],
   "forwardPorts": [
-    80,
-    443,
     4269
   ],
   "portsAttributes": {
-    "80": {
-      "label": "Go HTTP Server",
-      "onAutoForward": "notify",
-      "requireLocalPort": true
-    },
-    "443": {
-      "label": "Go HTTPS Server",
-      "onAutoForward": "notify",
-      "requireLocalPort": true
-    },
     "4269": {
       "label": "Persistent Service",
       "onAutoForward": "notify",

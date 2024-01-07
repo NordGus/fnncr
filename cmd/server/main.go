@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"os"
+
+	"github.com/NordGus/fnncr/authentication"
 )
 
 func main() {
-	component := hello("World")
-	component.Render(context.Background(), os.Stdout)
-	fmt.Println()
+	ctx, cancel := context.WithCancelCause(context.Background())
+
+	auth := authentication.New(ctx, cancel)
+
+	fmt.Println(auth)
 }

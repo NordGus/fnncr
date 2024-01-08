@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/NordGus/fnncr/authentication"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -14,6 +16,8 @@ func main() {
 	)
 
 	app.Use(middleware.Logger())
+
+	app.StaticFS("/dist", os.DirFS("./dist"))
 
 	app.GET("/", func(c echo.Context) error {
 		return home().Render(c.Request().Context(), c.Response())

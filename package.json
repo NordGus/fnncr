@@ -6,12 +6,14 @@
   "private": true,
   "scripts": {
     "build:src": "esbuild client/src/*.* --bundle --sourcemap --outdir=dist/src --public-path=/dist/src",
-    "build:src:prod": "esbuild client/src/*.* --bundle --outdir=dist/src"
+    "build:src:prod": "esbuild client/src/*.* --bundle --outdir=dist/src",
+    "build:css": "tailwindcss -i ./client/assets/application.tailwindcss.css -o ./dist/assets/application.css"
   },
   "dependencies": {
     "htmx.org": "1.9.10"
   },
   "devDependencies": {
-    "esbuild": "0.19.11"
+    "esbuild": "0.19.11",
+    "tailwindcss": "3.4.1"
   }
 }

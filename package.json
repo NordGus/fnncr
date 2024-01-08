@@ -4,5 +4,14 @@
   "description": "A personal finances and budgeting application.",
   "author": "Azimetrico Inc.",
   "private": true,
-  "scripts": {}
+  "scripts": {
+    "build:src": "esbuild client/src/*.* --bundle --sourcemap --outdir=dist/src --public-path=/dist/src",
+    "build:src:prod": "esbuild client/src/*.* --bundle --outdir=dist/src"
+  },
+  "dependencies": {
+    "htmx.org": "1.9.10"
+  },
+  "devDependencies": {
+    "esbuild": "0.19.11"
+  }
 }

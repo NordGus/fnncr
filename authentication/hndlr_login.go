@@ -6,5 +6,7 @@ import (
 )
 
 func (s Service) LoginHandler(c echo.Context) error {
-	return views.Login().Render(c.Request().Context(), c.Response())
+	return views.Login(views.LoginForm{
+		Action: "/authenticate",
+	}).Render(c.Request().Context(), c.Response())
 }

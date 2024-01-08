@@ -1,0 +1,21 @@
+package views
+
+type LoginForm struct {
+	Action   string
+	Username string
+	Password string
+}
+
+templ Form(f LoginForm) {
+	<form hx-post={ f.Action }>
+		<div>
+			<label for="username">Username</label>
+			<input type="text" name="username" id="username" value={ f.Username }/>
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" value={ f.Password }/>
+		</div>
+		<input type="submit" value="Log In"/>
+	</form>
+}

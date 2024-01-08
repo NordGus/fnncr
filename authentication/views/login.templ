@@ -1,26 +1,19 @@
 package views
 
-templ Login() {
+templ Login(f LoginForm) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<title>fnncr: Login</title>
+			<title>Sign In - fnncr</title>
 		</head>
 		<body>
-			<h1>Login to fnncr</h1>
-			<form action="/authenticate" method="post">
-				<label for="username">
-					Username
-					<input type="text" name="username" id="username"/>
-				</label>
-				<label for="password">
-					Password
-					<input type="password" name="password" id="password"/>
-				</label>
-				<input type="submit" value="Log In"/>
-			</form>
+			<h1>Sign In to fnncr</h1>
+			<div id="login-form">
+				@Form(f)
+			</div>
+			<script type="module" src="/dist/src/login.js"></script>
 		</body>
 	</html>
 }

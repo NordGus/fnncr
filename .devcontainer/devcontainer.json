@@ -38,6 +38,14 @@
         "editor.fontSize": 16,
         "editor.fontFamily": "'Geist Mono Medium', 'monospace', monospace",
         "editor.fontLigatures": true,
+        "editor.quickSuggestions": {
+          "other": "on",
+          "comments": "off",
+          "strings": "on"
+        },
+        "files.associations": {
+          "*.css": "tailwindcss"
+        },
         "terminal.integrated.fontSize": 16,
         "chat.editor.fontSize": 16,
         "markdown.preview.fontFamily": "'Geist Mono Medium', -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",

@@ -1,41 +1,73 @@
 package authentication
 
 import (
+	"fmt"
 	"time"
 )
 
 type (
+	UserRecord interface {
+		PasswordDigest() []byte
+		ID() int64
+	}
+
+	UserRepository interface {
+		GetByUsername(username string) (UserRecord, error)
+		GetByID(id int64) (UserRecord, error)
+	}
+
+	SessionRecord interface {
+		UserID() int64
+	}
+
+	SessionStore interface {
+		Create(sessionID string, userID int64) error
+		Get(sessionID string) (SessionRecord, error)
+	}
+
 	Service struct {
 		sessionCookieName     string
 		sessionCookieDuration time.Duration
 		sessionCookieDomain   string
+		userRepository        UserRepository
+		sessionRepository     SessionStore
 	}
 
 	Opts struct {
-		sessionCookieName     string
-		sessionCookieDuration time.Duration
-		sessionCookieDomain   string
+		SessionCookieName     string
+		SessionCookieDuration time.Duration
+		SessionCookieDomain   string
+		UserRepository        UserRepository
+		SessionRepository     SessionStore
 	}
+
+	ConfigFunc func(opts *Opts)
 )
 
 var (
 	defaults = Opts{
-		sessionCookieName:     "_fnncr_session",
-		sessionCookieDuration: 24 * time.Hour, // One Day
-		sessionCookieDomain:   "localhost",
+		SessionCookieName:     "_fnncr_session",
+		SessionCookieDuration: 24 * time.Hour, // One Day
+		SessionCookieDomain:   "localhost",
 	}
 )
 
-func New() *Service {
+func New(configs ...ConfigFunc) *Service {
 	var (
 		opts = defaults
 	)
 
-	// TODO: Implement a mechanism to configure the authentication service
+	for i := 0; i < len(configs); i++ {
+		configs[i](&opts)
+	}
+
+	fmt.Println(opts, defaults)
 
 	return &Service{
-		sessionCookieName:     opts.sessionCookieName,
-		sessionCookieDuration: opts.sessionCookieDuration,
-		sessionCookieDomain:   opts.sessionCookieDomain,
+		sessionCookieName:     opts.SessionCookieName,
+		sessionCookieDuration: opts.SessionCookieDuration,
+		sessionCookieDomain:   opts.SessionCookieDomain,
+		userRepository:        opts.UserRepository,
+		sessionRepository:     opts.SessionRepository,
 	}
 }

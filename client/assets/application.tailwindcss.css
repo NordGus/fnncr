@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        @apply text-neutral-800;
+    }
+
+    h1 {
+        @apply text-4xl mb-1;
+    }
+
+    h2 {
+        @apply text-3xl mb-1;
+    }
+
+    h3 {
+        @apply text-2xl mb-1;
+    }
+
+    h4 {
+        @apply text-xl mb-1;
+    }
+
+    h5, h6 {
+        @apply text-lg mb-1;
+    }
+
+    label {
+        @apply font-bold py-1.5;
+    }
+
+    input {
+        @apply py-1.5 px-3 border-[1px] border-neutral-500 rounded disabled:bg-neutral-300 disabled:border-neutral-300 disabled:text-neutral-500 disabled:cursor-not-allowed;
+    }
+
+    input[type='button'], input[type='submit'], button {
+        @apply py-1.5 px-3 border-[1px] border-neutral-500 hover:enabled:border-neutral-400 hover:enabled:text-neutral-400 hover:enabled:cursor-pointer disabled:bg-neutral-300 disabled:border-neutral-300 disabled:text-neutral-500 disabled:cursor-not-allowed;
+    }
+}

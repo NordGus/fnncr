@@ -6,16 +6,21 @@ type LoginForm struct {
 	Password string
 }
 
-templ Form(f LoginForm) {
-	<form hx-post={ f.Action }>
-		<div>
+templ Form(f LoginForm, failed bool) {
+	<form hx-post={ f.Action } hx-target="#login-form" hx-swap="outerHTML" class="w-[400px] my-5">
+		if failed {
+			<div class="py-1.5 px-3 flex justify-center rounded bg-red-200 text-red-600">
+				<p>Invalid Credentials</p>
+			</div>
+		}
+		<div class="flex justify-between my-3">
 			<label for="username">Username</label>
-			<input type="text" name="username" id="username" value={ f.Username }/>
+			<input type="text" name="username" id="username" class="w-[75%]" value={ f.Username }/>
 		</div>
-		<div>
+		<div class="flex justify-between my-3">
 			<label for="password">Password</label>
-			<input type="password" name="password" id="password" value={ f.Password }/>
+			<input type="password" name="password" id="password" class="w-[75%]" value={ f.Password }/>
 		</div>
-		<input type="submit" value="Log In"/>
+		<input type="submit" value="Log In" class="w-full"/>
 	</form>
 }

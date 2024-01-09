@@ -43,6 +43,8 @@
           "comments": "off",
           "strings": "on"
         },
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 120,
         "files.associations": {
           "*.css": "tailwindcss"
         },

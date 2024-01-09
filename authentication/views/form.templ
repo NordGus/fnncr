@@ -4,11 +4,12 @@ type LoginForm struct {
 	Action   string
 	Username string
 	Password string
+	Failed   bool
 }
 
-templ Form(f LoginForm, failed bool) {
+templ Form(f LoginForm) {
 	<form hx-post={ f.Action } hx-target="#login-form" hx-swap="outerHTML" class="w-[400px] my-5">
-		if failed {
+		if f.Failed {
 			<div class="py-1.5 px-3 flex justify-center rounded bg-red-200 text-red-600">
 				<p>Invalid Credentials</p>
 			</div>

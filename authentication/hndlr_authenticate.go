@@ -1,7 +1,6 @@
 package authentication
 
 import (
-	"errors"
 	"net/http"
 	"time"
 
@@ -27,10 +26,7 @@ func (s Service) AuthenticateHandler(c echo.Context) error {
 		}
 	)
 
-	// TODO: Implement a data storage to retrieve users and authenticate them
-
-	err := errors.New("authentication: authenticate not implemented yet")
-
+	session, err := s.authenticate(username, password)
 	if err != nil {
 		c.Logger().Printf("authentication: unauthorized (reason: %s)", err)
 
@@ -38,9 +34,11 @@ func (s Service) AuthenticateHandler(c echo.Context) error {
 			Action:   "/authenticate",
 			Username: username,
 			Password: password,
+			Failed:   true,
 		}).Render(c.Request().Context(), c.Response())
 	}
 
+	cookie.Value = session
 	c.SetCookie(cookie)
 
 	return c.Redirect(http.StatusFound, "/")

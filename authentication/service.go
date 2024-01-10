@@ -6,8 +6,8 @@ import (
 
 type (
 	UserRecord interface {
-		PasswordHash() []byte
 		Id() int64
+		PasswordHash() []byte
 	}
 
 	UserRepository interface {

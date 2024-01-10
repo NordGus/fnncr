@@ -63,13 +63,6 @@
     }
   },
   "containerUser": "vscode",
-  "mounts": [
-    {
-      "source": "${env:HOME}/.ssh",
-      "target": "/home/vscode/.ssh:ro",
-      "type": "bind"
-    }
-  ],
   "forwardPorts": [
     4269
   ],

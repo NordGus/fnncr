@@ -32,6 +32,9 @@ RUN adduser $USERNAME -s /bin/sh -D -u $USER_UID $USER_GID && \
 # install packages
 RUN apk add -q --update --progress --no-cache git sudo openssh-client zsh nano
 
+# updating npm
+RUN npm install -g npm@latest
+
 # installing cosmtrek/air for hot reloading
 RUN go install github.com/cosmtrek/air@$GO_AIR_VERSION
 

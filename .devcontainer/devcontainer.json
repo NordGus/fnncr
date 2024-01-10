@@ -2,7 +2,7 @@
   "name": "fnncr",
   "build": {
     "args": {
-      "GO_VERSION": "1.21.5",
+      "GO_VERSION": "1.21.6",
       "ALPINE_VERSION": "3.18",
       "NODE_VERSION": "20.10.0",
       "NPM_VERSION": "latest",

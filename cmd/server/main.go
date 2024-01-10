@@ -7,6 +7,7 @@ import (
 
 	"github.com/NordGus/fnncr/authentication"
 	"github.com/NordGus/fnncr/repository/sessionrepo"
+	"github.com/NordGus/fnncr/repository/usersrepo"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -15,15 +16,23 @@ func main() {
 	app := echo.New()
 	ctx := context.Background()
 
-	sessionStore, err := sessionrepo.NewRedisRepository(
+	sessionRepo, err := sessionrepo.NewRedisRepository(
 		func(opts *sessionrepo.RedisOpts) { opts.Ctx = ctx },
 	)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
+	usersRepo, err := usersrepo.NewSQLiteRepository(
+		func(opts *usersrepo.SQLiteOpts) { opts.Ctx = ctx },
+	)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	auth := authentication.New(
-		func(opts *authentication.Opts) { opts.SessionRepository = sessionStore },
+		func(opts *authentication.Opts) { opts.SessionRepository = sessionRepo },
+		func(opts *authentication.Opts) { opts.UserRepository = usersRepo },
 	)
 
 	app.Use(middleware.Logger())

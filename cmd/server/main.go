@@ -1,18 +1,29 @@
 package main
 
 import (
+	"context"
+	"log"
 	"os"
 
 	"github.com/NordGus/fnncr/authentication"
+	"github.com/NordGus/fnncr/repository/sessionrepo"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
-	var (
-		app = echo.New()
+	app := echo.New()
+	ctx := context.Background()
 
-		auth = authentication.New()
+	sessionStore, err := sessionrepo.NewRedisRepository(
+		func(opts *sessionrepo.RedisOpts) { opts.Ctx = ctx },
+	)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	auth := authentication.New(
+		func(opts *authentication.Opts) { opts.SessionRepository = sessionStore },
 	)
 
 	app.Use(middleware.Logger())

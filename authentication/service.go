@@ -1,7 +1,6 @@
 package authentication
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -60,8 +59,6 @@ func New(configs ...ConfigFunc) *Service {
 	for i := 0; i < len(configs); i++ {
 		configs[i](&opts)
 	}
-
-	fmt.Println(opts, defaults)
 
 	return &Service{
 		sessionCookieName:     opts.SessionCookieName,

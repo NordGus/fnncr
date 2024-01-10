@@ -1,0 +1,24 @@
+version: '3'
+services:
+  devcontainer:
+    build: 
+      dockerfile: devcontainer.Dockerfile
+      args:
+        GO_VERSION: 1.21.5
+        ALPINE_VERSION: 3.18
+        NODE_VERSION: 20.10.0
+        NPM_VERSION: latest
+        GOPLS_VERSION: latest
+        GO_AIR_VERSION: v1.49.0
+        GO_TEMPL_VERSION: v0.2.513
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - ..:/home/vscode/src:rw
+    # Overrides default command so things don't shut down after the process ends.
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  redis:
+    image: redis:7.2

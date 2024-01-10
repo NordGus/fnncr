@@ -30,7 +30,7 @@ func (s *Service) authenticate(username string, password string) (string, error)
 		return session, errors.Join(ErrInvalidCredentials, err)
 	}
 
-	err = bcrypt.CompareHashAndPassword(record.PasswordDigest(), []byte(password))
+	err = bcrypt.CompareHashAndPassword(record.PasswordHash(), []byte(password))
 	if err != nil {
 		return session, errors.Join(ErrInvalidCredentials, err)
 	}
@@ -42,7 +42,7 @@ func (s *Service) authenticate(username string, password string) (string, error)
 
 	session = base64.URLEncoding.EncodeToString(sessionBuffer)
 
-	err = s.sessionRepository.Create(session, record.ID())
+	err = s.sessionRepository.Create(session, record.Id())
 	if err != nil {
 		return session, errors.Join(ErrInvalidCredentials, err)
 	}

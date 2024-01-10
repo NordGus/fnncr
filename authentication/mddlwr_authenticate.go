@@ -40,7 +40,7 @@ func (s Service) getCurrentUser(cookie *http.Cookie) (UserRecord, error) {
 		return nil, err
 	}
 
-	record, err := s.userRepository.GetByID(session.UserID())
+	record, err := s.userRepository.GetByID(session.UserId())
 	if err != nil {
 		return nil, err
 	}

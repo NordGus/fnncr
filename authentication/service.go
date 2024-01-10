@@ -7,8 +7,8 @@ import (
 
 type (
 	UserRecord interface {
-		PasswordDigest() []byte
-		ID() int64
+		PasswordHash() []byte
+		Id() int64
 	}
 
 	UserRepository interface {
@@ -17,7 +17,7 @@ type (
 	}
 
 	SessionRecord interface {
-		UserID() int64
+		UserId() int64
 	}
 
 	SessionStore interface {

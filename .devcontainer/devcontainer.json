@@ -1,8 +1,17 @@
 {
   "name": "fnncr",
-  "dockerComposeFile": "docker-compose.devcontainer.yml",
-  "service": "devcontainer",
-  "workspaceFolder": "/home/vscode/src",
+  "build": {
+    "args": {
+      "GO_VERSION": "1.21.5",
+      "ALPINE_VERSION": "3.18",
+      "NODE_VERSION": "20.10.0",
+      "NPM_VERSION": "latest",
+      "GOPLS_VERSION": "latest",
+      "GO_AIR_VERSION": "v1.49.0",
+      "GO_TEMPL_VERSION": "v0.2.513"
+    },
+    "dockerfile": "devcontainer.Dockerfile"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
@@ -62,7 +71,20 @@
       }
     }
   },
+  "capAdd": [
+    "SYS_PTRACE"
+  ],
+  "securityOpt": [
+    "seccomp=unconfined"
+  ],
   "containerUser": "vscode",
+  "mounts": [
+    {
+      "source": "${env:HOME}/.ssh",
+      "target": "/home/vscode/.ssh:ro",
+      "type": "bind"
+    }
+  ],
   "forwardPorts": [
     4269
   ],

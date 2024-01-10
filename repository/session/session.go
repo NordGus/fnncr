@@ -2,8 +2,8 @@ package sessionrepo
 
 type (
 	Session struct {
-		ID     string
-		UserID int64
+		ID     string `redis:"id" json:"id"`
+		UserID int64  `redis:"userID" json:"userID"`
 	}
 )
 

@@ -30,6 +30,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer usersRepo.Close()
 
 	auth := authentication.New(
 		func(opts *authentication.Opts) { opts.SessionRepository = sessionRepo },

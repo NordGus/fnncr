@@ -5,16 +5,18 @@ import (
 	"errors"
 
 	"github.com/NordGus/fnncr/authentication"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type (
-	// TODO: implement PostgreSQLRepository struct
 	PostgreSQLRepository struct {
+		ctx    context.Context
+		client *pgxpool.Pool
 	}
 
-	// TODO: implement PostgreSQLOpts struct
 	PostgreSQLOpts struct {
-		Ctx context.Context
+		Options pgxpool.Config
+		Ctx     context.Context
 	}
 
 	PostgreSQLConfigFunc func(opts *PostgreSQLOpts)
@@ -40,7 +42,15 @@ func NewPostgreSQLRepository(configs ...PostgreSQLConfigFunc) (*PostgreSQLReposi
 		return nil, ErrInvalidPostgreSQLOpts
 	}
 
-	return &PostgreSQLRepository{}, nil
+	pool, err := pgxpool.NewWithConfig(opts.Ctx, &opts.Options)
+	if err != nil {
+		return nil, errors.Join(ErrInvalidPostgreSQLOpts, err)
+	}
+
+	return &PostgreSQLRepository{
+		ctx:    opts.Ctx,
+		client: pool,
+	}, nil
 }
 
 // GetByID implements authentication.UserRepository.
@@ -51,4 +61,10 @@ func (repo *PostgreSQLRepository) GetByID(id int64) (authentication.UserRecord, 
 // GetByUsername implements authentication.UserRepository.
 func (repo *PostgreSQLRepository) GetByUsername(username string) (authentication.UserRecord, error) {
 	return User{}, errors.New("unimplemented")
+}
+
+func (repo *PostgreSQLRepository) Close() error {
+	repo.client.Close()
+
+	return nil
 }

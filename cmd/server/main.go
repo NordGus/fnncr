@@ -22,6 +22,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer sessionRepo.Close()
 
 	usersRepo, err := usersrepo.NewPostgreSQLRepository(
 		func(opts *usersrepo.PostgreSQLOpts) { opts.Ctx = ctx },

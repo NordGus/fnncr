@@ -85,3 +85,7 @@ func (repo *RedisRepository) Get(sessionID string) (authentication.SessionRecord
 
 	return session, nil
 }
+
+func (repo *RedisRepository) Close() error {
+	return repo.client.Close()
+}

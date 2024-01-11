@@ -23,8 +23,8 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	usersRepo, err := usersrepo.NewSQLiteRepository(
-		func(opts *usersrepo.SQLiteOpts) { opts.Ctx = ctx },
+	usersRepo, err := usersrepo.NewPostgreSQLRepository(
+		func(opts *usersrepo.PostgreSQLOpts) { opts.Ctx = ctx },
 	)
 	if err != nil {
 		log.Fatalln(err)

@@ -3,8 +3,11 @@ package usersrepo
 import (
 	"context"
 	"errors"
+	"time"
 
 	"github.com/NordGus/fnncr/authentication"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -25,13 +28,30 @@ type (
 var (
 	ErrInvalidPostgreSQLOpts = errors.New("usersrepo: invalid postgresql opts")
 
-	// TODO: implement sqliteDefaults SQLiteOpts values
-	sqliteDefaults = PostgreSQLOpts{}
+	postgresqlDefaults = PostgreSQLOpts{
+		Options: pgxpool.Config{
+			ConnConfig: &pgx.ConnConfig{
+				Config: pgconn.Config{
+					Host:     "localhost",
+					Port:     5432,
+					Database: "fnncr_dev",
+					User:     "fnncr",
+					Password: "local_dev",
+				},
+			},
+			MaxConns:              3,
+			MinConns:              1,
+			MaxConnLifetime:       15 * time.Second,
+			MaxConnLifetimeJitter: 2 * time.Second,
+			MaxConnIdleTime:       30 * time.Second,
+			HealthCheckPeriod:     20 * time.Second,
+		},
+	}
 )
 
 func NewPostgreSQLRepository(configs ...PostgreSQLConfigFunc) (*PostgreSQLRepository, error) {
 	var (
-		opts = sqliteDefaults
+		opts = postgresqlDefaults
 	)
 
 	for i := 0; i < len(configs); i++ {

@@ -11,6 +11,8 @@
         "gopls",
         "labstack",
         "Nord",
+        "pgconn",
+        "pgxpool",
         "PTRACE",
         "rangav",
         "seccomp",

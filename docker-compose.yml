@@ -8,5 +8,8 @@ services:
   postgres:
     image: postgres:16.1
     restart: always
+    environment:
+     - POSTGRES_USER: fnncr
+     - POSTGRES_PASSWORD: local_dev
     ports:
       - 5432:5432

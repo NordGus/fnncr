@@ -32,7 +32,7 @@ var (
 		Options: pgxpool.Config{
 			ConnConfig: &pgx.ConnConfig{
 				Config: pgconn.Config{
-					Host:     "localhost",
+					Host:     "127.0.0.1",
 					Port:     5432,
 					Database: "fnncr_dev",
 					User:     "fnncr",

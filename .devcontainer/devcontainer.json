@@ -85,6 +85,9 @@
       "type": "bind"
     }
   ],
+  "runArgs": [
+    "--network=host"
+  ],
   "forwardPorts": [
     4269
   ],

@@ -83,14 +83,56 @@ func NewPostgreSQLRepository(configs ...PostgreSQLConfigFunc) (*PostgreSQLReposi
 	}, nil
 }
 
-// GetByID implements authentication.UserRepository.
-func (repo *PostgreSQLRepository) GetByID(id int64) (authentication.UserRecord, error) {
-	return User{}, errors.New("unimplemented")
+// GetByID retrieves an authentication.UserRecord from the PostgreSQLRepository with the matching id.
+func (repo *PostgreSQLRepository) GetByID(ctx context.Context, id int64) (authentication.UserRecord, error) {
+	select {
+	case <-repo.ctx.Done():
+		return nil, repo.ctx.Err()
+	default:
+		var user User
+
+		conn, err := repo.client.Acquire(ctx)
+		if err != nil {
+			return nil, err
+		}
+		defer conn.Release()
+
+		err = conn.QueryRow(ctx, "SELECT id, username, password_digest FROM users WHERE id = $1", id).
+			Scan(&user.ID, &user.AccessName, &user.PasswordDigest)
+		if err != nil {
+			return nil, err
+		}
+
+		fmt.Println(user)
+
+		return user, nil
+	}
 }
 
-// GetByUsername implements authentication.UserRepository.
-func (repo *PostgreSQLRepository) GetByUsername(username string) (authentication.UserRecord, error) {
-	return User{}, errors.New("unimplemented")
+// GetByUsername retrieves an authentication.UserRecord from the PostgreSQLRepository with the matching username.
+func (repo *PostgreSQLRepository) GetByUsername(ctx context.Context, username string) (authentication.UserRecord, error) {
+	select {
+	case <-repo.ctx.Done():
+		return nil, repo.ctx.Err()
+	default:
+		var user User
+
+		conn, err := repo.client.Acquire(ctx)
+		if err != nil {
+			return nil, err
+		}
+		defer conn.Release()
+
+		err = conn.QueryRow(ctx, "SELECT id, username, password_digest FROM users WHERE username = $1", username).
+			Scan(&user.ID, &user.AccessName, &user.PasswordDigest)
+		if err != nil {
+			return nil, err
+		}
+
+		fmt.Println(user)
+
+		return user, nil
+	}
 }
 
 func (repo *PostgreSQLRepository) Close() error {

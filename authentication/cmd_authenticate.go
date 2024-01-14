@@ -1,6 +1,7 @@
 package authentication
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"errors"
@@ -19,13 +20,13 @@ var (
 
 // authenticate receives a username and a password and authenticates the user and returns the session key. If it can't
 // find the user in the system or it can't authenticated returns an error.
-func (s *Service) authenticate(username string, password string) (string, error) {
+func (s *Service) authenticate(ctx context.Context, username string, password string) (string, error) {
 	var (
 		sessionBuffer = make([]byte, sessionIDLen)
 		session       string
 	)
 
-	record, err := s.userRepository.GetByUsername(username)
+	record, err := s.userRepository.GetByUsername(ctx, username)
 	if err != nil {
 		return session, errors.Join(ErrInvalidCredentials, err)
 	}

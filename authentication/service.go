@@ -1,6 +1,7 @@
 package authentication
 
 import (
+	"context"
 	"time"
 )
 
@@ -11,8 +12,8 @@ type (
 	}
 
 	UserRepository interface {
-		GetByUsername(username string) (UserRecord, error)
-		GetByID(id int64) (UserRecord, error)
+		GetByUsername(ctx context.Context, username string) (UserRecord, error)
+		GetByID(ctx context.Context, id int64) (UserRecord, error)
 	}
 
 	SessionRecord interface {

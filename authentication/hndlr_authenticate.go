@@ -26,7 +26,7 @@ func (s Service) AuthenticateHandler(c echo.Context) error {
 		}
 	)
 
-	session, err := s.authenticate(username, password)
+	session, err := s.authenticate(c.Request().Context(), username, password)
 	if err != nil {
 		c.Logger().Printf("authentication: unauthorized (reason: %s)", err)
 

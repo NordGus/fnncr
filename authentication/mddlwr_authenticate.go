@@ -1,6 +1,7 @@
 package authentication
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -16,7 +17,7 @@ func (s Service) AuthenticateMiddleware(next echo.HandlerFunc) echo.HandlerFunc 
 			return c.Redirect(http.StatusTemporaryRedirect, "/login")
 		}
 
-		record, err := s.getCurrentUser(cookie)
+		record, err := s.getCurrentUser(c.Request().Context(), cookie)
 		if err != nil {
 			c.Logger().Print(fmt.Errorf("authentication: unauthorized (reason: %v)", err))
 
@@ -29,7 +30,7 @@ func (s Service) AuthenticateMiddleware(next echo.HandlerFunc) echo.HandlerFunc 
 	}
 }
 
-func (s Service) getCurrentUser(cookie *http.Cookie) (UserRecord, error) {
+func (s Service) getCurrentUser(ctx context.Context, cookie *http.Cookie) (UserRecord, error) {
 	err := cookie.Valid()
 	if err != nil {
 		return nil, err
@@ -40,7 +41,7 @@ func (s Service) getCurrentUser(cookie *http.Cookie) (UserRecord, error) {
 		return nil, err
 	}
 
-	record, err := s.userRepository.GetByID(session.UserId())
+	record, err := s.userRepository.GetByID(ctx, session.UserId())
 	if err != nil {
 		return nil, err
 	}

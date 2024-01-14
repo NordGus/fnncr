@@ -21,8 +21,8 @@ type (
 	}
 
 	SessionStore interface {
-		Create(sessionID string, userID int64) error
-		Get(sessionID string) (SessionRecord, error)
+		Create(ctx context.Context, sessionID string, userID int64) error
+		Get(ctx context.Context, sessionID string) (SessionRecord, error)
 	}
 
 	Service struct {

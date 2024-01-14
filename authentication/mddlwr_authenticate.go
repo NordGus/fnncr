@@ -36,7 +36,7 @@ func (s Service) getCurrentUser(ctx context.Context, cookie *http.Cookie) (UserR
 		return nil, err
 	}
 
-	session, err := s.sessionRepository.Get(cookie.Value)
+	session, err := s.sessionRepository.Get(ctx, cookie.Value)
 	if err != nil {
 		return nil, err
 	}

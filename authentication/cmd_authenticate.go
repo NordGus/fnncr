@@ -43,7 +43,7 @@ func (s *Service) authenticate(ctx context.Context, username string, password st
 
 	session = base64.URLEncoding.EncodeToString(sessionBuffer)
 
-	err = s.sessionRepository.Create(session, record.Id())
+	err = s.sessionRepository.Create(ctx, session, record.Id())
 	if err != nil {
 		return session, errors.Join(ErrInvalidCredentials, err)
 	}

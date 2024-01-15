@@ -11,6 +11,8 @@ ARG NPM_VERSION
 ARG GOPLS_VERSION
 ARG GO_AIR_VERSION
 ARG GO_TEMPL_VERSION
+ARG GO_MIGRATE_DB_TAG
+ARG GO_MIGRATE_VERSION
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -45,6 +47,9 @@ RUN go install github.com/cosmtrek/air@$GO_AIR_VERSION
 
 # installing a-h/templ for templating
 RUN go install github.com/a-h/templ/cmd/templ@$GO_TEMPL_VERSION
+
+# intalling golang-migrate/migrate for database migrations
+RUN go install -tags '${GO_MIGRATE_DB_TAG}' github.com/golang-migrate/migrate/v4/cmd/migrate@$GO_MIGRATE_VERSION
 
 # Setup shell
 USER $USERNAME

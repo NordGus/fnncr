@@ -11,5 +11,6 @@ services:
     environment:
       POSTGRES_USER: fnncr
       POSTGRES_PASSWORD: local_dev
+      POSTGRES_DB: fnncr_dev
     ports:
       - 5432:5432

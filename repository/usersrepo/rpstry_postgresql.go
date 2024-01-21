@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/NordGus/fnncr/authentication"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -81,64 +80,6 @@ func NewPostgreSQLRepository(configs ...PostgreSQLConfigFunc) (*PostgreSQLReposi
 		ctx:    opts.Ctx,
 		client: pool,
 	}, nil
-}
-
-// GetByID retrieves an authentication.UserRecord from the PostgreSQLRepository with the matching id.
-func (repo *PostgreSQLRepository) GetByID(ctx context.Context, id int64) (authentication.UserRecord, error) {
-	select {
-	case <-repo.ctx.Done():
-		return nil, repo.ctx.Err()
-	default:
-		var user User
-
-		conn, err := repo.client.Acquire(ctx)
-		if err != nil {
-			return nil, err
-		}
-		defer conn.Release()
-
-		err = conn.QueryRow(ctx, "SELECT id, username, password_digest FROM users WHERE id = $1", id).
-			Scan(&user.ID, &user.AccessName, &user.PasswordDigest)
-		if err != nil {
-			return nil, err
-		}
-
-		fmt.Println(user)
-
-		return user, nil
-	}
-}
-
-// GetByUsername retrieves an authentication.UserRecord from the PostgreSQLRepository with the matching username.
-func (repo *PostgreSQLRepository) GetByUsername(ctx context.Context, username string) (authentication.UserRecord, error) {
-	select {
-	case <-repo.ctx.Done():
-		return nil, repo.ctx.Err()
-	default:
-		var user User
-
-		conn, err := repo.client.Acquire(ctx)
-		if err != nil {
-			return nil, err
-		}
-		defer conn.Release()
-
-		err = conn.QueryRow(ctx, "SELECT id, username, password_digest FROM users WHERE username = $1", username).
-			Scan(&user.ID, &user.AccessName, &user.PasswordDigest)
-		if err != nil {
-			return nil, err
-		}
-
-		fmt.Println(user)
-
-		return user, nil
-	}
-}
-
-func (repo *PostgreSQLRepository) Close() error {
-	repo.client.Close()
-
-	return nil
 }
 
 func (opts PostgreSQLOpts) connString() string {

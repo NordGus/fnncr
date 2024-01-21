@@ -2,19 +2,19 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 
 	"github.com/NordGus/fnncr/internal/core/domain/user"
 	"github.com/NordGus/fnncr/internal/ports"
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type UsersRepository struct {
-	conn *pgxpool.Pool
+	conn *sql.DB
 }
 
-func NewSessionRepository(conn *pgxpool.Pool) *UsersRepository {
+func NewSessionRepository(conn *sql.DB) *UsersRepository {
 	return &UsersRepository{
 		conn: conn,
 	}
@@ -26,14 +26,14 @@ func (repo *UsersRepository) GetUserByUsername(ctx context.Context, username use
 		passwordDigest string
 	)
 
-	conn, err := repo.conn.Acquire(ctx)
+	conn, err := repo.conn.Conn(ctx)
 	if err != nil {
 		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
 	}
-	defer conn.Release()
+	defer conn.Close()
 
 	err = conn.
-		QueryRow(ctx, "SELECT id, password_digest FROM users WHERE username = $1", username.String()).
+		QueryRowContext(ctx, "SELECT id, password_digest FROM users WHERE username = $1", username.String()).
 		Scan(&uid, &passwordDigest)
 	if err != nil {
 		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
@@ -58,14 +58,14 @@ func (repo *UsersRepository) GetUserByID(ctx context.Context, id uuid.UUID) (use
 		passwordDigest string
 	)
 
-	conn, err := repo.conn.Acquire(ctx)
+	conn, err := repo.conn.Conn(ctx)
 	if err != nil {
 		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
 	}
-	defer conn.Release()
+	defer conn.Close()
 
 	err = conn.
-		QueryRow(ctx, "SELECT username, password_digest FROM users WHERE username = $1", id.String()).
+		QueryRowContext(ctx, "SELECT username, password_digest FROM users WHERE username = $1", id.String()).
 		Scan(&uname, &passwordDigest)
 	if err != nil {
 		return user.User{}, errors.Join(ports.ErrUserNotFound, err)

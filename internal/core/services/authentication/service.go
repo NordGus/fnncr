@@ -18,7 +18,7 @@ type (
 	}
 )
 
-func NewService(sessionRepo ports.SessionRepository, userRepo ports.UserRepository) *Service {
+func NewService(sessionRepo ports.SessionRepository, userRepo ports.UserRepository) API {
 	return &Service{
 		sessionRepo: sessionRepo,
 		userRepo:    userRepo,

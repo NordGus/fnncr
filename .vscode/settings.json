@@ -17,6 +17,8 @@
         "pgxpool",
         "PTRACE",
         "rangav",
+        "rdsadapter",
+        "rdsdb",
         "seccomp",
         "Segoe",
         "sessionrepo",

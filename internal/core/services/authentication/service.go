@@ -1,11 +1,22 @@
 package authentication
 
-import "github.com/NordGus/fnncr/internal/ports"
+import (
+	"context"
 
-type Service struct {
-	sessionRepo ports.SessionRepository
-	userRepo    ports.UserRepository
-}
+	"github.com/NordGus/fnncr/internal/ports"
+)
+
+type (
+	API interface {
+		LoginUser(ctx context.Context, req LoginUserReq) (LoginUserResp, error)
+		AuthenticateUser(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error)
+	}
+
+	Service struct {
+		sessionRepo ports.SessionRepository
+		userRepo    ports.UserRepository
+	}
+)
 
 func NewService(sessionRepo ports.SessionRepository, userRepo ports.UserRepository) *Service {
 	return &Service{

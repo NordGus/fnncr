@@ -10,47 +10,47 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type LoginUserReq struct {
+type SignInUserReq struct {
 	username string
 	password string
 }
 
-type LoginUserResp struct {
+type SignInUserResp struct {
 	SessionID string
 }
 
-func (s *Service) LoginUser(ctx context.Context, req LoginUserReq) (LoginUserResp, error) {
+func (s *Service) SignInUser(ctx context.Context, req SignInUserReq) (SignInUserResp, error) {
 	sessionIDBuf := make([]byte, session.IdByteSize)
 
 	username, err := user.NewUsername(req.username)
 	if err != nil {
-		return LoginUserResp{}, err
+		return SignInUserResp{}, err
 	}
 
 	usr, err := s.userRepo.GetUserByUsername(ctx, username)
 	if err != nil {
-		return LoginUserResp{}, err
+		return SignInUserResp{}, err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(usr.PasswordDigest.String()), []byte(req.password))
 	if err != nil {
-		return LoginUserResp{}, err
+		return SignInUserResp{}, err
 	}
 
 	_, err = io.ReadFull(rand.Reader, sessionIDBuf)
 	if err != nil {
-		return LoginUserResp{}, err
+		return SignInUserResp{}, err
 	}
 
 	sessionID, err := session.NewID([session.IdByteSize]byte(sessionIDBuf))
 	if err != nil {
-		return LoginUserResp{}, err
+		return SignInUserResp{}, err
 	}
 
 	err = s.sessionRepo.CreateSession(ctx, session.New(sessionID, usr.ID))
 	if err != nil {
-		return LoginUserResp{}, err
+		return SignInUserResp{}, err
 	}
 
-	return LoginUserResp{SessionID: sessionID.String()}, nil
+	return SignInUserResp{SessionID: sessionID.String()}, nil
 }

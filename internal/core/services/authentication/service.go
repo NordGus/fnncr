@@ -8,8 +8,8 @@ import (
 
 type (
 	API interface {
-		LoginUser(ctx context.Context, req LoginUserReq) (LoginUserResp, error)
-		AuthenticateUser(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error)
+		SignInUser(ctx context.Context, req SignInUserReq) (SignInUserResp, error)
+		AuthenticateSession(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error)
 	}
 
 	Service struct {

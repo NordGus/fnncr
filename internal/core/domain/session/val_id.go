@@ -1,15 +1,33 @@
 package session
 
-const (
-	idByteSize = 64
+import (
+	"encoding/base64"
+	"errors"
 )
 
-type ID [idByteSize]byte
+const (
+	IdByteSize = 64
+)
 
-func NewID(id [idByteSize]byte) (ID, error) {
+var (
+	ErrIDStringCanNotBeParsed = errors.New("")
+)
+
+type ID [IdByteSize]byte
+
+func NewID(id [IdByteSize]byte) (ID, error) {
 	return id, nil
 }
 
+func ParseIDFromString(id string) (ID, error) {
+	bytes, err := base64.URLEncoding.DecodeString(id)
+	if err != nil {
+		return ID{}, errors.Join(ErrIDStringCanNotBeParsed, err)
+	}
+
+	return [IdByteSize]byte(bytes), nil
+}
+
 func (id ID) String() string {
-	panic("unimplemented")
+	return base64.URLEncoding.EncodeToString(id[:])
 }

@@ -90,16 +90,6 @@
   "runArgs": [
     "--network=host"
   ],
-  "forwardPorts": [
-    4269
-  ],
-  "portsAttributes": {
-    "4269": {
-      "label": "Persistent Service",
-      "onAutoForward": "notify",
-      "requireLocalPort": true
-    }
-  },
   "postCreateCommand": {
     "go:dependencies": "go mod download",
     "npm:dependencies": "npm install"

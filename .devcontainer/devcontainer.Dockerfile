@@ -69,3 +69,5 @@ USER root
 
 # GOPATH pkg directory error fix
 RUN chmod -R a+w /go/pkg
+
+EXPOSE 3000

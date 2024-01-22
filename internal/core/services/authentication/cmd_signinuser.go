@@ -11,8 +11,8 @@ import (
 )
 
 type SignInUserReq struct {
-	username string
-	password string
+	Username string
+	Password string
 }
 
 type SignInUserResp struct {
@@ -22,7 +22,7 @@ type SignInUserResp struct {
 func (s *Service) SignInUser(ctx context.Context, req SignInUserReq) (SignInUserResp, error) {
 	sessionIDBuf := make([]byte, session.IdByteSize)
 
-	username, err := user.NewUsername(req.username)
+	username, err := user.NewUsername(req.Username)
 	if err != nil {
 		return SignInUserResp{}, err
 	}
@@ -32,7 +32,7 @@ func (s *Service) SignInUser(ctx context.Context, req SignInUserReq) (SignInUser
 		return SignInUserResp{}, err
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(usr.PasswordDigest.String()), []byte(req.password))
+	err = bcrypt.CompareHashAndPassword([]byte(usr.PasswordDigest.String()), []byte(req.Password))
 	if err != nil {
 		return SignInUserResp{}, err
 	}

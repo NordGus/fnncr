@@ -5,7 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h *service) LoginHandler(c echo.Context) error {
+func (h *handler) LoginHandlerFunc(c echo.Context) error {
 	form := view.FormLogin{
 		ActionURL: "/sign_in",
 	}

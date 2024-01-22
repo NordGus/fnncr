@@ -12,8 +12,8 @@ func (a *App) SetRoutes() {
 
 	a.echo.StaticFS("/dist", a.AssetsFS)
 
-	a.echo.GET("/login", auth.LoginHandler)
-	a.echo.POST("/sign_in", auth.SignInHandler)
+	a.echo.GET("/login", auth.LoginHandlerFunc)
+	a.echo.POST("/sign_in", auth.SignInHandlerFunc)
 
 	a.echo.GET("/", func(c echo.Context) error {
 		return c.HTML(http.StatusOK, "<div>Hello There</div>")

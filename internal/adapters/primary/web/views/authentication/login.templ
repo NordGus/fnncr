@@ -1,11 +1,8 @@
 package authentication
 
-import (
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/views/layouts"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/authentication"
-)
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/views/layouts"
 
-templ Login(f authentication.FormLogin) {
+templ Login(f FormLogin) {
 	@layouts.Login() {
 		<div id="login-form">
 			@form(f)

@@ -1,8 +1,13 @@
 package authentication
 
-import "github.com/NordGus/fnncr/internal/adapters/primary/web/authentication"
+type FormLogin struct {
+	ActionURL string
+	Username  string
+	Password  string
+	Failed    bool
+}
 
-templ form(f authentication.FormLogin) {
+templ form(f FormLogin) {
 	<form hx-post={ f.ActionURL } hx-target="#login-form" hx-swap="outerHTML" class="w-[400px] my-5">
 		if f.Failed {
 			<div class="py-1.5 px-3 flex justify-center rounded bg-red-200 text-red-600">

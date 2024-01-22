@@ -10,17 +10,22 @@ import (
 	"github.com/google/uuid"
 )
 
-type UsersRepository struct {
+var (
+	ErrCantConnectToDatabase = errors.New("failed to connect to database")
+	ErrCantParseUser         = errors.New("failed to parse user")
+)
+
+type usersRepository struct {
 	conn *sql.DB
 }
 
-func NewUsersRepository(conn *sql.DB) *UsersRepository {
-	return &UsersRepository{
+func NewUsersRepository(conn *sql.DB) ports.UserRepository {
+	return &usersRepository{
 		conn: conn,
 	}
 }
 
-func (repo *UsersRepository) GetUserByUsername(ctx context.Context, username user.Username) (user.User, error) {
+func (repo *usersRepository) GetUserByUsername(ctx context.Context, username user.Username) (user.User, error) {
 	var (
 		uid            string
 		passwordDigest string
@@ -28,7 +33,7 @@ func (repo *UsersRepository) GetUserByUsername(ctx context.Context, username use
 
 	conn, err := repo.conn.Conn(ctx)
 	if err != nil {
-		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
+		return user.User{}, errors.Join(ErrCantConnectToDatabase, err)
 	}
 	defer conn.Close()
 
@@ -41,18 +46,18 @@ func (repo *UsersRepository) GetUserByUsername(ctx context.Context, username use
 
 	id, err := uuid.Parse(uid)
 	if err != nil {
-		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
+		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
 	pwd, err := user.NewPasswordDigest(passwordDigest)
 	if err != nil {
-		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
+		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
 	return user.New(id, username, pwd), nil
 }
 
-func (repo *UsersRepository) GetUserByID(ctx context.Context, id uuid.UUID) (user.User, error) {
+func (repo *usersRepository) GetUserByID(ctx context.Context, id uuid.UUID) (user.User, error) {
 	var (
 		uname          string
 		passwordDigest string
@@ -60,7 +65,7 @@ func (repo *UsersRepository) GetUserByID(ctx context.Context, id uuid.UUID) (use
 
 	conn, err := repo.conn.Conn(ctx)
 	if err != nil {
-		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
+		return user.User{}, errors.Join(ErrCantConnectToDatabase, err)
 	}
 	defer conn.Close()
 
@@ -73,12 +78,12 @@ func (repo *UsersRepository) GetUserByID(ctx context.Context, id uuid.UUID) (use
 
 	username, err := user.NewUsername(uname)
 	if err != nil {
-		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
+		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
 	pwd, err := user.NewPasswordDigest(passwordDigest)
 	if err != nil {
-		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
+		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
 	return user.New(id, username, pwd), nil

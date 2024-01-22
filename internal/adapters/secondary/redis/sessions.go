@@ -11,6 +11,10 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+var (
+	ErrCantParseSession = errors.New("failed to parse session")
+)
+
 type (
 	SessionRepository struct {
 		conn *redis.Client
@@ -22,7 +26,7 @@ type (
 	}
 )
 
-func NewSessionRepository(conn *redis.Client) *SessionRepository {
+func NewSessionRepository(conn *redis.Client) ports.SessionRepository {
 	return &SessionRepository{
 		conn: conn,
 	}
@@ -36,7 +40,7 @@ func (repo *SessionRepository) CreateSession(ctx context.Context, session sessio
 
 	_, err := repo.conn.HSet(ctx, key, value).Result()
 	if err != nil {
-		return errors.Join(ports.ErrSessionNotFound, err)
+		return errors.Join(ports.ErrSessionNotCreated, err)
 	}
 
 	return nil
@@ -56,7 +60,7 @@ func (repo *SessionRepository) GetSession(ctx context.Context, id session.ID) (s
 
 	userID, err := uuid.Parse(result.UserID)
 	if err != nil {
-		return session.Session{}, errors.Join(ports.ErrSessionNotFound, err)
+		return session.Session{}, errors.Join(ErrCantParseSession, err)
 	}
 
 	return session.New(id, userID), nil

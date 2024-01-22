@@ -19,7 +19,7 @@ type SignInUserResp struct {
 	SessionID string
 }
 
-func (s *Service) SignInUser(ctx context.Context, req SignInUserReq) (SignInUserResp, error) {
+func (s *service) SignInUser(ctx context.Context, req SignInUserReq) (SignInUserResp, error) {
 	sessionIDBuf := make([]byte, session.IdByteSize)
 
 	username, err := user.NewUsername(req.Username)

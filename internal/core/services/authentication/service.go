@@ -12,14 +12,14 @@ type (
 		AuthenticateSession(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error)
 	}
 
-	Service struct {
+	service struct {
 		sessionRepo ports.SessionRepository
 		userRepo    ports.UserRepository
 	}
 )
 
 func NewService(sessionRepo ports.SessionRepository, userRepo ports.UserRepository) API {
-	return &Service{
+	return &service{
 		sessionRepo: sessionRepo,
 		userRepo:    userRepo,
 	}

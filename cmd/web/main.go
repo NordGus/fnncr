@@ -34,7 +34,7 @@ func main() {
 			ConnMaxIdleTime: 1 * time.Second,
 		})
 
-		usersrepo   = postgres.NewSessionRepository(pg.DB())
+		usersrepo   = postgres.NewUsersRepository(pg.DB())
 		sessionrepo = redis.NewSessionRepository(rds.Client())
 
 		auth = authentication.NewService(sessionrepo, usersrepo)

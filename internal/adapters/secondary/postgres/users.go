@@ -14,7 +14,7 @@ type UsersRepository struct {
 	conn *sql.DB
 }
 
-func NewSessionRepository(conn *sql.DB) *UsersRepository {
+func NewUsersRepository(conn *sql.DB) *UsersRepository {
 	return &UsersRepository{
 		conn: conn,
 	}

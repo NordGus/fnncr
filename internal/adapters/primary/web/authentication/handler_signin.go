@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h *Handler) SignInHandlerFunc(c echo.Context) error {
+func (h *service) SignInHandler(c echo.Context) error {
 	var (
 		username = c.FormValue("username")
 		password = c.FormValue("password")

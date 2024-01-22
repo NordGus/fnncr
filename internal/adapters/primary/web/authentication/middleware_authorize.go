@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h *Handler) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+func (h *service) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, err := c.Cookie("_session_fnncr")
 		if err != nil {

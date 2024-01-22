@@ -10,6 +10,8 @@ import (
 func (a *App) SetRoutes() {
 	authHandler := authentication.New(a.AuthAPI)
 
+	a.echo.StaticFS("/dist", a.AssetsFS)
+
 	a.echo.GET("/login", authHandler.LogInHandlerFunc)
 	a.echo.POST("/sign_in", authHandler.SignInHandlerFunc)
 

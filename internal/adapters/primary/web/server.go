@@ -1,6 +1,7 @@
 package web
 
 import (
+	"io/fs"
 	"net/http"
 
 	"github.com/NordGus/fnncr/internal/core/services/authentication"
@@ -8,9 +9,10 @@ import (
 )
 
 type App struct {
-	Server  *http.Server
-	echo    *echo.Echo
-	AuthAPI authentication.API
+	Server   *http.Server
+	echo     *echo.Echo
+	AssetsFS fs.FS
+	AuthAPI  authentication.API
 }
 
 func NewApp(opts ...AppOption) *App {

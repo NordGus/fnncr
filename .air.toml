@@ -4,8 +4,8 @@ tmp_dir = "tmp"
 
 [build]
 args_bin = []
-bin = "./tmp/server"
-cmd = "templ generate && go build -o ./tmp/server ./cmd/server"
+bin = "./tmp/web"
+cmd = "templ generate && go build -o ./tmp/web ./cmd/web"
 delay = 1000
 exclude_dir = [
     "assets",

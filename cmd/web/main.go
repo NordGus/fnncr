@@ -45,7 +45,9 @@ func main() {
 		func(a *web.App) { a.AuthAPI = auth },
 	)
 
+	app.SetRoutes()
+
 	if err := app.Run(); err != nil {
-		log.Println(err)
+		log.Fatalln(err)
 	}
 }

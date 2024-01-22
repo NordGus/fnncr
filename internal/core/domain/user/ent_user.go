@@ -6,6 +6,7 @@ type User struct {
 	ID             uuid.UUID
 	Username       Username
 	PasswordDigest PasswordDigest
+	Password       Password
 }
 
 func New(id uuid.UUID, un Username, pw PasswordDigest) User {
@@ -13,5 +14,13 @@ func New(id uuid.UUID, un Username, pw PasswordDigest) User {
 		ID:             id,
 		Username:       un,
 		PasswordDigest: pw,
+	}
+}
+
+func NewWithPassword(id uuid.UUID, un Username, pw Password) User {
+	return User{
+		ID:       id,
+		Username: un,
+		Password: pw,
 	}
 }

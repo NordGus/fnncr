@@ -1,0 +1,3 @@
+# !/bin/sh
+
+migrate -path ./database/postgresql/migrations -database "$POSTGRESQL_DB_URL" -verbose $@

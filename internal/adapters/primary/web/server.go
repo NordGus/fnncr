@@ -24,7 +24,7 @@ type App struct {
 func NewApp(opts ...AppOption) *App {
 	a := &App{
 		echo:     echo.New(),
-		assetsFS: assets,
+		assetsFS: echo.MustSubFS(assets, "dist"),
 	}
 
 	for _, applyOption := range opts {

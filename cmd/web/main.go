@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"log"
+	"os"
 	"time"
 
 	pgserv "github.com/NordGus/fnncr/database/postgresql"
@@ -18,7 +19,11 @@ import (
 func main() {
 	var (
 		pg = pgserv.New(
-			"fnncr", "local_dev", "127.0.0.1", 5432, "fnncr_dev",
+			os.Getenv("PG_DB_USERNAME"),
+			os.Getenv("PG_DB_PASSWORD"),
+			os.Getenv("PG_DB_HOST"),
+			os.Getenv("PG_DB_PORT"),
+			os.Getenv("PG_DB_DATABASE"),
 			func(db *sql.DB) { db.SetMaxOpenConns(10) },
 			func(db *sql.DB) { db.SetMaxIdleConns(5) },
 			func(db *sql.DB) { db.SetConnMaxIdleTime(15 * time.Second) },
@@ -44,8 +49,6 @@ func main() {
 		web.DefaultAppOptions,
 		func(a *web.App) { a.AuthAPI = auth },
 	)
-
-	app.SetRoutes()
 
 	if err := app.Run(); err != nil {
 		log.Fatalln(err)

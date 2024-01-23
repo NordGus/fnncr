@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (a *App) SetRoutes() {
+func (a *App) setRoutes() {
 	auth := authentication.New(a.AuthAPI)
 
 	a.echo.StaticFS("/dist", a.assetsFS)

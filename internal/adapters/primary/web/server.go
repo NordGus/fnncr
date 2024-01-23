@@ -35,5 +35,7 @@ func NewApp(opts ...AppOption) *App {
 }
 
 func (a *App) Run() error {
+	a.setRoutes()
+
 	return a.echo.StartServer(a.Server)
 }

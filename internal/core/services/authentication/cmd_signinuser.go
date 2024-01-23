@@ -27,7 +27,7 @@ func (s *service) SignInUser(ctx context.Context, req SignInUserReq) (SignInUser
 		return SignInUserResp{}, err
 	}
 
-	usr, err := s.userRepo.GetUserByUsername(ctx, username)
+	usr, err := s.userRepo.GetByUsername(ctx, username)
 	if err != nil {
 		return SignInUserResp{}, err
 	}

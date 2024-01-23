@@ -13,6 +13,6 @@ var (
 )
 
 type UserRepository interface {
-	GetUserByUsername(ctx context.Context, username user.Username) (user.User, error)
-	GetUserByID(ctx context.Context, id uuid.UUID) (user.User, error)
+	GetByUsername(ctx context.Context, username user.Username) (user.User, error)
+	GetByID(ctx context.Context, id uuid.UUID) (user.User, error)
 }

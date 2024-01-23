@@ -25,7 +25,7 @@ func NewUsersRepository(conn *sql.DB) ports.UserRepository {
 	}
 }
 
-func (repo *usersRepository) GetUserByUsername(ctx context.Context, username user.Username) (user.User, error) {
+func (repo *usersRepository) GetByUsername(ctx context.Context, username user.Username) (user.User, error) {
 	var (
 		uid            string
 		passwordDigest string
@@ -57,7 +57,7 @@ func (repo *usersRepository) GetUserByUsername(ctx context.Context, username use
 	return user.New(id, username, pwd), nil
 }
 
-func (repo *usersRepository) GetUserByID(ctx context.Context, id uuid.UUID) (user.User, error) {
+func (repo *usersRepository) GetByID(ctx context.Context, id uuid.UUID) (user.User, error) {
 	var (
 		uname          string
 		passwordDigest string

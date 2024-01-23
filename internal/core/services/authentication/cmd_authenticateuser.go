@@ -29,7 +29,7 @@ func (s *service) AuthenticateSession(ctx context.Context, req AuthenticateUserR
 		return AuthenticateUserResp{}, err
 	}
 
-	usr, err := s.userRepo.GetUserByID(ctx, session.UserID)
+	usr, err := s.userRepo.GetByID(ctx, session.UserID)
 	if err != nil {
 		return AuthenticateUserResp{}, err
 	}

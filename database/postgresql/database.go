@@ -27,7 +27,7 @@ type (
 
 // New returns a new Service. It panics if it can't open a connection to the database.
 func New(username string, password string, host string, port string, database string, opts ...DBOption) Service {
-	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disabled", username, password, host, port, database)
+	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", username, password, host, port, database)
 
 	db, err := sql.Open("pgx", connStr)
 	if err != nil {

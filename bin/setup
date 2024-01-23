@@ -1,0 +1,6 @@
+# !/bin/sh
+
+echo "Setting up project database"
+
+echo "Running Postgres Migrations"
+bin/postgresql/migrate up

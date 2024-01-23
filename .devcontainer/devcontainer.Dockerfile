@@ -7,8 +7,12 @@ ARG NODE_VERSION
 
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} as node
 FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION}
+ARG NPM_VERSION
+ARG GOPLS_VERSION
 ARG GO_AIR_VERSION
 ARG GO_TEMPL_VERSION
+ARG GO_MIGRATE_TAG
+ARG GO_MIGRATE_VERSION
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -30,16 +34,22 @@ RUN adduser $USERNAME -s /bin/sh -D -u $USER_UID $USER_GID && \
     chmod 0440 /etc/sudoers.d/$USERNAME
 
 # install packages
-RUN apk add -q --update --progress --no-cache git sudo openssh-client zsh nano
+RUN apk add -q --update --progress --no-cache git sudo openssh-client zsh nano postgresql16-client
+
+# updating npm
+RUN npm install -g npm@$NPM_VERSION
+
+# installing gopls
+RUN go install golang.org/x/tools/gopls@$GOPLS_VERSION
 
 # installing cosmtrek/air for hot reloading
 RUN go install github.com/cosmtrek/air@$GO_AIR_VERSION
 
-# installing gopls
-RUN go install golang.org/x/tools/gopls@latest
-
 # installing a-h/templ for templating
 RUN go install github.com/a-h/templ/cmd/templ@$GO_TEMPL_VERSION
+
+# installing golang-migrate for handling migrations
+RUN go install -tags "$GO_MIGRATE_TAG" github.com/golang-migrate/migrate/v4/cmd/migrate@$GO_MIGRATE_VERSION
 
 # Setup shell
 USER $USERNAME
@@ -57,5 +67,6 @@ RUN echo 'ZSH_THEME="robbyrussell"' >> "/home/$USERNAME/.zshrc" \
 RUN echo "exec `which zsh`" > "/home/$USERNAME/.ashrc"
 USER root
 
-# GOPATH pkg directory error fix
 RUN chmod -R a+w /go/pkg
+
+EXPOSE 3000

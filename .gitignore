@@ -21,6 +21,7 @@
 # vendor/
 node_modules/
 tmp/
+dist/
 
 # Go workspace file
 go.work

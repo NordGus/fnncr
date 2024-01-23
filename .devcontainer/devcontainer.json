@@ -2,13 +2,24 @@
   "name": "fnncr",
   "build": {
     "args": {
-      "GO_VERSION": "1.21.5",
-      "ALPINE_VERSION": "3.18",
+      "GO_VERSION": "1.21.6",
+      "ALPINE_VERSION": "3.19",
       "NODE_VERSION": "20.10.0",
+      "NPM_VERSION": "latest",
+      "GOPLS_VERSION": "latest",
       "GO_AIR_VERSION": "v1.49.0",
-      "GO_TEMPL_VERSION": "v0.2.513"
+      "GO_TEMPL_VERSION": "v0.2.513",
+      "GO_MIGRATE_TAG": "postgres",
+      "GO_MIGRATE_VERSION": "v4.17.0"
     },
     "dockerfile": "devcontainer.Dockerfile"
+  },
+  "containerEnv": {
+    "PG_DB_USERNAME": "fnncr",
+    "PG_DB_PASSWORD": "local_dev",
+    "PG_DB_HOST": "127.0.0.1",
+    "PG_DB_PORT": "5432",
+    "PG_DB_DATABASE": "fnncr_dev"
   },
   "customizations": {
     "vscode": {
@@ -20,7 +31,7 @@
         "rangav.vscode-thunder-client",
         "donjayamanne.githistory",
         "streetsidesoftware.code-spell-checker",
-        "alexcvzz.vscode-sqlite",
+        "ckolkman.vscode-postgres",
         "bradlc.vscode-tailwindcss",
         "vscode-icons-team.vscode-icons",
         "zhuangtongfa.material-theme",
@@ -38,6 +49,16 @@
         "editor.fontSize": 16,
         "editor.fontFamily": "'Geist Mono Medium', 'monospace', monospace",
         "editor.fontLigatures": true,
+        "editor.quickSuggestions": {
+          "other": "on",
+          "comments": "off",
+          "strings": "on"
+        },
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 120,
+        "files.associations": {
+          "*.css": "tailwindcss"
+        },
         "terminal.integrated.fontSize": 16,
         "chat.editor.fontSize": 16,
         "markdown.preview.fontFamily": "'Geist Mono Medium', -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",
@@ -73,30 +94,12 @@
       "type": "bind"
     }
   ],
-  "forwardPorts": [
-    80,
-    443,
-    4269
+  "runArgs": [
+    "--network=host"
   ],
-  "portsAttributes": {
-    "80": {
-      "label": "Go HTTP Server",
-      "onAutoForward": "notify",
-      "requireLocalPort": true
-    },
-    "443": {
-      "label": "Go HTTPS Server",
-      "onAutoForward": "notify",
-      "requireLocalPort": true
-    },
-    "4269": {
-      "label": "Persistent Service",
-      "onAutoForward": "notify",
-      "requireLocalPort": true
-    }
-  },
   "postCreateCommand": {
     "go:dependencies": "go mod download",
+    "db:setup": "bin/setup",
     "npm:dependencies": "npm install"
   }
 }

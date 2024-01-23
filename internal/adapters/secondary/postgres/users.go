@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/NordGus/fnncr/internal/core/domain/user"
@@ -61,8 +60,6 @@ func (repo *usersRepository) GetByUsername(ctx context.Context, username user.Us
 		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
-	fmt.Println(createdAt, updatedAt)
-
 	return user.New(id, username, pwd, createdAt, updatedAt), nil
 }
 
@@ -83,14 +80,12 @@ func (repo *usersRepository) GetByID(ctx context.Context, id uuid.UUID) (user.Us
 	err = conn.
 		QueryRowContext(
 			ctx,
-			"SELECT username, password_digest, created_at, updated_at FROM users WHERE username = $1",
+			"SELECT username, password_digest, created_at, updated_at FROM users WHERE id = $1",
 			id.String(),
 		).Scan(&uname, &passwordDigest, &createdAt, &updatedAt)
 	if err != nil {
 		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
 	}
-
-	fmt.Println(createdAt, updatedAt)
 
 	username, err := user.NewUsername(uname)
 	if err != nil {

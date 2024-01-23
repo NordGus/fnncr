@@ -114,12 +114,12 @@ func (repo *usersRepository) Create(ctx context.Context, entity user.User) error
 
 	_, err = conn.ExecContext(
 		ctx,
-		"INSERT INTO id, username, password_digest, created_at, updated_at VALUES ( $1, $2, $3, $4, $5 )",
+		"INSERT INTO users (id, username, password_digest, created_at, updated_at) VALUES ( $1, $2, $3, $4, $5 )",
 		entity.ID.String(),
 		entity.Username.String(),
 		entity.PasswordDigest.String(),
-		entity.CreatedAt.String(),
-		entity.UpdatedAt.String(),
+		entity.CreatedAt,
+		entity.UpdatedAt,
 	)
 	if err != nil {
 		return errors.Join(ports.ErrUserNotSaved, err)

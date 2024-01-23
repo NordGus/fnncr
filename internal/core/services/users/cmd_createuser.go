@@ -60,7 +60,7 @@ func (s *service) Create(ctx context.Context, req CreateReq) (CreateResp, error)
 	}
 
 	_, errUnique := s.userRepo.GetByUsername(ctx, username)
-	if errUnique != nil {
+	if errUnique == nil {
 		err = errors.Join(err, ErrUsernameNotUnique)
 	}
 

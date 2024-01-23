@@ -47,7 +47,9 @@ func (h *handler) SignInHandlerFunc(c echo.Context) error {
 	}
 
 	cookie.Value = resp.SessionID
-	c.SetCookie(cookie)
 
-	return c.Redirect(http.StatusFound, "/")
+	c.SetCookie(cookie)
+	c.Response().Header().Set("HX-Redirect", "/")
+
+	return c.NoContent(http.StatusOK)
 }

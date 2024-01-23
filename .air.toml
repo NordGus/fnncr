@@ -24,7 +24,7 @@ exclude_file = [
     ".node-version",
     ".gitignore",
 ]
-exclude_regex = ["_test.go", "_templ.go"]
+exclude_regex = ["_test.go", "_templ.go", ".sql"]
 exclude_unchanged = false
 follow_symlink = false
 full_bin = ""

@@ -98,7 +98,8 @@
     "--network=host"
   ],
   "postCreateCommand": {
-    "go:dependencies": "sudo go mod download",
+    "go:dependencies": "go mod download",
+    "db:setup": "bin/setup",
     "npm:dependencies": "npm install"
   }
 }

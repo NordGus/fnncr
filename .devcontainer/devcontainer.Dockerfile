@@ -67,4 +67,6 @@ RUN echo 'ZSH_THEME="robbyrussell"' >> "/home/$USERNAME/.zshrc" \
 RUN echo "exec `which zsh`" > "/home/$USERNAME/.ashrc"
 USER root
 
+RUN chmod -R a+w /go/pkg
+
 EXPOSE 3000

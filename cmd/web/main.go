@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"log"
-	"os"
 	"time"
 
 	pgserv "github.com/NordGus/fnncr/database/postgresql"
@@ -18,8 +17,6 @@ import (
 
 func main() {
 	var (
-		assets = os.DirFS("./dist")
-
 		pg = pgserv.New(
 			"fnncr", "local_dev", "127.0.0.1", 5432, "fnncr_dev",
 			func(db *sql.DB) { db.SetMaxOpenConns(10) },
@@ -45,7 +42,6 @@ func main() {
 
 	app := web.NewApp(
 		web.DefaultAppOptions,
-		func(a *web.App) { a.AssetsFS = assets },
 		func(a *web.App) { a.AuthAPI = auth },
 	)
 

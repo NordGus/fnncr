@@ -5,17 +5,16 @@ tmp_dir = "tmp"
 [build]
 args_bin = []
 bin = "./tmp/web"
-cmd = "templ generate && go build -o ./tmp/web ./cmd/web"
+cmd = "npm run build:src && npm run build:css && templ generate && go build -o ./tmp/web ./cmd/web"
 delay = 1000
 exclude_dir = [
-    "assets",
     "tmp",
     "vendor",
     "testdata",
-    "client",
     "node_modules",
     ".vscode",
     ".devcontainer",
+    "internal/adapters/primary/web/dist",
 ]
 exclude_file = [
     "tailwind.config.js",

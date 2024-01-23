@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/views/authentication"
+	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/authentication"
 	"github.com/NordGus/fnncr/internal/core/services/authentication"
 	"github.com/labstack/echo/v4"
 )

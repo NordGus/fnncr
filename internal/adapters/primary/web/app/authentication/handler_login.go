@@ -1,7 +1,7 @@
 package authentication
 
 import (
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/views/authentication"
+	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/authentication"
 	"github.com/labstack/echo/v4"
 )
 

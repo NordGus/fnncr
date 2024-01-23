@@ -14,7 +14,7 @@
   },
   "containerEnv": {
     "GO_MIGRATE_TAG": "postgres",
-    "GO_MIGRATE_VERSION": "latest",
+    "GO_MIGRATE_VERSION": "v4.17.0",
     "POSTGRESQL_DB_URL": "postgres://fnncr:local_dev@127.0.0.1:5432/fnncr_dev?sslmode=disable"
   },
   "customizations": {
@@ -93,9 +93,5 @@
   "runArgs": [
     "--network=host"
   ],
-  "postCreateCommand": {
-    "go:dependencies": "go mod download",
-    "go:tools:migrate:install": "sudo go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest",
-    "npm:dependencies": "npm install"
-  }
+  "postCreateCommand": "bin/setup"
 }

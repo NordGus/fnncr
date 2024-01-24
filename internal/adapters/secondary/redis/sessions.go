@@ -12,11 +12,11 @@ import (
 )
 
 var (
-	ErrCantParseSession = errors.New("failed to parse session")
+	ErrCantParseSession = errors.New("session repository: failed to parse session")
 )
 
 type (
-	SessionRepository struct {
+	sessionRepository struct {
 		conn *redis.Client
 	}
 
@@ -28,18 +28,22 @@ type (
 )
 
 func NewSessionRepository(conn *redis.Client) ports.SessionRepository {
-	return &SessionRepository{
+	return &sessionRepository{
 		conn: conn,
 	}
 }
 
-func (repo *SessionRepository) Create(ctx context.Context, session session.Session) error {
+func (repo *sessionRepository) Create(ctx context.Context, session session.Session) error {
 	var (
-		key   = fmt.Sprintf("session:%s", session.ID.String())
-		value = record{ID: session.ID.String(), UserID: session.UserID.String()}
+		key  = fmt.Sprintf("session:%s", session.ID.String())
+		rcrd = record{
+			ID:      session.ID.String(),
+			UserID:  session.UserID.String(),
+			Version: session.Version,
+		}
 	)
 
-	_, err := repo.conn.HSet(ctx, key, value).Result()
+	_, err := repo.conn.HSet(ctx, key, rcrd).Result()
 	if err != nil {
 		return errors.Join(ports.ErrSessionNotCreated, err)
 	}
@@ -47,22 +51,22 @@ func (repo *SessionRepository) Create(ctx context.Context, session session.Sessi
 	return nil
 }
 
-func (repo *SessionRepository) Get(ctx context.Context, id session.ID) (session.Session, error) {
+func (repo *sessionRepository) Get(ctx context.Context, id session.ID) (session.Session, error) {
 	var (
 		key = fmt.Sprintf("session:%s", id.String())
 
-		result record
+		rcrd record
 	)
 
-	err := repo.conn.HGetAll(ctx, key).Scan(&result)
+	err := repo.conn.HGetAll(ctx, key).Scan(&rcrd)
 	if err != nil {
 		return session.Session{}, errors.Join(ports.ErrSessionNotFound, err)
 	}
 
-	userID, err := uuid.Parse(result.UserID)
+	userID, err := uuid.Parse(rcrd.UserID)
 	if err != nil {
 		return session.Session{}, errors.Join(ErrCantParseSession, err)
 	}
 
-	return session.New(id, userID), nil
+	return session.New(id, userID, rcrd.Version), nil
 }

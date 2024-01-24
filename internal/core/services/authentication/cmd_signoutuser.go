@@ -15,7 +15,6 @@ type SignOutUserResp struct {
 	Success bool
 }
 
-// TODO: Expose Sign Out service in the application
 func (s *service) SignOutUser(ctx context.Context, req SignOutUserReq) (SignOutUserResp, error) {
 	uid, err := uuid.Parse(req.UserID)
 	if err != nil {

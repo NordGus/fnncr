@@ -9,6 +9,7 @@ import (
 type (
 	API interface {
 		SignInUser(ctx context.Context, req SignInUserReq) (SignInUserResp, error)
+		SignOutUser(ctx context.Context, req SignOutUserReq) (SignOutUserResp, error)
 		AuthenticateSession(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error)
 	}
 

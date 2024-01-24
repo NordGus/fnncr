@@ -13,6 +13,6 @@ var (
 )
 
 type SessionRepository interface {
-	CreateSession(ctx context.Context, session session.Session) error
-	GetSession(ctx context.Context, id session.ID) (session.Session, error)
+	Create(ctx context.Context, session session.Session) error
+	Get(ctx context.Context, id session.ID) (session.Session, error)
 }

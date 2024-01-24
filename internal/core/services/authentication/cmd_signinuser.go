@@ -47,7 +47,7 @@ func (s *service) SignInUser(ctx context.Context, req SignInUserReq) (SignInUser
 		return SignInUserResp{}, err
 	}
 
-	err = s.sessionRepo.CreateSession(ctx, session.New(sessionID, usr.ID))
+	err = s.sessionRepo.Create(ctx, session.New(sessionID, usr.ID))
 	if err != nil {
 		return SignInUserResp{}, err
 	}

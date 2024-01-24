@@ -24,7 +24,7 @@ func (s *service) AuthenticateSession(ctx context.Context, req AuthenticateUserR
 		return AuthenticateUserResp{}, err
 	}
 
-	session, err := s.sessionRepo.GetSession(ctx, sessionID)
+	session, err := s.sessionRepo.Get(ctx, sessionID)
 	if err != nil {
 		return AuthenticateUserResp{}, err
 	}

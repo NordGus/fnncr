@@ -32,7 +32,7 @@ func NewSessionRepository(conn *redis.Client) ports.SessionRepository {
 	}
 }
 
-func (repo *SessionRepository) CreateSession(ctx context.Context, session session.Session) error {
+func (repo *SessionRepository) Create(ctx context.Context, session session.Session) error {
 	var (
 		key   = fmt.Sprintf("session:%s", session.ID.String())
 		value = record{ID: session.ID.String(), UserID: session.UserID.String()}
@@ -46,7 +46,7 @@ func (repo *SessionRepository) CreateSession(ctx context.Context, session sessio
 	return nil
 }
 
-func (repo *SessionRepository) GetSession(ctx context.Context, id session.ID) (session.Session, error) {
+func (repo *SessionRepository) Get(ctx context.Context, id session.ID) (session.Session, error) {
 	var (
 		key = fmt.Sprintf("session:%s", id.String())
 

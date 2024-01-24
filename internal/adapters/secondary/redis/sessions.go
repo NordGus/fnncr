@@ -12,7 +12,8 @@ import (
 )
 
 var (
-	ErrCantParseSession = errors.New("sessions repository: failed to parse session")
+	ErrCantParseSession  = errors.New("sessions repository: failed to parse session")
+	ErrSessionNotDeleted = errors.New("session repository: session was not deleted")
 )
 
 type (
@@ -69,4 +70,16 @@ func (repo *sessionRepository) Get(ctx context.Context, id session.ID) (session.
 	}
 
 	return session.New(id, userID, rcrd.Version), nil
+}
+
+func (repo *sessionRepository) Delete(ctx context.Context, s session.Session) error {
+	var key = fmt.Sprintf("session:%s", s.ID.String())
+
+	// This is be inefficient because it's time complexity is O(M) where M is the number of keys in the session hash.
+	_, err := repo.conn.Del(ctx, key).Result()
+	if err != nil {
+		return errors.Join(ErrSessionNotDeleted, err)
+	}
+
+	return session.ErrExpired
 }

@@ -13,6 +13,8 @@ var (
 )
 
 type SessionRepository interface {
-	Create(ctx context.Context, session session.Session) error
 	Get(ctx context.Context, id session.ID) (session.Session, error)
+	Create(ctx context.Context, session session.Session) error
+	// Delete always returns an error. When successful must return session.ErrExpired
+	Delete(ctx context.Context, session session.Session) error
 }

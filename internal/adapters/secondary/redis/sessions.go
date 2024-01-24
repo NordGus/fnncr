@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	ErrCantParseSession = errors.New("session repository: failed to parse session")
+	ErrCantParseSession = errors.New("sessions repository: failed to parse session")
 )
 
 type (

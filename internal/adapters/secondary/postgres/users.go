@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	ErrCantConnectToDatabase = errors.New("failed to connect to database")
-	ErrCantParseUser         = errors.New("failed to parse user")
+	ErrCantConnectToDatabase = errors.New("users repository: failed to connect to database")
+	ErrCantParseUser         = errors.New("users repository: failed to parse user")
 )
 
 type (

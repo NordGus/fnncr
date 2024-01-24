@@ -9,7 +9,7 @@ import (
 
 func (h *handler) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cookie, err := c.Cookie("_session_fnncr")
+		cookie, err := c.Cookie(sessionCookieName)
 		if err != nil {
 			return c.Redirect(http.StatusTemporaryRedirect, "/login")
 		}
@@ -31,9 +31,7 @@ func (h *handler) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.Redirect(http.StatusTemporaryRedirect, "/login")
 		}
 
-		c.Logger().Debug(resp.User)
-
-		c.Set("currentUser", resp.User)
+		c.Set(CurrentUserCtxKey, resp.User)
 
 		return next(c)
 	}

@@ -5,6 +5,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+const (
+	CurrentUserCtxKey = "currentUser"
+	sessionCookieName = "_session_fnncr"
+)
+
 type Handler interface {
 	LoginHandlerFunc(c echo.Context) error
 	SignInHandlerFunc(c echo.Context) error

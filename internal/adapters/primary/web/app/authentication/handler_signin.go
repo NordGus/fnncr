@@ -27,7 +27,7 @@ func (h *handler) SignInHandlerFunc(c echo.Context) error {
 		}
 
 		cookie = &http.Cookie{
-			Name:    "_session_fnncr",
+			Name:    sessionCookieName,
 			Path:    "/",
 			Domain:  "localhost",
 			Expires: time.Now().Add(7 * 24 * time.Hour),

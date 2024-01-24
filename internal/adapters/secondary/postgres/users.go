@@ -16,9 +16,21 @@ var (
 	ErrCantParseUser         = errors.New("failed to parse user")
 )
 
-type usersRepository struct {
-	conn *sql.DB
-}
+type (
+	usersRepository struct {
+		conn *sql.DB
+	}
+
+	record struct {
+		id             string
+		username       string
+		passwordDigest string
+		sessionVersion int32
+		createdAt      time.Time
+		updatedAt      time.Time
+		deletedAt      sql.NullTime
+	}
+)
 
 func NewUsersRepository(conn *sql.DB) ports.UserRepository {
 	return &usersRepository{
@@ -27,12 +39,7 @@ func NewUsersRepository(conn *sql.DB) ports.UserRepository {
 }
 
 func (repo *usersRepository) GetByUsername(ctx context.Context, username user.Username) (user.User, error) {
-	var (
-		uid            string
-		passwordDigest string
-		createdAt      time.Time
-		updatedAt      time.Time
-	)
+	var rcrd record
 
 	conn, err := repo.conn.Conn(ctx)
 	if err != nil {
@@ -43,33 +50,37 @@ func (repo *usersRepository) GetByUsername(ctx context.Context, username user.Us
 	err = conn.
 		QueryRowContext(
 			ctx,
-			"SELECT id, password_digest, created_at, updated_at FROM users WHERE username = $1",
+			"SELECT id, username, password_digest, session_version, created_at, updated_at, deleted_at FROM users WHERE username = $1 AND deleted_at NOT NULL",
 			username.String(),
-		).Scan(&uid, &passwordDigest, &createdAt, &updatedAt)
+		).
+		Scan(
+			&rcrd.id,
+			&rcrd.username,
+			&rcrd.passwordDigest,
+			&rcrd.sessionVersion,
+			&rcrd.createdAt,
+			&rcrd.updatedAt,
+			&rcrd.deletedAt,
+		)
 	if err != nil {
 		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
 	}
 
-	id, err := uuid.Parse(uid)
+	id, err := uuid.Parse(rcrd.id)
 	if err != nil {
 		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
-	pwd, err := user.NewPasswordDigest(passwordDigest)
+	pwd, err := user.NewPasswordDigest(rcrd.passwordDigest)
 	if err != nil {
 		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
-	return user.New(id, username, pwd, createdAt, updatedAt), nil
+	return user.New(id, username, pwd, rcrd.sessionVersion, rcrd.createdAt, rcrd.updatedAt), nil
 }
 
 func (repo *usersRepository) GetByID(ctx context.Context, id uuid.UUID) (user.User, error) {
-	var (
-		uname          string
-		passwordDigest string
-		createdAt      time.Time
-		updatedAt      time.Time
-	)
+	var rcrd record
 
 	conn, err := repo.conn.Conn(ctx)
 	if err != nil {
@@ -80,24 +91,33 @@ func (repo *usersRepository) GetByID(ctx context.Context, id uuid.UUID) (user.Us
 	err = conn.
 		QueryRowContext(
 			ctx,
-			"SELECT username, password_digest, created_at, updated_at FROM users WHERE id = $1",
+			"SELECT id, username, password_digest, session_version, created_at, updated_at, deleted_at FROM users WHERE id = $1 AND deleted_at NOT NULL",
 			id.String(),
-		).Scan(&uname, &passwordDigest, &createdAt, &updatedAt)
+		).
+		Scan(
+			&rcrd.id,
+			&rcrd.username,
+			&rcrd.passwordDigest,
+			&rcrd.sessionVersion,
+			&rcrd.createdAt,
+			&rcrd.updatedAt,
+			&rcrd.deletedAt,
+		)
 	if err != nil {
 		return user.User{}, errors.Join(ports.ErrUserNotFound, err)
 	}
 
-	username, err := user.NewUsername(uname)
+	username, err := user.NewUsername(rcrd.username)
 	if err != nil {
 		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
-	pwd, err := user.NewPasswordDigest(passwordDigest)
+	pwd, err := user.NewPasswordDigest(rcrd.passwordDigest)
 	if err != nil {
 		return user.User{}, errors.Join(ErrCantParseUser, err)
 	}
 
-	return user.New(id, username, pwd, createdAt, updatedAt), nil
+	return user.New(id, username, pwd, rcrd.sessionVersion, rcrd.createdAt, rcrd.updatedAt), nil
 }
 
 func (repo *usersRepository) Create(ctx context.Context, entity user.User) error {
@@ -109,10 +129,11 @@ func (repo *usersRepository) Create(ctx context.Context, entity user.User) error
 
 	_, err = conn.ExecContext(
 		ctx,
-		"INSERT INTO users (id, username, password_digest, created_at, updated_at) VALUES ( $1, $2, $3, $4, $5 )",
+		"INSERT INTO users (id, username, password_digest, session_version, created_at, updated_at) VALUES ( $1, $2, $3, $4, $5, $6 )",
 		entity.ID.String(),
 		entity.Username.String(),
 		entity.PasswordDigest.String(),
+		entity.SessionVersion,
 		entity.CreatedAt,
 		entity.UpdatedAt,
 	)

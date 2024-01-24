@@ -21,8 +21,9 @@ type (
 	}
 
 	record struct {
-		ID     string `redis:"id"`
-		UserID string `redis:"userID"`
+		ID      string `redis:"id"`
+		UserID  string `redis:"userID"`
+		Version int32  `redis:"version"`
 	}
 )
 

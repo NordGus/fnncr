@@ -7,7 +7,7 @@ import (
 
 func (h *handler) LoginHandlerFunc(c echo.Context) error {
 	form := view.FormLogin{
-		ActionURL: "/sign_in",
+		ActionURL: LoginRoute,
 	}
 
 	return view.Login(form).Render(c.Request().Context(), c.Response())

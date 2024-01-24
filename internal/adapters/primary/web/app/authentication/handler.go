@@ -8,6 +8,11 @@ import (
 const (
 	CurrentUserCtxKey = "currentUser"
 	sessionCookieName = "_session_fnncr"
+
+	// Routes
+
+	LoginRoute  = "/login"
+	SignInRoute = "/sign_in"
 )
 
 type Handler interface {

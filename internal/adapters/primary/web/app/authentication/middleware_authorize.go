@@ -11,14 +11,14 @@ func (h *handler) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, err := c.Cookie(sessionCookieName)
 		if err != nil {
-			return c.Redirect(http.StatusTemporaryRedirect, "/login")
+			return c.Redirect(http.StatusTemporaryRedirect, LoginRoute)
 		}
 
 		err = cookie.Valid()
 		if err != nil {
 			c.Logger().Error(err)
 
-			return c.Redirect(http.StatusTemporaryRedirect, "/login")
+			return c.Redirect(http.StatusTemporaryRedirect, LoginRoute)
 		}
 
 		resp, err := h.api.AuthenticateSession(
@@ -28,7 +28,7 @@ func (h *handler) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		if err != nil {
 			c.Logger().Error(err)
 
-			return c.Redirect(http.StatusTemporaryRedirect, "/login")
+			return c.Redirect(http.StatusTemporaryRedirect, LoginRoute)
 		}
 
 		c.Set(CurrentUserCtxKey, resp.User)

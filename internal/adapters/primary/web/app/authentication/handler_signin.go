@@ -20,7 +20,7 @@ func (h *handler) SignInHandlerFunc(c echo.Context) error {
 		}
 
 		form = view.FormLogin{
-			ActionURL: "/sign_in",
+			ActionURL: SignInRoute,
 			Username:  username,
 			Password:  password,
 			Failed:    true,

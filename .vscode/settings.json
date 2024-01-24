@@ -22,6 +22,7 @@
         "pgxpool",
         "PTRACE",
         "rangav",
+        "rcrd",
         "rdsadapter",
         "rdsdb",
         "rdsserv",

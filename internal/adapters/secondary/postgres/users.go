@@ -50,7 +50,7 @@ func (repo *usersRepository) GetByUsername(ctx context.Context, username user.Us
 	err = conn.
 		QueryRowContext(
 			ctx,
-			"SELECT id, username, password_digest, session_version, created_at, updated_at, deleted_at FROM users WHERE username = $1 AND deleted_at NOT NULL",
+			"SELECT id, username, password_digest, session_version, created_at, updated_at, deleted_at FROM users WHERE username = $1 AND deleted_at IS NULL",
 			username.String(),
 		).
 		Scan(
@@ -91,7 +91,7 @@ func (repo *usersRepository) GetByID(ctx context.Context, id uuid.UUID) (user.Us
 	err = conn.
 		QueryRowContext(
 			ctx,
-			"SELECT id, username, password_digest, session_version, created_at, updated_at, deleted_at FROM users WHERE id = $1 AND deleted_at NOT NULL",
+			"SELECT id, username, password_digest, session_version, created_at, updated_at, deleted_at FROM users WHERE id = $1 AND deleted_at IS NULL",
 			id.String(),
 		).
 		Scan(

@@ -84,5 +84,5 @@ func (repo *sessionRepository) Delete(ctx context.Context, s session.Session) er
 		return errors.Join(ErrSessionNotDeleted, err)
 	}
 
-	return session.ErrExpired
+	return nil
 }

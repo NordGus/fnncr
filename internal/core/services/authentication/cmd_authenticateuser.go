@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"context"
+	"errors"
 
 	"github.com/NordGus/fnncr/internal/core/domain/session"
 	"github.com/google/uuid"
@@ -35,7 +36,7 @@ func (s *service) AuthenticateSession(ctx context.Context, req AuthenticateUserR
 	}
 
 	if sssn.Expired(s.sessionMaxAge, usr) {
-		return AuthenticateUserResp{}, s.sessionRepo.Delete(ctx, sssn)
+		return AuthenticateUserResp{}, errors.Join(session.ErrExpired, s.sessionRepo.Delete(ctx, sssn))
 	}
 
 	return AuthenticateUserResp{

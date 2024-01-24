@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"context"
+	"time"
 
 	"github.com/NordGus/fnncr/internal/ports"
 )
@@ -14,14 +15,16 @@ type (
 	}
 
 	service struct {
-		sessionRepo ports.SessionRepository
-		userRepo    ports.UserRepository
+		sessionMaxAge time.Duration
+		sessionRepo   ports.SessionRepository
+		userRepo      ports.UserRepository
 	}
 )
 
-func NewService(sessionRepo ports.SessionRepository, userRepo ports.UserRepository) API {
+func NewService(sessionMaxAge time.Duration, sessionRepo ports.SessionRepository, userRepo ports.UserRepository) API {
 	return &service{
-		sessionRepo: sessionRepo,
-		userRepo:    userRepo,
+		sessionMaxAge: sessionMaxAge,
+		sessionRepo:   sessionRepo,
+		userRepo:      userRepo,
 	}
 }

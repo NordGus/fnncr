@@ -15,13 +15,15 @@ const (
 
 	// Routes
 
-	LoginRoute  = "/login"
-	SignInRoute = "/sign_in"
+	LoginRoute   = "/login"
+	SignInRoute  = "/sign_in"
+	SignOutRoute = "/sign_out"
 )
 
 type Handler interface {
 	LoginHandlerFunc(c echo.Context) error
 	SignInHandlerFunc(c echo.Context) error
+	SignOutHandlerFunc(c echo.Context) error
 
 	AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc
 }

@@ -17,6 +17,7 @@ func (a *App) setRoutes() {
 
 	a.echo.GET(authentication.LoginRoute, auth.LoginHandlerFunc)
 	a.echo.POST(authentication.SignInRoute, auth.SignInHandlerFunc)
+	a.echo.GET(authentication.SignOutRoute, auth.SignOutHandlerFunc, auth.AuthorizeMiddleware)
 
 	a.echo.GET("/", func(c echo.Context) error {
 		return c.HTML(http.StatusOK, "<div>Hello There</div>")

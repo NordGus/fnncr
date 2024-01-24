@@ -10,18 +10,18 @@ const (
 )
 
 var (
-	ErrUsernameTooShort = errors.New("username is too short")
-	ErrUsernameTooLong  = errors.New("username is too long")
+	ErrUsernameTooShort = errors.New("user: username is too short")
+	ErrUsernameTooLong  = errors.New("user: username is too long")
 )
 
 func NewUsername(username string) (Username, error) {
-	unLen := len(username)
+	length := len(username)
 
-	if unLen < usernameMinLen {
+	if length < usernameMinLen {
 		return "", ErrUsernameTooShort
 	}
 
-	if unLen > usernameMaxLen {
+	if length > usernameMaxLen {
 		return "", ErrUsernameTooLong
 	}
 

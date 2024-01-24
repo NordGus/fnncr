@@ -18,6 +18,8 @@ import (
 
 func main() {
 	var (
+		sessionMaxAge = 7 * 24 * time.Hour
+
 		pg = pgserv.New(
 			os.Getenv("PG_DB_USERNAME"),
 			os.Getenv("PG_DB_PASSWORD"),
@@ -39,7 +41,7 @@ func main() {
 		usersrepo   = postgres.NewUsersRepository(pg.DB())
 		sessionrepo = redis.NewSessionRepository(rds.Client())
 
-		auth = authentication.NewService(sessionrepo, usersrepo)
+		auth = authentication.NewService(sessionMaxAge, sessionrepo, usersrepo)
 	)
 
 	defer pg.Close()

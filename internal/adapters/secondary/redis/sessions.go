@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/NordGus/fnncr/internal/core/domain/session"
 	"github.com/NordGus/fnncr/internal/ports"
@@ -22,9 +23,10 @@ type (
 	}
 
 	record struct {
-		ID      string `redis:"id"`
-		UserID  string `redis:"userID"`
-		Version int32  `redis:"version"`
+		ID        string    `redis:"id"`
+		UserID    string    `redis:"userID"`
+		Version   int32     `redis:"version"`
+		CreatedAt time.Time `redis:"created_at"`
 	}
 )
 
@@ -38,9 +40,10 @@ func (repo *sessionRepository) Create(ctx context.Context, session session.Sessi
 	var (
 		key  = fmt.Sprintf("session:%s", session.ID.String())
 		rcrd = record{
-			ID:      session.ID.String(),
-			UserID:  session.UserID.String(),
-			Version: session.Version,
+			ID:        session.ID.String(),
+			UserID:    session.UserID.String(),
+			Version:   session.Version,
+			CreatedAt: session.CreatedAt,
 		}
 	)
 
@@ -69,7 +72,7 @@ func (repo *sessionRepository) Get(ctx context.Context, id session.ID) (session.
 		return session.Session{}, errors.Join(ErrCantParseSession, err)
 	}
 
-	return session.New(id, userID, rcrd.Version), nil
+	return session.New(id, userID, rcrd.Version, rcrd.CreatedAt), nil
 }
 
 func (repo *sessionRepository) Delete(ctx context.Context, s session.Session) error {

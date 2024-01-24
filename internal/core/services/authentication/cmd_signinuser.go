@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"io"
+	"time"
 
 	"github.com/NordGus/fnncr/internal/core/domain/session"
 	"github.com/NordGus/fnncr/internal/core/domain/user"
@@ -47,7 +48,7 @@ func (s *service) SignInUser(ctx context.Context, req SignInUserReq) (SignInUser
 		return SignInUserResp{}, err
 	}
 
-	err = s.sessionRepo.Create(ctx, session.New(sessionID, usr.ID, usr.SessionVersion))
+	err = s.sessionRepo.Create(ctx, session.New(sessionID, usr.ID, usr.SessionVersion, time.Now().UTC()))
 	if err != nil {
 		return SignInUserResp{}, err
 	}

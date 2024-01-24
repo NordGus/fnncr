@@ -34,7 +34,7 @@ func (s *service) AuthenticateSession(ctx context.Context, req AuthenticateUserR
 		return AuthenticateUserResp{}, err
 	}
 
-	if sssn.Expired(usr) {
+	if sssn.Expired(s.sessionMaxAge, usr) {
 		return AuthenticateUserResp{}, s.sessionRepo.Delete(ctx, sssn)
 	}
 

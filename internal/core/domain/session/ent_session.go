@@ -28,7 +28,6 @@ func New(id ID, userId uuid.UUID, version int32, ca time.Time) Session {
 	}
 }
 
-func (s Session) Expired(usr user.User) bool {
-	// TODO: implement a session lifespan
-	return s.Version != usr.SessionVersion
+func (s Session) Expired(maxAge time.Duration, usr user.User) bool {
+	return s.Version != usr.SessionVersion || time.Since(s.CreatedAt) > maxAge
 }

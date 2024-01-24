@@ -36,7 +36,8 @@
         "vscode-icons-team.vscode-icons",
         "zhuangtongfa.material-theme",
         "a-h.templ",
-        "tamasfe.even-better-toml"
+        "tamasfe.even-better-toml",
+        "Gruntfuggly.todo-tree"
       ],
       "settings": {
         "go.useLanguageServer": true,

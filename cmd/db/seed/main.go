@@ -31,7 +31,7 @@ func main() {
 	)
 	defer pg.Close()
 
-	resp, err := usersserv.Create(context.Background(), users.CreateReq{
+	resp, err := usersserv.CreateUser(context.Background(), users.CreateReq{
 		Username:             "jrico",
 		Password:             "localdev",
 		PasswordConfirmation: "localdev",

@@ -8,7 +8,7 @@ import (
 
 type (
 	API interface {
-		Create(ctx context.Context, req CreateReq) (CreateResp, error)
+		CreateUser(ctx context.Context, req CreateReq) (CreateResp, error)
 	}
 
 	service struct {

@@ -7,7 +7,6 @@ import (
 
 	"github.com/NordGus/fnncr/internal/core/domain/user"
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -32,7 +31,7 @@ type (
 	}
 )
 
-func (s *service) Create(ctx context.Context, req CreateReq) (CreateResp, error) {
+func (s *service) CreateUser(ctx context.Context, req CreateReq) (CreateResp, error) {
 	var err error
 
 	if req.Password != req.PasswordConfirmation {
@@ -44,19 +43,9 @@ func (s *service) Create(ctx context.Context, req CreateReq) (CreateResp, error)
 		err = errors.Join(err, errUn)
 	}
 
-	pw, errPw := user.NewPassword(req.Password)
+	pw, errPw := user.NewPasswordDigestFromPassword(req.Password)
 	if errPw != nil {
 		err = errors.Join(err, errPw)
-	}
-
-	hash, errPwh := bcrypt.GenerateFromPassword([]byte(pw.String()), bcrypt.DefaultCost)
-	if errPwh != nil {
-		err = errors.Join(err, errPwh)
-	}
-
-	pwd, errPwd := user.NewPasswordDigest(string(hash))
-	if errPwd != nil {
-		err = errors.Join(err, errPwd)
 	}
 
 	_, errUnique := s.userRepo.GetByUsername(ctx, username)
@@ -68,7 +57,7 @@ func (s *service) Create(ctx context.Context, req CreateReq) (CreateResp, error)
 		return CreateResp{}, err
 	}
 
-	entity := user.New(uuid.New(), username, pwd, time.Now().UTC(), time.Now().UTC())
+	entity := user.New(uuid.New(), username, pw, 0, time.Now().UTC(), time.Now().UTC())
 
 	err = s.userRepo.Create(ctx, entity)
 	if err != nil {

@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -27,6 +28,7 @@ func (s *service) SignOutUser(ctx context.Context, req SignOutUserReq) (SignOutU
 	}
 
 	usr.SessionVersion += 1
+	usr.UpdatedAt = time.Now().UTC()
 
 	usr, err = s.userRepo.Update(ctx, usr)
 	if err != nil {

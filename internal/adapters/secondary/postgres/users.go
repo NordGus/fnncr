@@ -143,3 +143,28 @@ func (repo *usersRepository) Create(ctx context.Context, entity user.User) error
 
 	return nil
 }
+
+func (repo *usersRepository) Update(ctx context.Context, entity user.User) (user.User, error) {
+	conn, err := repo.conn.Conn(ctx)
+	if err != nil {
+		return entity, errors.Join(ErrCantConnectToDatabase, err)
+	}
+	defer conn.Close()
+
+	_, err = conn.ExecContext(
+		ctx,
+		"UPDATE users SET id = $1, username = $2, password_digest = $3, session_version = $4, created_at = $5, updated_at = $6 WHERE id = $7",
+		entity.ID.String(),
+		entity.Username.String(),
+		entity.PasswordDigest.String(),
+		entity.SessionVersion,
+		entity.CreatedAt,
+		entity.UpdatedAt,
+		entity.ID.String(),
+	)
+	if err != nil {
+		return entity, errors.Join(ports.ErrUserNotSaved, err)
+	}
+
+	return entity, nil
+}

@@ -16,10 +16,12 @@ import (
 	goredis "github.com/redis/go-redis/v9"
 )
 
+const (
+	sessionMaxAge = 7 * 24 * time.Hour
+)
+
 func main() {
 	var (
-		sessionMaxAge = 7 * 24 * time.Hour
-
 		pg = pgserv.New(
 			os.Getenv("PG_DB_USERNAME"),
 			os.Getenv("PG_DB_PASSWORD"),

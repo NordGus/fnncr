@@ -1,13 +1,17 @@
 package authentication
 
 import (
+	"time"
+
 	"github.com/NordGus/fnncr/internal/core/services/authentication"
 	"github.com/labstack/echo/v4"
 )
 
 const (
 	CurrentUserCtxKey = "currentUser"
-	sessionCookieName = "_session_fnncr"
+
+	sessionCookieName   = "_session_fnncr"
+	sessionCookieMaxAge = 30 * 24 * time.Hour
 
 	// Routes
 

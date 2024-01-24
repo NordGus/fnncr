@@ -30,9 +30,9 @@ func (h *handler) SignInHandlerFunc(c echo.Context) error {
 			Name:    sessionCookieName,
 			Path:    "/",
 			Domain:  "localhost",
-			Expires: time.Now().Add(7 * 24 * time.Hour),
+			Expires: time.Now().Add(sessionCookieMaxAge),
 
-			MaxAge:   int((7 * 24 * time.Hour).Seconds()),
+			MaxAge:   int(sessionCookieMaxAge.Seconds()),
 			Secure:   true,
 			HttpOnly: true,
 			SameSite: http.SameSiteStrictMode,

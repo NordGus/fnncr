@@ -3,6 +3,7 @@ package authentication
 import (
 	"net/http"
 
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
 	"github.com/NordGus/fnncr/internal/core/services/authentication"
 	"github.com/labstack/echo/v4"
 )
@@ -31,7 +32,7 @@ func (h *handler) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.Redirect(http.StatusTemporaryRedirect, LoginRoute)
 		}
 
-		c.Set(CurrentUserCtxKey, resp.User)
+		c.Set(CurrentUserCtxKey, models.User{ID: resp.User.ID, Username: resp.User.Username})
 
 		return next(c)
 	}

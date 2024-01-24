@@ -24,14 +24,18 @@ func (s *service) AuthenticateSession(ctx context.Context, req AuthenticateUserR
 		return AuthenticateUserResp{}, err
 	}
 
-	session, err := s.sessionRepo.Get(ctx, sessionID)
+	sssn, err := s.sessionRepo.Get(ctx, sessionID)
 	if err != nil {
 		return AuthenticateUserResp{}, err
 	}
 
-	usr, err := s.userRepo.GetByID(ctx, session.UserID)
+	usr, err := s.userRepo.GetByID(ctx, sssn.UserID)
 	if err != nil {
 		return AuthenticateUserResp{}, err
+	}
+
+	if sssn.Expired(usr) {
+		return AuthenticateUserResp{}, session.ErrExpired
 	}
 
 	return AuthenticateUserResp{

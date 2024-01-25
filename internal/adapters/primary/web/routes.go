@@ -1,9 +1,9 @@
 package web
 
 import (
-	"net/http"
-
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
+	views "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -20,6 +20,8 @@ func (a *App) setRoutes() {
 	a.echo.GET(authentication.SignOutRoute, auth.SignOutHandlerFunc, auth.AuthorizeMiddleware)
 
 	a.echo.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "<div>Hello There <a href=\"/sign_out\">Sign Out</a></div>")
+		usr := c.Get(authentication.CurrentUserCtxKey).(models.User)
+
+		return views.Application("fnncr", usr).Render(c.Request().Context(), c.Response())
 	}, auth.AuthorizeMiddleware)
 }

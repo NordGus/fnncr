@@ -17,7 +17,6 @@ exclude_dir = [
     "internal/adapters/primary/web/dist",
 ]
 exclude_file = [
-    "tailwind.config.js",
     "package.json",
     "package-lock.json",
     ".node-version",

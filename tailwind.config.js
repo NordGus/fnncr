@@ -9,6 +9,9 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         'layout': '10vw 1fr'
+      },
+      borderWidth: {
+        'button': '1px'
       }
     },
   },

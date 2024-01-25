@@ -6,7 +6,11 @@ module.exports = {
     fontFamily: {
       sans: ["Geist Light", "sans"]
     },
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        'layout': '10vw 1fr'
+      }
+    },
   },
   plugins: [],
 }

@@ -5,14 +5,7 @@ import (
 )
 
 templ Application(title string, user models.User) {
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="stylesheet" href="/dist/assets/application.css"/>
-			<title>{ title }</title>
-		</head>
+	@base(title) {
 		<body class="grid grid-cols-layout gap-1 p-0 m-0 h-[100vh] w-[100vw]">
 			<nav class="p-0 m-0 h-full w-full">
 				<ul class="py-2 pl-2 pr-1 m-0 flex flex-col justify-center gap-1 text-right">
@@ -46,5 +39,5 @@ templ Application(title string, user models.User) {
 			</div>
 			<script type="module" src="/dist/src/login.js"></script>
 		</body>
-	</html>
+	}
 }

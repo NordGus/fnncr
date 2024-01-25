@@ -9,7 +9,7 @@ templ Application(title string, user models.User) {
 	@base(title) {
 		<body class="grid grid-cols-layout gap-1 p-0 m-0 h-[100vh] w-[100vw]">
 			<nav class="p-0 m-0 h-full w-full">
-				<ul class="py-2 pl-2 pr-1 m-0 flex flex-col justify-center gap-1 text-right">
+				<ul class="py-2 pl-2 pr-1 m-0 flex flex-col justify-center gap-2 text-right">
 					@components.NavItemWithDropdown(user.Username) {
 						<a
 							href="/sign_out"

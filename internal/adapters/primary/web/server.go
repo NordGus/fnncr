@@ -11,7 +11,7 @@ import (
 
 var (
 	//go:embed dist
-	assets embed.FS
+	assetsFS embed.FS
 )
 
 type App struct {
@@ -24,7 +24,7 @@ type App struct {
 func NewApp(opts ...AppOption) *App {
 	a := &App{
 		echo:     echo.New(),
-		assetsFS: echo.MustSubFS(assets, "dist"),
+		assetsFS: echo.MustSubFS(assetsFS, "dist"),
 	}
 
 	for _, applyOption := range opts {

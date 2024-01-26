@@ -2,43 +2,27 @@ package layouts
 
 import (
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
 )
 
 templ Application(title string, user models.User) {
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="stylesheet" href="/dist/assets/application.css"/>
-			<title>{ title }</title>
-		</head>
+	@base(title) {
 		<body class="grid grid-cols-layout gap-1 p-0 m-0 h-[100vh] w-[100vw]">
 			<nav class="p-0 m-0 h-full w-full">
-				<ul class="py-2 pl-2 pr-1 m-0 flex flex-col justify-center gap-1 text-right">
-					<li>
-						<details class="rounded-lg py-1.5 px-3 border-button border-neutral-500 hover:border-neutral-400 cursor-pointer [&_svg]:open:-rotate-180">
-							<summary class="flex justify-between items-center cursor-pointer list-none hover:text-neutral-400">
-								<svg class="rotate-0 transform text-neutral-400 transition-all duration-300" fill="none" height="20" width="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
-									<polyline points="6 9 12 15 18 9"></polyline>
-								</svg>
-								<div>{ user.Username }</div>
-							</summary>
-							<div class="pt-2 mt-2 border-t-button border-neutral-500">
-								<a
-									href="/sign_out"
-									class="block underline cursor-pointer hover:text-neutral-400"
-								>
-									Sign Out
-								</a>
-							</div>
-						</details>
-					</li>
-					<li class="rounded-lg py-1.5 px-3 border-button border-neutral-500 hover:border-neutral-400 hover:text-neutral-400 cursor-pointer">accounts</li>
-					<li class="rounded-lg py-1.5 px-3 border-button border-neutral-500 hover:border-neutral-400 hover:text-neutral-400 cursor-pointer">transactions</li>
-					<li class="rounded-lg py-1.5 px-3 border-button border-neutral-500 hover:border-neutral-400 hover:text-neutral-400 cursor-pointer">budget</li>
-					<li class="rounded-lg py-1.5 px-3 border-button border-neutral-500 hover:border-neutral-400 hover:text-neutral-400 cursor-pointer">assets</li>
-					<li class="rounded-lg py-1.5 px-3 border-button border-neutral-500 hover:border-neutral-400 hover:text-neutral-400 cursor-pointer">summary</li>
+				<ul class="py-2 pl-2 pr-1 m-0 flex flex-col justify-center gap-2 text-right">
+					@components.NavItemWithDropdown(user.Username) {
+						<a
+							href="/sign_out"
+							class="py-1.5 px-3 block cursor-pointer"
+						>
+							Sign Out
+						</a>
+					}
+					@components.NavItem("accounts", "/accounts")
+					@components.NavItem("transactions", "/transactions")
+					@components.NavItem("budget", "/budget")
+					@components.NavItem("assets", "/assets")
+					@components.NavItem("summary", "/summary")
 				</ul>
 			</nav>
 			<div id="app" class="block p-0 m-0 min-h-full max-h-full overflow-y-auto">
@@ -46,5 +30,5 @@ templ Application(title string, user models.User) {
 			</div>
 			<script type="module" src="/dist/src/login.js"></script>
 		</body>
-	</html>
+	}
 }

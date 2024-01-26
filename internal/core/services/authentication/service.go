@@ -9,9 +9,9 @@ import (
 
 type (
 	API interface {
-		SignInUser(ctx context.Context, req SignInUserReq) (SignInUserResp, error)
-		SignOutUser(ctx context.Context, req SignOutUserReq) (SignOutUserResp, error)
-		AuthenticateSession(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error)
+		SignIn(ctx context.Context, req SignInUserReq) (SignInUserResp, error)
+		SignOut(ctx context.Context, req SignOutUserReq) (SignOutUserResp, error)
+		Authenticate(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error)
 	}
 
 	service struct {

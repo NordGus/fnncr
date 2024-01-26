@@ -1,0 +1,14 @@
+package application
+
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+
+templ Root(user models.User) {
+	@layouts.Application("fnncr", user) {
+		<div class="p-2 inline-flex flex-col justify-center items-center min-h-full w-full">
+			@components.Heading1("Welcome to fnncr")
+			@components.Heading5("your personal finances helper")
+		</div>
+	}
+}

@@ -18,7 +18,7 @@ func (h *handler) SignOutHandlerFunc(c echo.Context) error {
 	)
 
 	// this api call is basically fire and forget, but I'll still gonna check the error for login purposes
-	_, err := h.api.SignOutUser(c.Request().Context(), req)
+	_, err := h.api.SignOut(c.Request().Context(), req)
 	if err != nil {
 		c.Logger().Error(err)
 	}

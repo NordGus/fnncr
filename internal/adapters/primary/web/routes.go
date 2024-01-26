@@ -29,15 +29,15 @@ func (a *App) setRoutes() {
 	a.echo.POST(authentication.SignInRoute, auth.SignInHandlerFunc)
 	a.echo.GET(authentication.SignOutRoute, auth.SignOutHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(accounts.AppletRoute, accnts.Applet, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.AppletRoute, accnts.AppletHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(transactions.AppletRoute, trnsctns.Applet, auth.AuthorizeMiddleware)
+	a.echo.GET(transactions.AppletRoute, trnsctns.AppletHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(budget.AppletRoute, bdgt.Applet, auth.AuthorizeMiddleware)
+	a.echo.GET(budget.AppletRoute, bdgt.AppletHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(assets.AppletRoute, assts.Applet, auth.AuthorizeMiddleware)
+	a.echo.GET(assets.AppletRoute, assts.AppletHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(summary.AppletRoute, smmry.Applet, auth.AuthorizeMiddleware)
+	a.echo.GET(summary.AppletRoute, smmry.AppletHandlerFunc, auth.AuthorizeMiddleware)
 
 	a.echo.GET("/", func(c echo.Context) error {
 		usr := c.Get(authentication.CurrentUserCtxKey).(models.User)

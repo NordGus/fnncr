@@ -5,6 +5,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h *handler) Applet(c echo.Context) error {
+func (h *handler) AppletHandlerFunc(c echo.Context) error {
 	return view.NotImplemented(AppletRoute).Render(c.Request().Context(), c.Response())
 }

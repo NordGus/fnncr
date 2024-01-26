@@ -11,7 +11,7 @@ const (
 )
 
 type Handler interface {
-	Applet(c echo.Context) error
+	AppletHandlerFunc(c echo.Context) error
 }
 
 type handler struct {

@@ -29,6 +29,8 @@ func (h *handler) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		if err != nil {
 			c.Logger().Error(err)
 
+			c.Response().Header().Set("HX-Redirect", LoginRoute)
+
 			return c.Redirect(http.StatusTemporaryRedirect, LoginRoute)
 		}
 

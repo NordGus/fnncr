@@ -15,7 +15,7 @@ type SignOutUserResp struct {
 	Success bool
 }
 
-func (s *service) SignOutUser(ctx context.Context, req SignOutUserReq) (SignOutUserResp, error) {
+func (s *service) SignOut(ctx context.Context, req SignOutUserReq) (SignOutUserResp, error) {
 	uid, err := uuid.Parse(req.UserID)
 	if err != nil {
 		return SignOutUserResp{}, err

@@ -39,7 +39,7 @@ func (h *handler) SignInHandlerFunc(c echo.Context) error {
 		}
 	)
 
-	resp, err := h.api.SignInUser(c.Request().Context(), req)
+	resp, err := h.api.SignIn(c.Request().Context(), req)
 	if err != nil {
 		c.Logger().Error(err)
 

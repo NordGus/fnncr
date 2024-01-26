@@ -22,7 +22,7 @@ func (h *handler) AuthorizeMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.Redirect(http.StatusTemporaryRedirect, LoginRoute)
 		}
 
-		resp, err := h.api.AuthenticateSession(
+		resp, err := h.api.Authenticate(
 			c.Request().Context(),
 			authentication.AuthenticateUserReq{SessionID: cookie.Value},
 		)

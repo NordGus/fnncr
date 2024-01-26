@@ -19,7 +19,7 @@ type AuthenticateUserResp struct {
 	}
 }
 
-func (s *service) AuthenticateSession(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error) {
+func (s *service) Authenticate(ctx context.Context, req AuthenticateUserReq) (AuthenticateUserResp, error) {
 	sessionID, err := session.ParseIDFromString(req.SessionID)
 	if err != nil {
 		return AuthenticateUserResp{}, err

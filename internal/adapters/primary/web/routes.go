@@ -3,7 +3,7 @@ package web
 import (
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
-	views "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
+	views "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/application"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -22,6 +22,6 @@ func (a *App) setRoutes() {
 	a.echo.GET("/", func(c echo.Context) error {
 		usr := c.Get(authentication.CurrentUserCtxKey).(models.User)
 
-		return views.Application("fnncr", usr).Render(c.Request().Context(), c.Response())
+		return views.Root(usr).Render(c.Request().Context(), c.Response())
 	}, auth.AuthorizeMiddleware)
 }

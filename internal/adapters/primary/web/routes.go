@@ -3,6 +3,7 @@ package web
 import (
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/accounts"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/budget"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/transactions"
 	views "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/application"
@@ -14,6 +15,7 @@ func (a *App) setRoutes() {
 	auth := authentication.New(a.AuthAPI)
 	accnts := accounts.New()
 	trnsctns := transactions.New()
+	bdgt := budget.New()
 
 	a.echo.Use(middleware.Logger())
 
@@ -26,6 +28,8 @@ func (a *App) setRoutes() {
 	a.echo.GET(accounts.AppletRoute, accnts.Applet, auth.AuthorizeMiddleware)
 
 	a.echo.GET(transactions.AppletRoute, trnsctns.Applet, auth.AuthorizeMiddleware)
+
+	a.echo.GET(budget.AppletRoute, bdgt.Applet, auth.AuthorizeMiddleware)
 
 	a.echo.GET("/", func(c echo.Context) error {
 		usr := c.Get(authentication.CurrentUserCtxKey).(models.User)

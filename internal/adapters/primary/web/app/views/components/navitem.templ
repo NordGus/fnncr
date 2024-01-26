@@ -1,10 +1,10 @@
 package components
 
-templ NavItem(name string) {
+templ NavItem(name string, route string) {
 	<li
 		class="rounded-lg border-button border-neutral-500 hover:border-neutral-400 hover:text-neutral-400 cursor-pointer"
 	>
-		<a class="py-1.5 px-3 block cursor-pointer">
+		<a hx-get={ route } hx-target="#app" class="py-1.5 px-3 block cursor-pointer">
 			{ name }
 		</a>
 	</li>

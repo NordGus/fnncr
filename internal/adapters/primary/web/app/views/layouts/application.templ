@@ -18,11 +18,11 @@ templ Application(title string, user models.User) {
 							Sign Out
 						</a>
 					}
-					@components.NavItem("accounts")
-					@components.NavItem("transactions")
-					@components.NavItem("budget")
-					@components.NavItem("assets")
-					@components.NavItem("summary")
+					@components.NavItem("accounts", "/accounts")
+					//@components.NavItem("transactions")
+					//@components.NavItem("budget")
+					//@components.NavItem("assets")
+					//@components.NavItem("summary")
 				</ul>
 			</nav>
 			<div id="app" class="block p-0 m-0 min-h-full max-h-full overflow-y-auto">

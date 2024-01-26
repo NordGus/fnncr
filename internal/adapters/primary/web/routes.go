@@ -6,6 +6,7 @@ import (
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/budget"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/summary"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/transactions"
 	views "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/application"
 	"github.com/labstack/echo/v4"
@@ -18,6 +19,7 @@ func (a *App) setRoutes() {
 	trnsctns := transactions.New()
 	bdgt := budget.New()
 	assts := assets.New()
+	smmry := summary.New()
 
 	a.echo.Use(middleware.Logger())
 
@@ -34,6 +36,8 @@ func (a *App) setRoutes() {
 	a.echo.GET(budget.AppletRoute, bdgt.Applet, auth.AuthorizeMiddleware)
 
 	a.echo.GET(assets.AppletRoute, assts.Applet, auth.AuthorizeMiddleware)
+
+	a.echo.GET(summary.AppletRoute, smmry.Applet, auth.AuthorizeMiddleware)
 
 	a.echo.GET("/", func(c echo.Context) error {
 		usr := c.Get(authentication.CurrentUserCtxKey).(models.User)

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/accounts"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
 	views "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/application"
@@ -10,6 +11,7 @@ import (
 
 func (a *App) setRoutes() {
 	auth := authentication.New(a.AuthAPI)
+	accnts := accounts.New()
 
 	a.echo.Use(middleware.Logger())
 
@@ -18,6 +20,8 @@ func (a *App) setRoutes() {
 	a.echo.GET(authentication.LoginRoute, auth.LoginHandlerFunc)
 	a.echo.POST(authentication.SignInRoute, auth.SignInHandlerFunc)
 	a.echo.GET(authentication.SignOutRoute, auth.SignOutHandlerFunc, auth.AuthorizeMiddleware)
+
+	a.echo.GET(accounts.AppletRoute, accnts.Applet, auth.AuthorizeMiddleware)
 
 	a.echo.GET("/", func(c echo.Context) error {
 		usr := c.Get(authentication.CurrentUserCtxKey).(models.User)

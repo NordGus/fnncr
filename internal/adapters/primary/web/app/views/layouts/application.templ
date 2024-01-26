@@ -19,10 +19,10 @@ templ Application(title string, user models.User) {
 						</a>
 					}
 					@components.NavItem("accounts", "/accounts")
-					//@components.NavItem("transactions")
-					//@components.NavItem("budget")
-					//@components.NavItem("assets")
-					//@components.NavItem("summary")
+					@components.NavItem("transactions", "/transactions")
+					@components.NavItem("budget", "/budget")
+					@components.NavItem("assets", "/assets")
+					@components.NavItem("summary", "/summary")
 				</ul>
 			</nav>
 			<div id="app" class="block p-0 m-0 min-h-full max-h-full overflow-y-auto">

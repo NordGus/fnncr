@@ -1,19 +1,22 @@
 package accounts
 
 import (
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/shared"
 	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/accounts"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
 	"github.com/labstack/echo/v4"
 )
 
 func (h *handler) AppletHandlerFunc(c echo.Context) error {
+	ald := c.Get(shared.ALDContextKey).(layouts.ApplicationLayoutData)
 	p := view.Page{
-		Title: "Accounts",
+		Title: "accounts",
 		Sections: []view.Section{
-			{Title: "Personal", Id: "personal", FetchURL: PersonalAccountsRoute},
-			{Title: "Debts", Id: "debts", FetchURL: DebtAccountsRoute},
-			{Title: "External", Id: "external", FetchURL: ExternalAccountsRoute},
+			{Title: "personal", Id: "personal", FetchURL: PersonalAccountsRoute},
+			{Title: "debts", Id: "debts", FetchURL: DebtAccountsRoute},
+			{Title: "external", Id: "external", FetchURL: ExternalAccountsRoute},
 		},
 	}
 
-	return view.Applet(p).Render(c.Request().Context(), c.Response())
+	return view.Applet(ald, p).Render(c.Request().Context(), c.Response())
 }

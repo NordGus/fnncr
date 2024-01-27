@@ -37,7 +37,8 @@
         "zhuangtongfa.material-theme",
         "a-h.templ",
         "tamasfe.even-better-toml",
-        "Gruntfuggly.todo-tree"
+        "Gruntfuggly.todo-tree",
+        "sdras.night-owl"
       ],
       "settings": {
         "go.useLanguageServer": true,

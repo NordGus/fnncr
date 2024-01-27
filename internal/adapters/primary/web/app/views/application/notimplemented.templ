@@ -1,10 +1,13 @@
 package application
 
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
 
-templ NotImplemented(route string) {
-	<div class="p-2 inline-flex flex-col justify-center items-center min-h-full w-full">
-		@components.Heading1("This Section is not implemented yet")
-		@components.Heading5(route)
-	</div>
+templ NotImplemented(ald layouts.ApplicationLayoutData, route string) {
+	@layouts.Application(ald) {
+		<div class="p-2 inline-flex flex-col justify-center items-center min-h-full w-full">
+			@components.Heading1("This Section is not implemented yet")
+			@components.Heading5(route)
+		</div>
+	}
 }

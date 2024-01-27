@@ -14,8 +14,10 @@ templ NavItem(ni NavItemData) {
 			templ.KV("border-neutral-500", !ni.IsActive),
 			templ.KV("hover:border-neutral-400", !ni.IsActive),
 			templ.KV("hover:text-neutral-400", !ni.IsActive),
-			templ.KV("border-neutral-600", ni.IsActive),
-			templ.KV("bg-neutral-600", ni.IsActive),
+			templ.KV("border-neutral-300", ni.IsActive),
+			templ.KV("bg-neutral-300", ni.IsActive),
+			templ.KV("dark:border-neutral-600", ni.IsActive),
+			templ.KV("dark:bg-neutral-600", ni.IsActive),
 		}
 	>
 		<a
@@ -50,6 +52,7 @@ templ NavItemWithDropdown(nv NavItemWithDropdownData) {
 				"border-neutral-500",
 				"hover:border-neutral-400",
 				"cursor-pointer",
+				"[&_svg]:open:-rotate-180",
 			}
 			if nv.IsOpen {
 				open=""
@@ -73,7 +76,7 @@ templ NavItemWithDropdown(nv NavItemWithDropdownData) {
 						"transform",
 						"text-neutral-400",
 						"transition-all",
-						"duration-300",
+						"duration-200",
 					}
 					fill="none"
 					height="20"

@@ -10,5 +10,15 @@ import (
 func (h *handler) AppletHandlerFunc(c echo.Context) error {
 	ald := c.Get(shared.ALDContextKey).(layouts.ApplicationLayoutData)
 
+	ald.Title = "fnncr | assets"
+
+	for i := 0; i < len(ald.NavItems); i++ {
+		if ald.NavItems[i].Name == "assets" {
+			ald.NavItems[i].IsActive = true
+
+			break
+		}
+	}
+
 	return view.NotImplemented(ald, AppletRoute).Render(c.Request().Context(), c.Response())
 }

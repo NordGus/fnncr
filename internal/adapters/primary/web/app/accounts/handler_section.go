@@ -18,5 +18,15 @@ func (h *handler) AppletHandlerFunc(c echo.Context) error {
 		},
 	}
 
+	ald.Title = "fnncr | accounts"
+
+	for i := 0; i < len(ald.NavItems); i++ {
+		if ald.NavItems[i].Name == "accounts" {
+			ald.NavItems[i].IsActive = true
+
+			break
+		}
+	}
+
 	return view.Applet(ald, p).Render(c.Request().Context(), c.Response())
 }

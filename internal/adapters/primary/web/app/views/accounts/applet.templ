@@ -14,6 +14,8 @@ type Section struct {
 	Title    string
 	Id       string
 	FetchURL string
+	ColSpan  uint
+	RowSpan  uint
 }
 
 type Page struct {
@@ -26,7 +28,7 @@ templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 	@layouts.Application(ald) {
 		<div class="p-2 flex flex-col min-h-full max-h-full w-full">
 			@components.Heading1(p.Title)
-			<div class="flex gap-2 my-5">
+			<div class="grid grid-cols-3 gap-4 mt-3 mb-2">
 				// TODO(#1): Research what number type use to handle money.
 				// TODO(#2): Make dynamic and move to a component.
 				<div class="py-1.5 px-2 flex-1 flex justify-between rounded-lg bg-green-600 text-neutral-100">
@@ -44,18 +46,44 @@ templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 					<span>2,433.99</span>
 				</div>
 			</div>
-			<div class="flex-1 flex gap-2 mt-2">
-				for _, section := range p.Sections {
-					<div class="flex-1 flex flex-col min-h-full max-h-full">
-						@components.Heading3(section.Title)
+			<div class="flex-1 grid grid-cols-4 grid-rows-2 gap-4 mt-2">
+				for _, sect := range p.Sections {
+					if sect.Id == "external" {
+						<section
+							class={
+								"flex",
+								"flex-col",
+								"row-span-2",
+							}
+						>
+							<div>
+								@components.Heading4("select an account to edit")
+							</div>
+						</section>
+					}
+					<section
+						class={
+							"flex",
+							"flex-col",
+							templ.KV("col-span-2", sect.ColSpan == 2),
+							templ.KV("col-span-3", sect.ColSpan == 3),
+							templ.KV("row-span-2", sect.RowSpan == 2),
+						}
+					>
+						@components.Heading3(sect.Title)
 						<div
-							id={ section.Id }
-							hx-get={ section.FetchURL }
+							id={ sect.Id }
+							hx-get={ sect.FetchURL }
 							hx-trigger="load"
-							hx-target={ fmt.Sprintf("#%s", section.Id) }
-							class="flex-1 overflow-y-scroll"
+							hx-target={ fmt.Sprintf("#%s", sect.Id) }
+							class={
+								"flex-1",
+								"mt-3",
+								"overflow-y-scroll",
+								"bg-neutral-500",
+							}
 						></div>
-					</div>
+					</section>
 				}
 			</div>
 		</div>

@@ -12,9 +12,28 @@ func (h *handler) AppletHandlerFunc(c echo.Context) error {
 	p := view.Page{
 		Title: "accounts",
 		Sections: []view.Section{
-			{Title: "personal", Id: "personal", FetchURL: PersonalAccountsRoute},
-			{Title: "debts", Id: "debts", FetchURL: DebtAccountsRoute},
-			{Title: "external", Id: "external", FetchURL: ExternalAccountsRoute},
+			{
+				Title:    "personal",
+				Id:       "personal",
+				FetchURL: PersonalAccountsRoute,
+				RowSpan:  2,
+			},
+			{
+				Title:    "saving goals",
+				Id:       "saving_goals",
+				FetchURL: SavingGoalsAccountsRoute,
+			},
+			{
+				Title:    "debts",
+				Id:       "debts",
+				FetchURL: DebtAccountsRoute,
+			},
+			{
+				Title:    "external",
+				Id:       "external",
+				FetchURL: ExternalAccountsRoute,
+				ColSpan:  2,
+			},
 		},
 	}
 

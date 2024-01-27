@@ -43,7 +43,7 @@
       ],
       "settings": {
         "go.useLanguageServer": true,
-        "workbench.colorTheme": "One Dark Pro Darker",
+        "workbench.colorTheme": "Night Owl Light",
         "editor.rulers": [
           80,
           120

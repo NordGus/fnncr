@@ -9,6 +9,8 @@ import (
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/summary"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/transactions"
 	views "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/application"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -40,8 +42,23 @@ func (a *App) setRoutes() {
 	a.echo.GET(summary.AppletRoute, smmry.AppletHandlerFunc, auth.AuthorizeMiddleware)
 
 	a.echo.GET("/", func(c echo.Context) error {
-		usr := c.Get(authentication.CurrentUserCtxKey).(models.User)
+		ald := layouts.ApplicationLayoutData{
+			Title: "fnncr",
+			UserOptionNave: components.NavItemWithDropdownData{
+				Name: c.Get(authentication.CurrentUserCtxKey).(models.User).Username,
+				Options: []components.NavItemData{
+					{Name: "Sign Out", Route: authentication.SignOutRoute},
+				},
+			},
+			NavItems: []components.NavItemData{
+				{Name: "accounts", Route: accounts.AppletRoute},
+				{Name: "transactions", Route: transactions.AppletRoute},
+				{Name: "budget", Route: budget.AppletRoute},
+				{Name: "assets", Route: assets.AppletRoute},
+				{Name: "summary", Route: summary.AppletRoute},
+			},
+		}
 
-		return views.Root(usr).Render(c.Request().Context(), c.Response())
+		return views.Root(ald).Render(c.Request().Context(), c.Response())
 	}, auth.AuthorizeMiddleware)
 }

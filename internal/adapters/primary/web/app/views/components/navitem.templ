@@ -8,9 +8,28 @@ type NavItemData struct {
 
 templ NavItem(ni NavItemData) {
 	<li
-		class={ "rounded-lg", "border-button", "border-neutral-500", "hover:border-neutral-400", "hover:text-neutral-400", "cursor-pointer" }
+		class={
+			"rounded-lg",
+			"border-button",
+			templ.KV("border-neutral-500", !ni.IsActive),
+			templ.KV("hover:border-neutral-400", !ni.IsActive),
+			templ.KV("hover:text-neutral-400", !ni.IsActive),
+			templ.KV("border-neutral-600", ni.IsActive),
+			templ.KV("bg-neutral-600", ni.IsActive),
+		}
 	>
-		<a hx-get={ ni.Route } hx-target="#app" class="py-1.5 px-3 block cursor-pointer">
+		<a
+			if !ni.IsActive {
+				href={ templ.SafeURL(ni.Route) }
+			}
+			class={
+				"py-1.5",
+				"px-3",
+				"block",
+				templ.KV("cursor-pointer", !ni.IsActive),
+				templ.KV("cursor-default", ni.IsActive),
+			}
+		>
 			{ ni.Name }
 		</a>
 	</li>
@@ -25,19 +44,71 @@ type NavItemWithDropdownData struct {
 templ NavItemWithDropdown(nv NavItemWithDropdownData) {
 	<li>
 		<details
-			class="rounded-lg border-button border-neutral-500 hover:border-neutral-400 cursor-pointer [&_svg]:open:-rotate-180"
+			class={
+				"rounded-lg",
+				"border-button",
+				"border-neutral-500",
+				"hover:border-neutral-400",
+				"cursor-pointer",
+			}
+			if nv.IsOpen {
+				open=""
+			}
 		>
-			<summary class="flex py-1.5 px-3 justify-between items-center cursor-pointer list-none hover:text-neutral-400">
-				<svg class="rotate-0 transform text-neutral-400 transition-all duration-300" fill="none" height="20" width="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+			<summary
+				class={
+					"flex",
+					"py-1.5",
+					"px-3",
+					"justify-between",
+					"items-center",
+					"cursor-pointer",
+					"list-none",
+					"hover:text-neutral-400",
+				}
+			>
+				<svg
+					class={
+						"rotate-0",
+						"transform",
+						"text-neutral-400",
+						"transition-all",
+						"duration-300",
+					}
+					fill="none"
+					height="20"
+					width="20"
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					viewBox="0 0 24 24"
+				>
 					<polyline points="6 9 12 15 18 9"></polyline>
 				</svg>
 				<div>{ nv.Name }</div>
 			</summary>
-			<div class="border-t-button border-neutral-500 hover:text-neutral-400">
-				for _, option := range nv.Options {
+			<div
+				class={
+					"border-t-button",
+					"border-neutral-500",
+				}
+			>
+				for i, option := range nv.Options {
 					<a
-						href={ templ.SafeURL(option.Route) }
-						class="py-1.5 px-3 block cursor-pointer"
+						if !option.IsActive {
+							href={ templ.SafeURL(option.Route) }
+						}
+						class={
+							"py-1.5",
+							"px-3",
+							"block",
+							templ.KV("rounded-b-lg", i == len(nv.Options)-1),
+							templ.KV("bg-neutral-600", option.IsActive),
+							templ.KV("hover:text-neutral-400", !option.IsActive),
+							templ.KV("cursor-pointer", !option.IsActive),
+							templ.KV("cursor-default", option.IsActive),
+						}
 					>
 						{ option.Name }
 					</a>

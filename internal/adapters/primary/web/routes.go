@@ -82,7 +82,7 @@ func applicationLayoutLoaderMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 				UserOptionNave: components.NavItemWithDropdownData{
 					Name: c.Get(authentication.CurrentUserCtxKey).(models.User).Username,
 					Options: []components.NavItemData{
-						{Name: "Sign Out", Route: authentication.SignOutRoute},
+						{Name: "sign out", Route: authentication.SignOutRoute},
 					},
 				},
 				NavItems: []components.NavItemData{

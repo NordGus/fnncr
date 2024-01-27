@@ -11,17 +11,17 @@ templ form(f FormLogin) {
 	<form hx-post={ f.ActionURL } hx-target="#login-form" hx-swap="outerHTML" class="w-[400px] my-5">
 		if f.Failed {
 			<div class="py-1.5 px-3 flex justify-center rounded bg-red-200 text-red-600">
-				<p>Invalid Credentials</p>
+				<p>invalid credentials</p>
 			</div>
 		}
 		<div class="flex justify-between my-3">
-			<label for="username">Username</label>
+			<label for="username">username</label>
 			<input type="text" name="username" id="username" class="w-[75%]" value={ f.Username }/>
 		</div>
 		<div class="flex justify-between my-3">
-			<label for="password">Password</label>
+			<label for="password">password</label>
 			<input type="password" name="password" id="password" class="w-[75%]" value={ f.Password }/>
 		</div>
-		<input type="submit" value="Log In" class="w-full"/>
+		<input type="submit" value="sign in" class="w-full"/>
 	</form>
 }

@@ -11,13 +11,11 @@ templ NavItem(ni NavItemData) {
 		class={
 			"rounded-lg",
 			"border-button",
-			templ.KV("border-neutral-500", !ni.IsActive),
-			templ.KV("hover:border-neutral-400", !ni.IsActive),
-			templ.KV("hover:text-neutral-400", !ni.IsActive),
-			templ.KV("border-neutral-300", ni.IsActive),
+			"border-neutral-500",
+			"hover:border-neutral-400",
 			templ.KV("bg-neutral-300", ni.IsActive),
-			templ.KV("dark:border-neutral-600", ni.IsActive),
 			templ.KV("dark:bg-neutral-600", ni.IsActive),
+			templ.KV("hover:text-neutral-400", !ni.IsActive),
 		}
 	>
 		<a
@@ -53,6 +51,7 @@ templ NavItemWithDropdown(nv NavItemWithDropdownData) {
 				"hover:border-neutral-400",
 				"cursor-pointer",
 				"[&_svg]:open:-rotate-180",
+				"overflow-clip",
 			}
 			if nv.IsOpen {
 				open=""
@@ -97,7 +96,7 @@ templ NavItemWithDropdown(nv NavItemWithDropdownData) {
 					"border-neutral-500",
 				}
 			>
-				for i, option := range nv.Options {
+				for _, option := range nv.Options {
 					<a
 						if !option.IsActive {
 							href={ templ.SafeURL(option.Route) }
@@ -106,9 +105,9 @@ templ NavItemWithDropdown(nv NavItemWithDropdownData) {
 							"py-1.5",
 							"px-3",
 							"block",
-							templ.KV("rounded-b-lg", i == len(nv.Options)-1),
-							templ.KV("bg-neutral-600", option.IsActive),
 							templ.KV("hover:text-neutral-400", !option.IsActive),
+							templ.KV("bg-neutral-300", option.IsActive),
+							templ.KV("dark:bg-neutral-600", option.IsActive),
 							templ.KV("cursor-pointer", !option.IsActive),
 							templ.KV("cursor-default", option.IsActive),
 						}

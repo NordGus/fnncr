@@ -38,7 +38,8 @@
         "a-h.templ",
         "tamasfe.even-better-toml",
         "Gruntfuggly.todo-tree",
-        "sdras.night-owl"
+        "sdras.night-owl",
+        "eamodio.gitlens"
       ],
       "settings": {
         "go.useLanguageServer": true,

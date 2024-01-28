@@ -8,7 +8,11 @@ module.exports = {
     },
     extend: {
       gridTemplateColumns: {
-        'layout': '10vw 1fr'
+        'layout': '10vw 1fr',
+        'accounts': '1fr 35vw'
+      },
+      gridTemplateRows: {
+        'accounts': "min-content 1fr"
       },
       borderWidth: {
         'button': '1px'

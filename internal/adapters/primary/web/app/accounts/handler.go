@@ -26,6 +26,7 @@ const (
 
 type Handler interface {
 	AppletHandlerFunc(c echo.Context) error
+	PersonalAccountsHandlerFunc(c echo.Context) error
 }
 
 type handler struct {

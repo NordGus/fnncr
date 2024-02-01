@@ -19,15 +19,15 @@ func (h *handler) AppletHandlerFunc(c echo.Context) error {
 				RowSpan:  3,
 			},
 			{
-				Title:    "saving goals",
-				Id:       "saving_goals",
-				FetchURL: SavingGoalsAccountsRoute,
-				RowSpan:  2,
-			},
-			{
 				Title:    "debts",
 				Id:       "debts",
 				FetchURL: DebtAccountsRoute,
+				RowSpan:  2,
+			},
+			{
+				Title:    "saving goals",
+				Id:       "saving_goals",
+				FetchURL: SavingGoalsAccountsRoute,
 				RowSpan:  2,
 			},
 			{

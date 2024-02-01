@@ -64,45 +64,40 @@ templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 					</div>
 				</div>
 				<div
-					class={
-						"flex",
-						"flex-col",
-						"row-span-2",
-					}
+					class={ "flex flex-col row-span-2 overflow-y-scroll", }
+					id={ "selected-acount" }
 				>
-					<div>
-						@components.Heading4("select an account to edit")
+					<div class="flex-1 flex justify-center items-center">
+						@components.Heading4("no account selected")
 					</div>
 				</div>
 				<div class="flex-1 grid grid-cols-3 grid-rows-3 gap-4">
 					for _, sect := range p.Sections {
-						<section
-							class={
-								"flex",
-								"flex-col",
-								templ.KV("col-span-2", sect.ColSpan == 2),
-								templ.KV("col-span-3", sect.ColSpan == 3),
-								templ.KV("row-span-2", sect.RowSpan == 2),
-								templ.KV("row-span-3", sect.RowSpan == 3),
-							}
-						>
-							@components.Heading3(sect.Title)
-							<div
-								id={ sect.Id }
-								hx-get={ sect.FetchURL }
-								hx-trigger="load"
-								hx-target={ fmt.Sprintf("#%s", sect.Id) }
-								class={
-									"flex-1",
-									"mt-3",
-									"overflow-y-scroll",
-									"bg-neutral-500",
-								}
-							></div>
-						</section>
+						@section(sect)
 					}
 				</div>
 			</div>
 		</div>
 	}
+}
+
+templ section(sect Section) {
+	<section
+		class={
+			"flex flex-col",
+			templ.KV("col-span-2", sect.ColSpan == 2),
+			templ.KV("col-span-3", sect.ColSpan == 3),
+			templ.KV("row-span-2", sect.RowSpan == 2),
+			templ.KV("row-span-3", sect.RowSpan == 3),
+		}
+	>
+		@components.Heading3(sect.Title)
+		<div
+			id={ sect.Id }
+			hx-get={ sect.FetchURL }
+			hx-trigger="load"
+			hx-target={ fmt.Sprintf("#%s", sect.Id) }
+			class={ "flex-1 mt-3 overflow-y-scroll", }
+		></div>
+	</section>
 }

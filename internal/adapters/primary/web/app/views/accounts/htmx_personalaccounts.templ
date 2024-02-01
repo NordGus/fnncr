@@ -15,9 +15,47 @@ templ PersonalAccounts[T Account](acc []T) {
 }
 
 templ account(acc Account) {
-	<div>
-		<span>Type: { acc.Type() }</span>
-		<span>Name: { acc.Name() }</span>
-		<span>Balance: { acc.Balance() }</span>
+	<div
+		class={
+			"mb-2",
+			"grid grid-cols-account-preview grid-rows-account-preview gap-2",
+			"border-button border-neutral-50 rounded-lg",
+			"overflow-clip",
+		}
+	>
+		switch acc.Type() {
+			case "normal":
+				@normalAccount(acc)
+			case "savings":
+				@savingsAccount(acc)
+			default:
+				<div>Unsupported Type</div>
+		}
 	</div>
+}
+
+templ normalAccount(acc Account) {
+	<div
+		class={
+			"row-span-2 w-[3.5rem] flex justify-center items-center",
+			"bg-neutral-50 text-neutral-950",
+		}
+	>
+		<span class="text-4xl">€</span>
+	</div>
+	<span>{ acc.Name() }</span>
+	<span>{ acc.Balance() }</span>
+}
+
+templ savingsAccount(acc Account) {
+	<div
+		class={
+			"row-span-2 w-[3.5rem] flex justify-center items-center",
+			"bg-neutral-50 text-neutral-950",
+		}
+	>
+		<span class="text-4xl">S</span>
+	</div>
+	<span>{ acc.Name() }</span>
+	<span>{ acc.Balance() }</span>
 }

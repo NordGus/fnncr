@@ -38,6 +38,11 @@ func (a *App) setRoutes() {
 		auth.AuthorizeMiddleware,
 		applicationLayoutLoaderMiddleware,
 	)
+	a.echo.GET(
+		accounts.PersonalAccountsRoute,
+		accnts.PersonalAccountsHandlerFunc,
+		auth.AuthorizeMiddleware,
+	)
 
 	a.echo.GET(
 		transactions.AppletRoute,

@@ -1,0 +1,23 @@
+package accounts
+
+type Account interface {
+	Type() string
+	Name() string
+	Balance() string
+}
+
+templ PersonalAccounts[T Account](acc []T) {
+	<div id="personal">
+		for _, ac := range acc {
+			@account(ac)
+		}
+	</div>
+}
+
+templ account(acc Account) {
+	<div>
+		<span>Type: { acc.Type() }</span>
+		<span>Name: { acc.Name() }</span>
+		<span>Balance: { acc.Balance() }</span>
+	</div>
+}

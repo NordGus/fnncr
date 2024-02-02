@@ -1,7 +1,6 @@
 package accounts
 
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
-import "fmt"
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
 
 type Summary struct {
@@ -96,7 +95,6 @@ templ section(sect Section) {
 			id={ sect.Id }
 			hx-get={ sect.FetchURL }
 			hx-trigger="load"
-			hx-target={ fmt.Sprintf("#%s", sect.Id) }
 			class={ "flex-1 mt-3 overflow-y-scroll", }
 		></div>
 	</section>

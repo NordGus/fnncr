@@ -1,9 +1,12 @@
 package accounts
 
+import "fmt"
+
 type Account interface {
 	Type() string
 	Name() string
 	Balance() string
+	Covered() int16
 }
 
 templ account(acc Account) {
@@ -20,6 +23,8 @@ templ account(acc Account) {
 				@normalAccount(acc)
 			case "savings":
 				@savingsAccount(acc)
+			case "loan":
+				@loanAccount(acc)
 			default:
 				<div>Unsupported Type</div>
 		}
@@ -47,6 +52,74 @@ templ savingsAccount(acc Account) {
 		}
 	>
 		<span class="text-4xl">S</span>
+	</div>
+	<span>{ acc.Name() }</span>
+	<span>{ acc.Balance() }</span>
+}
+
+templ loanAccount(acc Account) {
+	<div
+		class={
+			"row-span-2",
+			"w-[3.5rem]",
+			"relative",
+			"bg-neutral-50 text-neutral-950",
+		}
+	>
+		if acc.Covered() < 100 {
+			<span
+				class={
+					"absolute bottom-0 top-0 right-0 left-0",
+					"flex justify-center items-center",
+				}
+			>
+				<svg
+					class="rotate-[270deg]"
+					viewBox="0 0 100 100"
+					width="50"
+					height="50"
+					stroke="currentColor"
+					fill="none"
+					stroke-width="10"
+				>
+					<circle
+						cx="50"
+						cy="50"
+						r="45"
+						stroke-dasharray="300"
+						stroke-dashoffset={ fmt.Sprintf("%d", 300-int64(float64(acc.Covered())/100*300)) }
+					></circle>
+				</svg>
+			</span>
+			<span
+				class={
+					"absolute bottom-0 top-0 right-0 left-0",
+					"flex justify-center items-center",
+				}
+			>
+				<span class="text-2xl">{ fmt.Sprintf("%d", acc.Covered()) }</span>
+			</span>
+		} else {
+			<span
+				class={
+					"absolute bottom-0 top-0 right-0 left-0",
+					"flex justify-center items-center",
+				}
+			>
+				<svg
+					fill="none"
+					height="35"
+					width="35"
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="10"
+					viewBox="60 60 60 60"
+				>
+					<polyline points="65 90 85 110 115 70"></polyline>
+				</svg>
+			</span>
+		}
 	</div>
 	<span>{ acc.Name() }</span>
 	<span>{ acc.Balance() }</span>

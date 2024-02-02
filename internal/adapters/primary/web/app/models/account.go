@@ -9,10 +9,10 @@ type Account struct {
 
 const (
 	NormalAccount   AccountType = "normal"
-	SavingsAccount              = "savings"
-	LoanAccount                 = "loan"
-	CreditAccount               = "credit"
-	ExternalAccount             = "external"
+	SavingsAccount  AccountType = "savings"
+	LoanAccount     AccountType = "loan"
+	CreditAccount   AccountType = "credit"
+	ExternalAccount AccountType = "external"
 )
 
 func (a Account) Type() string {
@@ -25,4 +25,8 @@ func (a Account) Name() string {
 
 func (a Account) Balance() string {
 	return "420.69"
+}
+
+func (a Account) Covered() int16 {
+	return 37
 }

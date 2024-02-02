@@ -1,0 +1,9 @@
+package accounts
+
+templ DebtAccounts[T Account](acc []T) {
+	<div id="debts">
+		for _, ac := range acc {
+			@account(ac)
+		}
+	</div>
+}

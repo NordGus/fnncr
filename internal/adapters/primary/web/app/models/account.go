@@ -10,7 +10,8 @@ type Account struct {
 const (
 	NormalAccount   AccountType = "normal"
 	SavingsAccount              = "savings"
-	DebtAccount                 = "debt"
+	LoanAccount                 = "loan"
+	CreditAccount               = "credit"
 	ExternalAccount             = "external"
 )
 

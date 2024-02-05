@@ -9,7 +9,7 @@ import (
 func (h *handler) DebtAccountsHandlerFunc(c echo.Context) error {
 	acc := []models.Account{
 		{AccType: models.LoanAccount, DisplayName: "Car Loan"},
-		{AccType: models.LoanAccount, DisplayName: "Laptop Loan"},
+		{AccType: models.LoanAccount, DisplayName: "Loan to friendly business"},
 		{AccType: models.CreditAccount, DisplayName: "Credit Card"},
 		{AccType: models.CreditAccount, DisplayName: "Credit Line"},
 	}

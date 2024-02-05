@@ -24,9 +24,21 @@ func (a Account) Name() string {
 }
 
 func (a Account) Balance() string {
+	if a.AccType == CreditAccount {
+		return "-1,337.00"
+	}
+
+	return "420.69"
+}
+
+func (a Account) Available() string {
 	return "420.69"
 }
 
 func (a Account) Covered() int16 {
-	return 37
+	if a.AccType == CreditAccount {
+		return 100
+	}
+
+	return 42
 }

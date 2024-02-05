@@ -5,8 +5,9 @@ import "fmt"
 type Account interface {
 	Type() string
 	Name() string
-	Balance() string
 	Covered() int16
+	Balance() string
+	Available() string
 }
 
 templ account(acc Account) {
@@ -25,6 +26,8 @@ templ account(acc Account) {
 				@savingsAccount(acc)
 			case "loan":
 				@loanAccount(acc)
+			case "credit":
+				@creditAccount(acc)
 			default:
 				<div>Unsupported Type</div>
 		}
@@ -40,8 +43,10 @@ templ normalAccount(acc Account) {
 	>
 		<span class="text-4xl">€</span>
 	</div>
-	<span>{ acc.Name() }</span>
-	<span>{ acc.Balance() }</span>
+	<h3>{ acc.Name() }</h3>
+	<div class="flex flex-row-reverse justify-between items-center pr-2">
+		<span>{ acc.Balance() }</span>
+	</div>
 }
 
 templ savingsAccount(acc Account) {
@@ -53,8 +58,10 @@ templ savingsAccount(acc Account) {
 	>
 		<span class="text-4xl">S</span>
 	</div>
-	<span>{ acc.Name() }</span>
-	<span>{ acc.Balance() }</span>
+	<h3>{ acc.Name() }</h3>
+	<div class="flex flex-row-reverse justify-between items-center pr-2">
+		<span>{ acc.Balance() }</span>
+	</div>
 }
 
 templ loanAccount(acc Account) {
@@ -121,6 +128,62 @@ templ loanAccount(acc Account) {
 			</span>
 		}
 	</div>
-	<span>{ acc.Name() }</span>
-	<span>{ acc.Balance() }</span>
+	<h3>{ acc.Name() }</h3>
+	<div class="flex flex-row-reverse justify-between items-center pr-2">
+		<span>{ acc.Balance() }</span>
+	</div>
+}
+
+templ creditAccount(acc Account) {
+	<div
+		class={
+			"row-span-2",
+			"w-[3.5rem]",
+			"relative",
+			"bg-neutral-50 text-neutral-950",
+		}
+	>
+		<span
+			class={
+				"absolute bottom-0 top-0 right-0 left-0",
+				"flex justify-center items-center",
+			}
+		>
+			<svg
+				class="rotate-[270deg]"
+				viewBox="0 0 100 100"
+				width="50"
+				height="50"
+				stroke="currentColor"
+				fill="none"
+				stroke-width="10"
+			>
+				<circle
+					cx="50"
+					cy="50"
+					r="45"
+					stroke-dasharray="300"
+					stroke-dashoffset={ fmt.Sprintf("%d", 300-int64(float64(acc.Covered())/100*300)) }
+				></circle>
+			</svg>
+		</span>
+		<span
+			class={
+				"absolute bottom-0 top-0 right-0 left-0",
+				"flex justify-center items-center",
+			}
+		>
+			<span
+				class={
+					templ.KV("text-2xl", acc.Covered() < 100),
+					templ.KV("text-xl", acc.Covered() >= 100),
+				}
+			>{ fmt.Sprintf("%d", acc.Covered()) }</span>
+		</span>
+	</div>
+	<h3>{ acc.Name() }</h3>
+	<div class="flex flex-row-reverse justify-between items-center pr-2">
+		<span>{ acc.Available() }</span>
+		<span>{ acc.Balance() }</span>
+	</div>
 }

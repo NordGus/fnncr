@@ -27,6 +27,7 @@ const (
 type Handler interface {
 	AppletHandlerFunc(c echo.Context) error
 	PersonalAccountsHandlerFunc(c echo.Context) error
+	SavingGoalsHandlerFunc(c echo.Context) error
 	DebtAccountsHandlerFunc(c echo.Context) error
 }
 

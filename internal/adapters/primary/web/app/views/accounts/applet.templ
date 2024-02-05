@@ -26,7 +26,7 @@ type Page struct {
 templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 	@layouts.Application(ald) {
 		<div class="p-2 flex flex-col min-h-full max-h-full">
-			@components.Heading1(p.Title)
+			@components.Heading1(p.Title, false)
 			<div
 				class={
 					"flex-1",
@@ -67,7 +67,7 @@ templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 					id={ "selected-acount" }
 				>
 					<div class="flex-1 flex justify-center items-center">
-						@components.Heading4("no account selected")
+						@components.Heading4("no account selected", true)
 					</div>
 				</div>
 				<div class="flex-1 grid grid-cols-3 grid-rows-3 gap-4">
@@ -90,7 +90,7 @@ templ section(sect Section) {
 			templ.KV("row-span-3", sect.RowSpan == 3),
 		}
 	>
-		@components.Heading3(sect.Title)
+		@components.Heading3(sect.Title, false)
 		<div
 			id={ sect.Id }
 			hx-get={ sect.FetchURL }

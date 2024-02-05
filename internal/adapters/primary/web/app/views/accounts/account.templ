@@ -1,6 +1,7 @@
 package accounts
 
 import "fmt"
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
 
 type Account interface {
 	Type() string
@@ -43,7 +44,7 @@ templ normalAccount(acc Account) {
 	>
 		<span class="text-4xl">€</span>
 	</div>
-	<h3>{ acc.Name() }</h3>
+	@components.Heading5(acc.Name(), true)
 	<div class="flex flex-row-reverse justify-between items-center pr-2">
 		<span>{ acc.Balance() }</span>
 	</div>
@@ -58,7 +59,7 @@ templ savingsAccount(acc Account) {
 	>
 		<span class="text-4xl">S</span>
 	</div>
-	<h3>{ acc.Name() }</h3>
+	@components.Heading5(acc.Name(), true)
 	<div class="flex flex-row-reverse justify-between items-center pr-2">
 		<span>{ acc.Balance() }</span>
 	</div>
@@ -104,7 +105,7 @@ templ loanAccount(acc Account) {
 					"flex justify-center items-center",
 				}
 			>
-				<span class="text-2xl">{ fmt.Sprintf("%d", acc.Covered()) }</span>
+				<span class="text-xl">{ fmt.Sprintf("%d", acc.Covered()) }</span>
 			</span>
 		} else {
 			<span
@@ -128,7 +129,7 @@ templ loanAccount(acc Account) {
 			</span>
 		}
 	</div>
-	<h3>{ acc.Name() }</h3>
+	@components.Heading5(acc.Name(), true)
 	<div class="flex flex-row-reverse justify-between items-center pr-2">
 		<span>{ acc.Balance() }</span>
 	</div>
@@ -181,7 +182,7 @@ templ creditAccount(acc Account) {
 			>{ fmt.Sprintf("%d", acc.Covered()) }</span>
 		</span>
 	</div>
-	<h3>{ acc.Name() }</h3>
+	@components.Heading5(acc.Name(), true)
 	<div class="flex flex-row-reverse justify-between items-center pr-2">
 		<span>{ acc.Available() }</span>
 		<span>{ acc.Balance() }</span>

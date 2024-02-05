@@ -6,8 +6,8 @@ import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/compone
 templ Root(ald layouts.ApplicationLayoutData) {
 	@layouts.Application(ald) {
 		<div class="p-2 inline-flex flex-col justify-center items-center min-h-full w-full">
-			@components.Heading1("Welcome to fnncr")
-			@components.Heading5("your personal finances helper")
+			@components.Heading1("Welcome to fnncr", false)
+			@components.Heading5("your personal finances helper", true)
 		</div>
 	}
 }

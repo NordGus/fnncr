@@ -1,0 +1,9 @@
+package accounts
+
+templ ExternalAccounts[T Account](acc []T) {
+	<div id="external">
+		for _, ac := range acc {
+			@account(ac)
+		}
+	</div>
+}

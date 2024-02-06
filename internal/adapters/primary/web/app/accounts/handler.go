@@ -29,6 +29,7 @@ type Handler interface {
 	PersonalAccountsHandlerFunc(c echo.Context) error
 	SavingGoalsHandlerFunc(c echo.Context) error
 	DebtAccountsHandlerFunc(c echo.Context) error
+	ExternalAccountsHandlerFunc(c echo.Context) error
 }
 
 type handler struct {

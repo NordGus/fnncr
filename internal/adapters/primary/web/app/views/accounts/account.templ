@@ -29,6 +29,8 @@ templ account(acc Account) {
 				@loanAccount(acc)
 			case "credit":
 				@creditAccount(acc)
+			case "external":
+				@externalAccount(acc)
 			default:
 				<div>Unsupported Type</div>
 		}
@@ -191,4 +193,17 @@ templ creditAccount(acc Account) {
 			}
 		</span>
 	</div>
+}
+
+templ externalAccount(acc Account) {
+	<div
+		class={
+			"row-span-2 w-[3.5rem] flex justify-center items-center",
+			"bg-neutral-50 text-neutral-950",
+		}
+	>
+		<span class="text-4xl">EX</span>
+	</div>
+	@components.Heading5(acc.Name(), true)
+	<div class="flex flex-row-reverse justify-between items-center pr-2"></div>
 }

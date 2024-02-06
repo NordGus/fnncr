@@ -1,0 +1,91 @@
+package accounts
+
+import "fmt"
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+
+type SavingGoal interface {
+	Name() string
+	Covered() int16
+	Balance() string
+	Remaining() string
+}
+
+templ savingGoal(goal SavingGoal) {
+	<div
+		class={
+			"mb-2",
+			"grid grid-cols-account-preview grid-rows-account-preview gap-2",
+			"border-button border-neutral-50 rounded-lg",
+			"overflow-clip",
+		}
+	>
+		<div
+			class={
+				"row-span-2",
+				"w-[3.5rem]",
+				"relative",
+				"bg-neutral-50 text-neutral-950",
+			}
+		>
+			if goal.Covered() < 100 {
+				<span
+					class={
+						"absolute bottom-0 top-0 right-0 left-0",
+						"flex justify-center items-center",
+					}
+				>
+					<svg
+						class="rotate-[270deg]"
+						viewBox="0 0 100 100"
+						width="50"
+						height="50"
+						stroke="currentColor"
+						fill="none"
+						stroke-width="10"
+					>
+						<circle
+							cx="50"
+							cy="50"
+							r="45"
+							stroke-dasharray="300"
+							stroke-dashoffset={ fmt.Sprintf("%d", 300-int64(float64(goal.Covered())/100*300)) }
+						></circle>
+					</svg>
+				</span>
+				<span
+					class={
+						"absolute bottom-0 top-0 right-0 left-0",
+						"flex justify-center items-center",
+					}
+				>
+					<span class="text-xl">{ fmt.Sprintf("%d", goal.Covered()) }</span>
+				</span>
+			} else {
+				<span
+					class={
+						"absolute bottom-0 top-0 right-0 left-0",
+						"flex justify-center items-center",
+					}
+				>
+					<svg
+						fill="none"
+						height="35"
+						width="35"
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="10"
+						viewBox="60 60 60 60"
+					>
+						<polyline points="65 90 85 110 115 70"></polyline>
+					</svg>
+				</span>
+			}
+		</div>
+		@components.Heading5(goal.Name(), true)
+		<div class="flex flex-row-reverse justify-between items-center pr-2">
+			<span>{ goal.Remaining() }</span>
+			<span>{ goal.Balance() }</span>
+		</div>
+	</div>
+}

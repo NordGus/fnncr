@@ -1,10 +1,17 @@
 package models
 
+import (
+	"fmt"
+	"math"
+)
+
 type AccountType string
 
 type Account struct {
-	AccType     AccountType
-	DisplayName string
+	AccType        AccountType
+	DisplayName    string
+	CurrentBalance int64
+	Limit          int64
 }
 
 const (
@@ -24,21 +31,20 @@ func (a Account) Name() string {
 }
 
 func (a Account) Balance() string {
-	if a.AccType == CreditAccount {
-		return "-1,337.00"
-	}
-
-	return "420.69"
+	return fmt.Sprintf("%d", a.CurrentBalance)
 }
 
 func (a Account) Available() string {
-	return "420.69"
+	return fmt.Sprintf("%d", a.Limit-a.CurrentBalance)
 }
 
 func (a Account) Covered() int16 {
-	if a.AccType == CreditAccount {
+	switch a.AccType {
+	case NormalAccount, SavingsAccount, ExternalAccount:
 		return 100
+	case CreditAccount:
+		return int16((math.Floor(float64(a.Limit-a.CurrentBalance) / float64(a.Limit) * 100.0)))
+	default:
+		return int16((math.Floor(float64(a.CurrentBalance) / float64(a.Limit) * 100.0)))
 	}
-
-	return 42
 }

@@ -1,9 +1,7 @@
 package accounts
 
 templ SavingGoals[T SavingGoal](goals []T) {
-	<div id="saving_goals">
-		for _, goal := range goals {
-			@savingGoal(goal)
-		}
-	</div>
+	for _, goal := range goals {
+		@savingGoal(goal)
+	}
 }

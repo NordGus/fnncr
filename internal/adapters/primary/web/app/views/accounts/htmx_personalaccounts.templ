@@ -1,9 +1,7 @@
 package accounts
 
 templ PersonalAccounts[T Account](acc []T) {
-	<div id="personal">
-		for _, ac := range acc {
-			@account(ac)
-		}
-	</div>
+	for _, ac := range acc {
+		@account(ac)
+	}
 }

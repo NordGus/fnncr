@@ -10,16 +10,16 @@ type ApplicationLayoutData struct {
 
 templ Application(layout ApplicationLayoutData) {
 	@base(layout.Title) {
-		<body class="grid grid-cols-layout gap-1 p-0 m-0 h-[100vh] w-[100vw]">
-			<nav class="p-0 m-0 h-full w-full">
-				<ul class="py-2 pl-2 pr-1 m-0 flex flex-col justify-center gap-2 text-right">
+		<body class="grid grid-cols-layout gap-4 p-0 m-0 fixed top-0 left-0 right-0 bottom-0">
+			<nav class="py-2 pl-2 m-0 w-full">
+				<ul class="m-0 flex flex-col justify-center gap-2 text-right">
 					@components.NavItemWithDropdown(layout.UserOptionNave)
 					for _, item := range layout.NavItems {
 						@components.NavItem(item)
 					}
 				</ul>
 			</nav>
-			<div id="app" class="block p-0 m-0 min-h-full max-h-full overflow-y-auto">
+			<div id="app" class="block p-0 m-0">
 				{ children... }
 			</div>
 			<script type="module" src="/dist/src/login.js"></script>

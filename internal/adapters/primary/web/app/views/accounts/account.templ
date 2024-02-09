@@ -14,10 +14,10 @@ type Account interface {
 templ account(acc Account) {
 	<div
 		class={
-			"mb-2",
 			"grid grid-cols-account-preview grid-rows-account-preview gap-2",
 			"border-button border-neutral-50 rounded-lg",
 			"overflow-clip",
+			"min-w-[15vw]",
 		}
 	>
 		switch acc.Type() {
@@ -198,7 +198,7 @@ templ creditAccount(acc Account) {
 templ externalAccount(acc Account) {
 	<div
 		class={
-			"row-span-2 w-[3.5rem] flex justify-center items-center",
+			"row-span-2 w-[3.5rem] min-h-[3.5rem] flex justify-center items-center",
 			"bg-neutral-50 text-neutral-950",
 		}
 	>

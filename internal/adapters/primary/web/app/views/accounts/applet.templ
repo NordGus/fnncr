@@ -10,11 +10,12 @@ type Summary struct {
 }
 
 type Section struct {
-	Title    string
-	Id       string
-	FetchURL string
-	ColSpan  uint
-	RowSpan  uint
+	Title     string
+	Id        string
+	FetchURL  string
+	ColSpan   uint
+	RowSpan   uint
+	OverflowX bool
 }
 
 type Page struct {
@@ -25,57 +26,49 @@ type Page struct {
 
 templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 	@layouts.Application(ald) {
-		<div class="p-2 flex flex-col min-h-full max-h-full">
-			@components.Heading1(p.Title, false)
+		<div
+			class={
+				"grid",
+				"grid-cols-[repeat(3,_1fr)_35vw]",
+				"grid-rows-[min-content_min-content_repeat(3,_minmax(0,_1fr))]",
+				"gap-4",
+				"h-[100vh]",
+			}
+		>
+			<div class={ "col-span-4" }>
+				@components.Heading1(p.Title, true)
+			</div>
+			// TODO(#1): Research what number type use to handle money.
+			// TODO(#2): Make dynamic and move to a component.
+			<span class="py-1.5 px-2 flex justify-between rounded-lg bg-green-600 text-neutral-100">
+				<span>assets</span>
+				<span>4,206.99</span>
+			</span>
+			// TODO(#3): Make dynamic and move to a component.
+			<span class="py-1.5 px-2 flex justify-between rounded-lg bg-red-600 text-neutral-100">
+				<span>debts</span>
+				<span>1,773.00</span>
+			</span>
+			// TODO(#4): Make dynamic and move to a component.
+			<span class="py-1.5 px-2 flex justify-between rounded-lg bg-green-600 text-neutral-100">
+				<span>total</span>
+				<span>2,433.99</span>
+			</span>
 			<div
 				class={
-					"flex-1",
-					"mt-3",
-					"grid",
-					"grid-cols-accounts",
-					"grid-rows-accounts",
-					"gap-4", "min-h-full",
-					"max-h-full",
+					"flex flex-col",
+					"row-span-5",
+					"overflow-y-scroll",
 				}
+				id={ "selected-acount" }
 			>
-				<div
-					class={
-						"grid",
-						"grid-cols-3",
-						"gap-4",
-					}
-				>
-					// TODO(#1): Research what number type use to handle money.
-					// TODO(#2): Make dynamic and move to a component.
-					<div class="py-1.5 px-2 flex justify-between rounded-lg bg-green-600 text-neutral-100">
-						<span>assets</span>
-						<span>4,206.99</span>
-					</div>
-					// TODO(#3): Make dynamic and move to a component.
-					<div class="py-1.5 px-2 flex justify-between rounded-lg bg-red-600 text-neutral-100">
-						<span>debts</span>
-						<span>1,773.00</span>
-					</div>
-					// TODO(#4): Make dynamic and move to a component.
-					<div class="py-1.5 px-2 flex justify-between rounded-lg bg-green-600 text-neutral-100">
-						<span>total</span>
-						<span>2,433.99</span>
-					</div>
-				</div>
-				<div
-					class={ "flex flex-col row-span-2 overflow-y-scroll", }
-					id={ "selected-acount" }
-				>
-					<div class="flex-1 flex justify-center items-center">
-						@components.Heading4("no account selected", true)
-					</div>
-				</div>
-				<div class="flex-1 grid grid-cols-3 grid-rows-3 gap-4">
-					for _, sect := range p.Sections {
-						@section(sect)
-					}
+				<div class="flex-1 flex justify-center items-center">
+					@components.Heading4("no account selected", true)
 				</div>
 			</div>
+			for _, sect := range p.Sections {
+				@section(sect)
+			}
 		</div>
 	}
 }
@@ -83,19 +76,26 @@ templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 templ section(sect Section) {
 	<section
 		class={
-			"flex flex-col",
+			"grid grid-rows-[min-content_1fr] gap-4",
+			templ.KV("col-span-1", sect.ColSpan <= 1),
 			templ.KV("col-span-2", sect.ColSpan == 2),
 			templ.KV("col-span-3", sect.ColSpan == 3),
+			templ.KV("row-span-1", sect.RowSpan <= 1),
 			templ.KV("row-span-2", sect.RowSpan == 2),
 			templ.KV("row-span-3", sect.RowSpan == 3),
 		}
 	>
-		@components.Heading3(sect.Title, false)
+		@components.Heading3(sect.Title, true)
 		<div
 			id={ sect.Id }
 			hx-get={ sect.FetchURL }
 			hx-trigger="load"
-			class={ "flex-1 mt-3 overflow-y-scroll", }
+			class={
+				"flex flex-col gap-2",
+				templ.KV("overflow-y-scroll", !sect.OverflowX),
+				templ.KV("overflow-x-scroll", sect.OverflowX),
+				templ.KV("flex-wrap", sect.OverflowX),
+			}
 		></div>
 	</section>
 }

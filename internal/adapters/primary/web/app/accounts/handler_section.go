@@ -31,10 +31,11 @@ func (h *handler) AppletHandlerFunc(c echo.Context) error {
 				RowSpan:  2,
 			},
 			{
-				Title:    "external",
-				Id:       "external",
-				FetchURL: ExternalAccountsRoute,
-				ColSpan:  2,
+				Title:     "external",
+				Id:        "external",
+				FetchURL:  ExternalAccountsRoute,
+				ColSpan:   2,
+				OverflowX: true,
 			},
 		},
 	}

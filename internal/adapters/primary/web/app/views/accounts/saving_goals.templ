@@ -84,14 +84,20 @@ templ savingGoal(goal SavingGoal) {
 		</div>
 		@components.Heading5(goal.Name(), true)
 		<div class="flex flex-row-reverse justify-between items-center pr-2">
-			<span>
+			<span
+				class={ "text-neutral-500" }
+			>
 				if goal.Covered() < 100 {
 					{ goal.Remaining() }
 				} else {
 					Achieved
 				}
 			</span>
-			<span>{ goal.Balance() }</span>
+			<span
+				class={ "text-green-500" }
+			>
+				{ goal.Balance() }
+			</span>
 		</div>
 	</div>
 }

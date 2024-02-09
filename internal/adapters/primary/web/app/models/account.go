@@ -3,8 +3,6 @@ package models
 import (
 	"math"
 
-	"golang.org/x/text/language"
-	"golang.org/x/text/message"
 	"golang.org/x/text/number"
 )
 
@@ -29,12 +27,6 @@ const (
 	LoanAccount     AccountType = "loan"
 	CreditAccount   AccountType = "credit"
 	ExternalAccount AccountType = "external"
-
-	cents = 100
-)
-
-var (
-	printer = message.NewPrinter(language.English)
 )
 
 func (a Account) Type() string {

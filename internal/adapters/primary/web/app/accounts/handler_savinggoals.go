@@ -8,8 +8,8 @@ import (
 
 func (h *handler) SavingGoalsHandlerFunc(c echo.Context) error {
 	goals := []models.SavingsGoal{
-		{GoalName: "Goal 1", Goal: 177300, Achieved: 177300},
-		{GoalName: "Goal 2", Goal: 1000000, Achieved: 177300},
+		{GoalName: "Goal 1", Goal: 177300, Saved: 177300},
+		{GoalName: "Goal 2", Goal: 1000000, Saved: 177342},
 	}
 
 	return view.SavingGoals(goals).Render(c.Request().Context(), c.Response())

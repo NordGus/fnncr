@@ -11,14 +11,14 @@ func (h *handler) DebtAccountsHandlerFunc(c echo.Context) error {
 		{
 			AccType:        models.LoanAccount,
 			DisplayName:    "Car Loan",
-			CurrentBalance: 426900,
+			CurrentBalance: -426999,
 			Limit:          1000000,
 			DebtType:       models.IOweDebt,
 		},
 		{
 			AccType:        models.LoanAccount,
 			DisplayName:    "Loan to friendly business",
-			CurrentBalance: 19200,
+			CurrentBalance: 4269,
 			Limit:          42000,
 			DebtType:       models.IAmOwedDebt,
 		},

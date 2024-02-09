@@ -46,25 +46,52 @@ func (a Account) Name() string {
 }
 
 func (a Account) Balance() string {
-	return printer.Sprintf(
-		"%v",
-		number.Decimal(
-			float64(a.CurrentBalance)/cents,
-			number.MaxFractionDigits(2),
-			number.MinFractionDigits(2),
-		),
-	)
+	switch a.AccType {
+	case LoanAccount:
+		return printer.Sprintf(
+			"%v",
+			number.Decimal(
+				a.loanAccountBalance(),
+				number.MaxFractionDigits(2),
+				number.MinFractionDigits(2),
+			),
+		)
+	default:
+		return printer.Sprintf(
+			"%v",
+			number.Decimal(
+				float64(a.CurrentBalance)/cents,
+				number.MaxFractionDigits(2),
+				number.MinFractionDigits(2),
+			),
+		)
+	}
 }
 
 func (a Account) Available() string {
-	return printer.Sprintf(
-		"%v",
-		number.Decimal(
-			float64(a.Limit+a.CurrentBalance)/cents,
-			number.MaxFractionDigits(2),
-			number.MinFractionDigits(2),
-		),
-	)
+	switch a.DebtType {
+	case IOweDebt:
+		return printer.Sprintf(
+			"%v",
+			number.Decimal(
+				float64((a.Limit+a.CurrentBalance))/cents,
+				number.MaxFractionDigits(2),
+				number.MinFractionDigits(2),
+			),
+		)
+	case IAmOwedDebt:
+		return printer.Sprintf(
+			"%v",
+			number.Decimal(
+				float64(a.Limit-a.CurrentBalance)/cents,
+				number.MaxFractionDigits(2),
+				number.MinFractionDigits(2),
+			),
+		)
+	default:
+		return a.Balance()
+
+	}
 }
 
 func (a Account) Covered() int16 {
@@ -72,9 +99,9 @@ func (a Account) Covered() int16 {
 	case NormalAccount, SavingsAccount, ExternalAccount:
 		return 100
 	case CreditAccount:
-		return int16((math.Floor(float64(a.Limit+a.CurrentBalance) / float64(a.Limit) * 100.0)))
+		return int16(a.creditAccountCovered())
 	default:
-		return int16((math.Floor(float64(a.CurrentBalance) / float64(a.Limit) * 100.0)))
+		return int16(a.loanAccountCovered())
 	}
 }
 
@@ -83,8 +110,37 @@ func (a Account) InTheRed() bool {
 	case CreditAccount:
 		return (a.Limit + a.CurrentBalance) < 0
 	case LoanAccount:
-		return a.DebtType == IAmOwedDebt
+		return a.DebtType == IOweDebt
 	default:
 		return a.CurrentBalance < 0
+	}
+}
+
+func (a Account) creditAccountCovered() float64 {
+	covered := math.Floor(float64(a.Limit+a.CurrentBalance) / float64(a.Limit) * 100.0)
+
+	if a.DebtType == IOweDebt {
+		return covered
+	}
+
+	return -covered
+}
+
+func (a Account) loanAccountCovered() float64 {
+	covered := math.Floor(float64(a.CurrentBalance) / float64(a.Limit) * 100.0)
+
+	if a.DebtType == IOweDebt {
+		return -covered
+	}
+
+	return covered
+}
+
+func (a Account) loanAccountBalance() float64 {
+	switch a.DebtType {
+	case IOweDebt:
+		return -float64(a.Limit+a.CurrentBalance) / cents
+	default:
+		return float64(a.Limit-a.CurrentBalance) / cents
 	}
 }

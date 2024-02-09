@@ -148,7 +148,14 @@ templ loanAccount(acc Account) {
 	</div>
 	@components.Heading5(acc.Name(), true)
 	<div class="flex flex-row-reverse justify-between items-center pr-2">
-		<span>{ acc.Available() }</span>
+		<span
+			class={
+				templ.KV("text-red-500", acc.InTheRed()),
+				templ.KV("text-green-500", !acc.InTheRed()),
+			}
+		>
+			{ acc.Balance() }
+		</span>
 	</div>
 }
 

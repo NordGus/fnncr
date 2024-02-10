@@ -10,15 +10,7 @@ type SavingGoal interface {
 }
 
 templ savingsGoal(goal SavingGoal) {
-	<account-preview
-		class={
-			"grid grid-cols-account-preview grid-rows-account-preview gap-2",
-			"border-button border-neutral-500 rounded-lg",
-			"overflow-clip",
-			"min-w-[15vw]",
-			"group",
-		}
-	>
+	@components.DashboardPreviewContainer() {
 		<div
 			class={
 				"row-span-2",
@@ -28,7 +20,7 @@ templ savingsGoal(goal SavingGoal) {
 		>
 			<span class="text-4xl">G</span>
 		</div>
-		<div class="account-name m-0 p-0 w-full overflow-x-auto pr-2">
+		<div class="name m-0 p-0 w-full overflow-x-auto pr-2">
 			@components.MarqueeHeading5(goal.Name())
 		</div>
 		<div
@@ -51,5 +43,5 @@ templ savingsGoal(goal SavingGoal) {
 				{ goal.Balance() }
 			</span>
 		</div>
-	</account-preview>
+	}
 }

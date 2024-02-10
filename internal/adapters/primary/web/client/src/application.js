@@ -1,6 +1,4 @@
 import "htmx.org"
-import AccountPreview from "./components/AccountPreview";
+import DashboardPreview from "./components/DashboardPreview";
 
-console.log("hello there");
-
-customElements.define("account-preview", AccountPreview);
+customElements.define("dashboard-preview", DashboardPreview);

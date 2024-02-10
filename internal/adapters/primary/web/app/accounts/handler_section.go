@@ -11,12 +11,17 @@ import (
 func (h *handler) AppletHandlerFunc(c echo.Context) error {
 	ald := c.Get(shared.ALDContextKey).(layouts.ApplicationLayoutData)
 	p := view.Page{
-		Title: "accounts",
+		Title: "dashboard",
 		Sections: []view.Section{
 			{
-				Title:    "personal",
-				Id:       "personal",
+				Title:    "normal accounts",
+				Id:       "normal",
 				FetchURL: NormalAccountsRoute,
+			},
+			{
+				Title:    "credit lines",
+				Id:       "credit",
+				FetchURL: CreditAccountsRoute,
 			},
 			{
 				Title:    "loans",
@@ -24,12 +29,7 @@ func (h *handler) AppletHandlerFunc(c echo.Context) error {
 				FetchURL: LoanAccountsRoute,
 			},
 			{
-				Title:    "credit",
-				Id:       "credit",
-				FetchURL: CreditAccountsRoute,
-			},
-			{
-				Title:    "savings",
+				Title:    "savings accounts",
 				Id:       "savings",
 				FetchURL: SavingsAccountsRoute,
 			},
@@ -39,7 +39,7 @@ func (h *handler) AppletHandlerFunc(c echo.Context) error {
 				FetchURL: savingsgoals.SavingsGoalsRoute,
 			},
 			{
-				Title:    "external",
+				Title:    "external accounts",
 				Id:       "external",
 				FetchURL: ExternalAccountsRoute,
 			},

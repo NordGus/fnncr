@@ -10,8 +10,6 @@ func (h *handler) NormalAccountsHandlerFunc(c echo.Context) error {
 	acc := []models.Account{
 		models.NewAccount(models.NormalAccount, models.NoneDebt, "My Personal Account", 426900, 0),
 		models.NewAccount(models.NormalAccount, models.NoneDebt, "My Freelancer Account", -20000, 0),
-		models.NewAccount(models.SavingsAccount, models.NoneDebt, "My Savings Account 1", 6900, 0),
-		models.NewAccount(models.SavingsAccount, models.NoneDebt, "My Savings Account 2", 14400, 0),
 	}
 
 	return view.HTMXList(acc).Render(c.Request().Context(), c.Response())

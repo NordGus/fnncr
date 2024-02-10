@@ -12,15 +12,7 @@ type Account interface {
 }
 
 templ account(acc Account) {
-	<account-preview
-		class={
-			"grid grid-cols-account-preview grid-rows-account-preview gap-2",
-			"border-button border-neutral-500 rounded-lg",
-			"overflow-clip",
-			"min-w-[15vw]",
-			"group",
-		}
-	>
+	@components.DashboardPreviewContainer() {
 		switch acc.Type() {
 			case "normal":
 				@normalAccount(acc)
@@ -35,14 +27,14 @@ templ account(acc Account) {
 			default:
 				<div>Unsupported Type</div>
 		}
-	</account-preview>
+	}
 }
 
 templ normalAccount(acc Account) {
 	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
 		<span class="text-4xl">€</span>
 	</div>
-	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+	<div class="name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
 		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2">
@@ -61,7 +53,7 @@ templ savingsAccount(acc Account) {
 	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
 		<span class="text-4xl">S</span>
 	</div>
-	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+	<div class="name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
 		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2">
@@ -80,7 +72,7 @@ templ loanAccount(acc Account) {
 	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
 		<span class="text-4xl">L</span>
 	</div>
-	<div class="account-name m-0 p-0 w-full overflow-x-hidden">
+	<div class="name m-0 p-0 w-full overflow-x-hidden">
 		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div
@@ -107,7 +99,7 @@ templ creditAccount(acc Account) {
 	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
 		<span class="text-4xl">C</span>
 	</div>
-	<div class="account-name m-0 p-0 w-full overflow-x-hidden">
+	<div class="name m-0 p-0 w-full overflow-x-hidden">
 		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div
@@ -141,7 +133,7 @@ templ externalAccount(acc Account) {
 	<div class="row-span-2 w-[3.5rem] min-h-[3.5rem] flex justify-center items-center">
 		<span class="text-4xl">EX</span>
 	</div>
-	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+	<div class="name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
 		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2"></div>

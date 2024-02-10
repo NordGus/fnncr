@@ -20,7 +20,7 @@ module.exports = {
         'button': '1px'
       },
       animation: {
-        "marquee": "scroll-left 5s linear -1s infinite alternate"
+        "marquee": "scroll-left 5s linear -1s infinite"
       },
       keyframes: {
         "scroll-left": {

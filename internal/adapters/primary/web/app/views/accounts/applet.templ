@@ -10,12 +10,9 @@ type Summary struct {
 }
 
 type Section struct {
-	Title     string
-	Id        string
-	FetchURL  string
-	ColSpan   uint
-	RowSpan   uint
-	OverflowX bool
+	Title    string
+	Id       string
+	FetchURL string
 }
 
 type Page struct {
@@ -30,7 +27,7 @@ templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 			class={
 				"grid",
 				"grid-cols-[repeat(3,_1fr)_35vw]",
-				"grid-rows-[min-content_min-content_repeat(3,_minmax(0,_1fr))]",
+				"grid-rows-[min-content_min-content_repeat(2,_minmax(0,_1fr))]",
 				"gap-4",
 				"h-[100vh]",
 			}
@@ -57,7 +54,7 @@ templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 			<div
 				class={
 					"flex flex-col",
-					"row-span-5",
+					"row-span-4",
 					"overflow-y-scroll",
 				}
 				id={ "selected-acount" }
@@ -75,15 +72,7 @@ templ Applet(ald layouts.ApplicationLayoutData, p Page) {
 
 templ section(sect Section) {
 	<section
-		class={
-			"grid grid-rows-[min-content_1fr] gap-4",
-			templ.KV("col-span-1", sect.ColSpan <= 1),
-			templ.KV("col-span-2", sect.ColSpan == 2),
-			templ.KV("col-span-3", sect.ColSpan == 3),
-			templ.KV("row-span-1", sect.RowSpan <= 1),
-			templ.KV("row-span-2", sect.RowSpan == 2),
-			templ.KV("row-span-3", sect.RowSpan == 3),
-		}
+		class="grid grid-rows-[min-content_1fr] gap-4"
 	>
 		@components.Heading3(sect.Title, true)
 		<div
@@ -92,9 +81,7 @@ templ section(sect Section) {
 			hx-trigger="load"
 			class={
 				"flex flex-col gap-2",
-				templ.KV("overflow-y-scroll", !sect.OverflowX),
-				templ.KV("overflow-x-scroll", sect.OverflowX),
-				templ.KV("flex-wrap", sect.OverflowX),
+				"overflow-y-scroll",
 			}
 		></div>
 	</section>

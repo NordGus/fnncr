@@ -9,11 +9,9 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         'layout': '10vw 1fr',
-        'accounts': '1fr 35vw',
         'account-preview': 'min-content 1fr min-content'
       },
       gridTemplateRows: {
-        'accounts': "min-content 1fr",
         'account-preview': 'min-content min-content'
       },
       borderWidth: {

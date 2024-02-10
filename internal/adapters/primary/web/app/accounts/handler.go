@@ -9,26 +9,29 @@ const (
 
 	AppletRoute = "/accounts"
 
-	// TODO(#0): All accounts can have a parent, this is used to create categories each one.
-	// TODO(#1): Personal accounts convey bank accounts, savings accounts and credit lines/cards. Credit lines/cards
-	// can be added as expenses for easier cataloging of payments in the application and following of personal expenses.
-	PersonalAccountsRoute = "/accounts/personal"
-	// TODO(#2): Saving Goals are a completely different data structure from accounts but it depends on accounts,
+	NormalAccountsRoute = "/accounts/normal"
+	LoanAccountsRoute   = "/accounts/loans"
+	// NOTE: Credit accounts are a little bit weird because they count as debts and assets. Where the available credit
+	// count as an asset and the expended credit count as debt.
+	CreditAccountsRoute = "/accounts/credits"
+	// NOTE: Savings accounts are basically normal accounts but their balance go to fulfill Savings Goals.
+	SavingsAccountsRoute = "/accounts/savings"
+	// NOTE: Saving Goals are a completely different data structure from accounts but it depends on accounts,
 	// specifically savings accounts. As the balance changes in the different savings account so does the completion in
 	// each savings goals. This goals contains an priority value order so the lower the priority value the earlier the
 	// the goal is fullfil.
-	SavingGoalsAccountsRoute = "/accounts/saving_goals"
-	// TODO(#3): Debt accounts are basically all loans or any other debt you can have.
-	DebtAccountsRoute = "/accounts/debts"
-	// TODO(#4): External are basically transaction categories but in this case are easier administer.
+	SavingsGoalsAccountsRoute = "/accounts/savings_goals"
+	// NOTE: External are basically transaction categories but in this case are easier administer.
 	ExternalAccountsRoute = "/accounts/external"
 )
 
 type Handler interface {
 	AppletHandlerFunc(c echo.Context) error
-	PersonalAccountsHandlerFunc(c echo.Context) error
-	SavingGoalsHandlerFunc(c echo.Context) error
-	DebtAccountsHandlerFunc(c echo.Context) error
+	NormalAccountsHandlerFunc(c echo.Context) error
+	LoanAccountsHandlerFunc(c echo.Context) error
+	CreditAccountsHandlerFunc(c echo.Context) error
+	SavingsAccountsHandlerFunc(c echo.Context) error
+	SavingsGoalsHandlerFunc(c echo.Context) error
 	ExternalAccountsHandlerFunc(c echo.Context) error
 }
 

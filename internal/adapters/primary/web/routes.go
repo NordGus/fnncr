@@ -39,18 +39,28 @@ func (a *App) setRoutes() {
 		applicationLayoutLoaderMiddleware,
 	)
 	a.echo.GET(
-		accounts.PersonalAccountsRoute,
-		accnts.PersonalAccountsHandlerFunc,
+		accounts.NormalAccountsRoute,
+		accnts.NormalAccountsHandlerFunc,
 		auth.AuthorizeMiddleware,
 	)
 	a.echo.GET(
-		accounts.DebtAccountsRoute,
-		accnts.DebtAccountsHandlerFunc,
+		accounts.LoanAccountsRoute,
+		accnts.LoanAccountsHandlerFunc,
 		auth.AuthorizeMiddleware,
 	)
 	a.echo.GET(
-		accounts.SavingGoalsAccountsRoute,
-		accnts.SavingGoalsHandlerFunc,
+		accounts.CreditAccountsRoute,
+		accnts.CreditAccountsHandlerFunc,
+		auth.AuthorizeMiddleware,
+	)
+	a.echo.GET(
+		accounts.SavingsAccountsRoute,
+		accnts.SavingsAccountsHandlerFunc,
+		auth.AuthorizeMiddleware,
+	)
+	a.echo.GET(
+		accounts.SavingsGoalsAccountsRoute,
+		accnts.SavingsGoalsHandlerFunc,
 		auth.AuthorizeMiddleware,
 	)
 	a.echo.GET(

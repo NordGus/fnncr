@@ -7,8 +7,6 @@ import (
 const (
 	// Routes
 
-	AppletRoute = "/accounts"
-
 	NormalAccountsRoute = "/accounts/normal"
 	LoanAccountsRoute   = "/accounts/loans"
 	// NOTE: Credit accounts are a little bit weird because they count as debts and assets. Where the available credit
@@ -21,7 +19,6 @@ const (
 )
 
 type Handler interface {
-	AppletHandlerFunc(c echo.Context) error
 	NormalAccountsHandlerFunc(c echo.Context) error
 	LoanAccountsHandlerFunc(c echo.Context) error
 	CreditAccountsHandlerFunc(c echo.Context) error

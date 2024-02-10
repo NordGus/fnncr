@@ -1,0 +1,76 @@
+package applets
+
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+
+type DashboardSection struct {
+	Title    string
+	Id       string
+	FetchURL string
+}
+
+templ Dashboard(ald layouts.ApplicationLayoutData, sections []DashboardSection) {
+	@layouts.Application(ald) {
+		<div
+			class={
+				"grid",
+				"grid-cols-[repeat(3,_1fr)_35vw]",
+				"grid-rows-[min-content_min-content_repeat(2,_minmax(0,_1fr))]",
+				"h-[100vh]",
+				"py-2 gap-4",
+			}
+		>
+			<div class="col-span-3">
+				@components.Heading1("Dashboard", true)
+			</div>
+			<div
+				class={
+					"flex flex-col",
+					"row-span-4",
+					"overflow-y-scroll",
+				}
+				id={ "selected-acount" }
+			>
+				<div class="flex-1 flex justify-center items-center">
+					@components.Heading4("no entry selected", true)
+				</div>
+			</div>
+			// TODO(#1): Research what number type use to handle money.
+			// TODO(#2): Make dynamic and move to a component.
+			<span class="py-1.5 px-2 flex justify-between rounded-lg bg-green-600 text-neutral-100">
+				<span>assets</span>
+				<span>4,206.99</span>
+			</span>
+			// TODO(#3): Make dynamic and move to a component.
+			<span class="py-1.5 px-2 flex justify-between rounded-lg bg-red-600 text-neutral-100">
+				<span>debts</span>
+				<span>1,773.00</span>
+			</span>
+			// TODO(#4): Make dynamic and move to a component.
+			<span class="py-1.5 px-2 flex justify-between rounded-lg bg-green-600 text-neutral-100">
+				<span>total</span>
+				<span>2,433.99</span>
+			</span>
+			for i := 0; i < len(sections); i++ {
+				@dashboardSection(sections[i])
+			}
+		</div>
+	}
+}
+
+templ dashboardSection(sect DashboardSection) {
+	<section
+		class="grid grid-rows-[min-content_1fr] gap-4"
+	>
+		@components.Heading3(sect.Title, true)
+		<div
+			id={ sect.Id }
+			hx-get={ sect.FetchURL }
+			hx-trigger="load"
+			class={
+				"flex flex-col gap-1",
+				"overflow-y-scroll",
+			}
+		></div>
+	</section>
+}

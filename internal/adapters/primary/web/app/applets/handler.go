@@ -1,7 +1,7 @@
 package applets
 
 import (
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
+	auth "github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
@@ -17,6 +17,7 @@ const (
 	IntelligenceAppletRoute = "/intelligence"
 
 	// NavItemDataNames
+
 	root         = "root"
 	dashboard    = "dashboard"
 	book         = "book"
@@ -40,7 +41,7 @@ func New() Handler {
 }
 
 func getUser(c echo.Context) models.User {
-	return c.Get(authentication.CurrentUserCtxKey).(models.User)
+	return c.Get(auth.CurrentUserCtxKey).(models.User)
 }
 
 func layoutData(user models.User, title string, applet string) layouts.ApplicationLayoutData {
@@ -49,7 +50,7 @@ func layoutData(user models.User, title string, applet string) layouts.Applicati
 		UserOptionNave: components.NavItemWithDropdownData{
 			Name: user.Username,
 			Options: []components.NavItemData{
-				{Name: "sign out", Route: authentication.SignOutRoute},
+				{Name: "sign out", Route: auth.SignOutRoute},
 			},
 		},
 		NavItems: []components.NavItemData{

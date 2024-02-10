@@ -28,35 +28,11 @@ func (a *App) setRoutes() {
 	a.echo.GET(applets.BudgetAppletRoute, apptls.BudgetAppletHandlerFunc, auth.AuthorizeMiddleware)
 	a.echo.GET(applets.IntelligenceAppletRoute, apptls.IntelligenceAppletHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(
-		accounts.NormalAccountsRoute,
-		accnts.NormalAccountsHandlerFunc,
-		auth.AuthorizeMiddleware,
-	)
-	a.echo.GET(
-		accounts.LoanAccountsRoute,
-		accnts.LoanAccountsHandlerFunc,
-		auth.AuthorizeMiddleware,
-	)
-	a.echo.GET(
-		accounts.CreditAccountsRoute,
-		accnts.CreditAccountsHandlerFunc,
-		auth.AuthorizeMiddleware,
-	)
-	a.echo.GET(
-		accounts.SavingsAccountsRoute,
-		accnts.SavingsAccountsHandlerFunc,
-		auth.AuthorizeMiddleware,
-	)
-	a.echo.GET(
-		accounts.ExternalAccountsRoute,
-		accnts.ExternalAccountsHandlerFunc,
-		auth.AuthorizeMiddleware,
-	)
+	a.echo.GET(accounts.NormalAccountsRoute, accnts.NormalAccountsHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.LoanAccountsRoute, accnts.LoanAccountsHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.CreditAccountsRoute, accnts.CreditAccountsHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.SavingsAccountsRoute, accnts.SavingsAccountsHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.ExternalAccountsRoute, accnts.ExternalAccountsHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(
-		savingsgoals.SavingsGoalsRoute,
-		svngsgls.ListSavingsGoalsHandlerFunc,
-		auth.AuthorizeMiddleware,
-	)
+	a.echo.GET(savingsgoals.SavingsGoalsRoute, svngsgls.ListSavingsGoalsHandlerFunc, auth.AuthorizeMiddleware)
 }

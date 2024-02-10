@@ -42,11 +42,7 @@ func (h *handler) DashboardAppletHandlerFunc(c echo.Context) error {
 	}
 
 	return view.Dashboard(
-		layoutData(
-			getUser(c),
-			"fnncr | dashboard",
-			dashboard,
-		),
+		layoutData(getUser(c), "fnncr | dashboard", dashboard),
 		sections,
 	).Render(c.Request().Context(), c.Response())
 }

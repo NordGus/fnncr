@@ -7,11 +7,7 @@ import (
 
 func (h *handler) BookAppletHandlerFunc(c echo.Context) error {
 	return view.NotImplemented(
-		layoutData(
-			getUser(c),
-			"fnncr | book",
-			book,
-		),
+		layoutData(getUser(c), "fnncr | book", book),
 		BookAppletRoute,
 	).Render(c.Request().Context(), c.Response())
 }

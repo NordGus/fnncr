@@ -7,11 +7,7 @@ import (
 
 func (h *handler) IntelligenceAppletHandlerFunc(c echo.Context) error {
 	return view.NotImplemented(
-		layoutData(
-			getUser(c),
-			"fnncr | intelligence",
-			intelligence,
-		),
+		layoutData(getUser(c), "fnncr | intelligence", intelligence),
 		IntelligenceAppletRoute,
 	).Render(c.Request().Context(), c.Response())
 }

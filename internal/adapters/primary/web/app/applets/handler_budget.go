@@ -7,11 +7,7 @@ import (
 
 func (h *handler) BudgetAppletHandlerFunc(c echo.Context) error {
 	return view.NotImplemented(
-		layoutData(
-			getUser(c),
-			"fnncr | budget",
-			budget,
-		),
+		layoutData(getUser(c), "fnncr | budget", budget),
 		BudgetAppletRoute,
 	).Render(c.Request().Context(), c.Response())
 }

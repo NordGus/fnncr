@@ -6,5 +6,7 @@ import (
 )
 
 func (h *handler) RootAppletHandlerFunc(c echo.Context) error {
-	return view.Root(layoutData(getUser(c), "fnncr", root)).Render(c.Request().Context(), c.Response())
+	return view.Root(
+		layoutData(getUser(c), "fnncr", root),
+	).Render(c.Request().Context(), c.Response())
 }

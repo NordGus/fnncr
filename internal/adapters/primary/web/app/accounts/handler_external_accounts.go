@@ -18,5 +18,5 @@ func (h *handler) ExternalAccountsHandlerFunc(c echo.Context) error {
 		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Lottery", 2000, 0),
 	}
 
-	return view.ExternalAccounts(acc).Render(c.Request().Context(), c.Response())
+	return view.HTMXList(acc).Render(c.Request().Context(), c.Response())
 }

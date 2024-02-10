@@ -12,5 +12,5 @@ func (h *handler) CreditAccountsHandlerFunc(c echo.Context) error {
 		models.NewAccount(models.CreditAccount, models.IOweDebt, "Credit Line", 0, 250000),
 	}
 
-	return view.DebtAccounts(acc).Render(c.Request().Context(), c.Response())
+	return view.HTMXList(acc).Render(c.Request().Context(), c.Response())
 }

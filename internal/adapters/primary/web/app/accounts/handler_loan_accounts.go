@@ -12,5 +12,5 @@ func (h *handler) LoanAccountsHandlerFunc(c echo.Context) error {
 		models.NewAccount(models.LoanAccount, models.IAmOwedDebt, "Loan to friendly business", 4269, 42000),
 	}
 
-	return view.DebtAccounts(acc).Render(c.Request().Context(), c.Response())
+	return view.HTMXList(acc).Render(c.Request().Context(), c.Response())
 }

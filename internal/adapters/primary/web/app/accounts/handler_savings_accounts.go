@@ -12,5 +12,5 @@ func (h *handler) SavingsAccountsHandlerFunc(c echo.Context) error {
 		models.NewAccount(models.SavingsAccount, models.NoneDebt, "My Savings Account 2", 14400, 0),
 	}
 
-	return view.PersonalAccounts(acc).Render(c.Request().Context(), c.Response())
+	return view.HTMXList(acc).Render(c.Request().Context(), c.Response())
 }

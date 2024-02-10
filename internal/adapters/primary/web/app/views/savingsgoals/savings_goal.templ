@@ -1,4 +1,4 @@
-package accounts
+package savingsgoals
 
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
 
@@ -9,7 +9,7 @@ type SavingGoal interface {
 	Remaining() string
 }
 
-templ savingGoal(goal SavingGoal) {
+templ savingsGoal(goal SavingGoal) {
 	<account-preview
 		class={
 			"grid grid-cols-account-preview grid-rows-account-preview gap-2",
@@ -29,7 +29,7 @@ templ savingGoal(goal SavingGoal) {
 			<span class="text-4xl">G</span>
 		</div>
 		<div class="account-name m-0 p-0 w-full overflow-x-auto pr-2">
-			@accountName(goal.Name())
+			@components.MarqueeHeading5(goal.Name())
 		</div>
 		<div
 			class={

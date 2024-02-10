@@ -1,6 +1,7 @@
 package accounts
 
 import (
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/savingsgoals"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/shared"
 	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/accounts"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
@@ -35,7 +36,7 @@ func (h *handler) AppletHandlerFunc(c echo.Context) error {
 			{
 				Title:    "saving goals",
 				Id:       "saving_goals",
-				FetchURL: SavingsGoalsAccountsRoute,
+				FetchURL: savingsgoals.SavingsGoalsRoute,
 			},
 			{
 				Title:    "external",

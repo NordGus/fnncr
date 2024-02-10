@@ -11,10 +11,6 @@ type Account interface {
 	InTheRed() bool
 }
 
-templ accountName(text string) {
-	<h5 class="text-lg inline-block w-fit whitespace-nowrap">{ text }</h5>
-}
-
 templ account(acc Account) {
 	<account-preview
 		class={
@@ -47,7 +43,7 @@ templ normalAccount(acc Account) {
 		<span class="text-4xl">€</span>
 	</div>
 	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
-		@accountName(acc.Name())
+		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2">
 		<span
@@ -66,7 +62,7 @@ templ savingsAccount(acc Account) {
 		<span class="text-4xl">S</span>
 	</div>
 	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
-		@accountName(acc.Name())
+		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2">
 		<span
@@ -85,7 +81,7 @@ templ loanAccount(acc Account) {
 		<span class="text-4xl">L</span>
 	</div>
 	<div class="account-name m-0 p-0 w-full overflow-x-hidden">
-		@accountName(acc.Name())
+		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div
 		class={
@@ -112,7 +108,7 @@ templ creditAccount(acc Account) {
 		<span class="text-4xl">C</span>
 	</div>
 	<div class="account-name m-0 p-0 w-full overflow-x-hidden">
-		@accountName(acc.Name())
+		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div
 		class={
@@ -146,7 +142,7 @@ templ externalAccount(acc Account) {
 		<span class="text-4xl">EX</span>
 	</div>
 	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
-		@accountName(acc.Name())
+		@components.MarqueeHeading5(acc.Name())
 	</div>
 	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2"></div>
 }

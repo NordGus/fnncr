@@ -6,6 +6,7 @@ import (
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/budget"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/savingsgoals"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/shared"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/summary"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/transactions"
@@ -19,6 +20,7 @@ import (
 func (a *App) setRoutes() {
 	auth := authentication.New(a.AuthAPI)
 	accnts := accounts.New()
+	svngsgls := savingsgoals.New()
 	trnsctns := transactions.New()
 	bdgt := budget.New()
 	assts := assets.New()
@@ -59,13 +61,14 @@ func (a *App) setRoutes() {
 		auth.AuthorizeMiddleware,
 	)
 	a.echo.GET(
-		accounts.SavingsGoalsAccountsRoute,
-		accnts.SavingsGoalsHandlerFunc,
-		auth.AuthorizeMiddleware,
-	)
-	a.echo.GET(
 		accounts.ExternalAccountsRoute,
 		accnts.ExternalAccountsHandlerFunc,
+		auth.AuthorizeMiddleware,
+	)
+
+	a.echo.GET(
+		savingsgoals.SavingsGoalsRoute,
+		svngsgls.ListSavingsGoalsHandlerFunc,
 		auth.AuthorizeMiddleware,
 	)
 

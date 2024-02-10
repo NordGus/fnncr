@@ -7,7 +7,7 @@ import (
 )
 
 type AccountType string
-type DebtType int8
+type DebtType string
 
 type Account struct {
 	AccType        AccountType
@@ -17,10 +17,20 @@ type Account struct {
 	Limit          int64
 }
 
+func NewAccount(at AccountType, dt DebtType, name string, balance int64, limit int64) Account {
+	return Account{
+		AccType:        at,
+		DebtType:       dt,
+		DisplayName:    name,
+		CurrentBalance: balance,
+		Limit:          limit,
+	}
+}
+
 const (
-	NoneDebt DebtType = iota
-	IAmOwedDebt
-	IOweDebt
+	NoneDebt    DebtType = "none"
+	IAmOwedDebt DebtType = "owed"
+	IOweDebt    DebtType = "owe"
 
 	NormalAccount   AccountType = "normal"
 	SavingsAccount  AccountType = "savings"

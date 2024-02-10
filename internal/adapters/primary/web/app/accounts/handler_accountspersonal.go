@@ -8,26 +8,10 @@ import (
 
 func (h *handler) PersonalAccountsHandlerFunc(c echo.Context) error {
 	acc := []models.Account{
-		{
-			AccType:        models.NormalAccount,
-			DisplayName:    "My Personal Account",
-			CurrentBalance: 426900,
-		},
-		{
-			AccType:        models.NormalAccount,
-			DisplayName:    "My Freelancer Account",
-			CurrentBalance: -20000,
-		},
-		{
-			AccType:        models.SavingsAccount,
-			DisplayName:    "My Savings Account 1",
-			CurrentBalance: 6900,
-		},
-		{
-			AccType:        models.SavingsAccount,
-			DisplayName:    "My Savings Account 2",
-			CurrentBalance: 14400,
-		},
+		models.NewAccount(models.NormalAccount, models.NoneDebt, "My Personal Account", 426900, 0),
+		models.NewAccount(models.NormalAccount, models.NoneDebt, "My Freelancer Account", -20000, 0),
+		models.NewAccount(models.SavingsAccount, models.NoneDebt, "My Savings Account 1", 6900, 0),
+		models.NewAccount(models.SavingsAccount, models.NoneDebt, "My Savings Account 2", 14400, 0),
 	}
 
 	return view.PersonalAccounts(acc).Render(c.Request().Context(), c.Response())

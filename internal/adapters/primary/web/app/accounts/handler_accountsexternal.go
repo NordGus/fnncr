@@ -8,46 +8,14 @@ import (
 
 func (h *handler) ExternalAccountsHandlerFunc(c echo.Context) error {
 	acc := []models.Account{
-		{
-			AccType:        models.ExternalAccount,
-			DisplayName:    "Market",
-			CurrentBalance: 10000,
-		},
-		{
-			AccType:        models.ExternalAccount,
-			DisplayName:    "Subscriptions",
-			CurrentBalance: 5000,
-		},
-		{
-			AccType:        models.ExternalAccount,
-			DisplayName:    "Rent",
-			CurrentBalance: 90000,
-		},
-		{
-			AccType:        models.ExternalAccount,
-			DisplayName:    "Gift",
-			CurrentBalance: 7000,
-		},
-		{
-			AccType:        models.ExternalAccount,
-			DisplayName:    "Health Care",
-			CurrentBalance: 15000,
-		},
-		{
-			AccType:        models.ExternalAccount,
-			DisplayName:    "Free Time",
-			CurrentBalance: 2500,
-		},
-		{
-			AccType:        models.ExternalAccount,
-			DisplayName:    "Interest",
-			CurrentBalance: 20000,
-		},
-		{
-			AccType:        models.ExternalAccount,
-			DisplayName:    "Lottery",
-			CurrentBalance: 2000,
-		},
+		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Market", 10000, 0),
+		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Subscriptions", 5000, 0),
+		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Rent", 90000, 0),
+		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Gifts", 7000, 0),
+		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Health Care", 15000, 0),
+		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Free Time", 2500, 0),
+		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Interest", 20000, 0),
+		models.NewAccount(models.ExternalAccount, models.NoneDebt, "Lottery", 2000, 0),
 	}
 
 	return view.ExternalAccounts(acc).Render(c.Request().Context(), c.Response())

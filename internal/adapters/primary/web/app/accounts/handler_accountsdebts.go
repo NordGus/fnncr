@@ -8,34 +8,10 @@ import (
 
 func (h *handler) DebtAccountsHandlerFunc(c echo.Context) error {
 	acc := []models.Account{
-		{
-			AccType:        models.LoanAccount,
-			DisplayName:    "Car Loan",
-			CurrentBalance: -426999,
-			Limit:          1000000,
-			DebtType:       models.IOweDebt,
-		},
-		{
-			AccType:        models.LoanAccount,
-			DisplayName:    "Loan to friendly business",
-			CurrentBalance: 4269,
-			Limit:          42000,
-			DebtType:       models.IAmOwedDebt,
-		},
-		{
-			AccType:        models.CreditAccount,
-			DisplayName:    "Credit Card",
-			CurrentBalance: -177300,
-			Limit:          300000,
-			DebtType:       models.IOweDebt,
-		},
-		{
-			AccType:        models.CreditAccount,
-			DisplayName:    "Credit Line",
-			CurrentBalance: 0,
-			Limit:          250000,
-			DebtType:       models.IOweDebt,
-		},
+		models.NewAccount(models.LoanAccount, models.IOweDebt, "Car Loan", -426999, 1000000),
+		models.NewAccount(models.LoanAccount, models.IAmOwedDebt, "Loan to friendly business", 4269, 42000),
+		models.NewAccount(models.CreditAccount, models.IOweDebt, "Credit Card", -177300, 300000),
+		models.NewAccount(models.CreditAccount, models.IOweDebt, "Credit Line", 0, 250000),
 	}
 
 	return view.DebtAccounts(acc).Render(c.Request().Context(), c.Response())

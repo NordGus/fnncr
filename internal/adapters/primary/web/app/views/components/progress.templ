@@ -1,0 +1,120 @@
+package components
+
+import "fmt"
+
+const (
+	circleWidth               = "42"
+	circleHeight              = "42"
+	checkWidth                = "24"
+	checkHeight               = "24"
+	circleBaseStrokeWidht     = "2"
+	circleProgressStrokeWidht = "7"
+	circleDashArray           = 300
+)
+
+func dashOffset(elapsed int16) string {
+	return fmt.Sprintf(
+		"%d",
+		circleDashArray-int64(float64(elapsed)/100*circleDashArray),
+	)
+}
+
+templ ProgressCircle(elapsed int16) {
+	<div
+		class={
+			"w-[3.5rem]",
+			"relative",
+		}
+	>
+		if elapsed < 100 {
+			<span
+				class={
+					"absolute bottom-0 top-0 right-0 left-0",
+					"flex justify-center items-center",
+				}
+			>
+				<svg
+					class="rotate-[270deg]"
+					viewBox="0 0 100 100"
+					width={ circleWidth }
+					height={ circleHeight }
+					stroke="currentColor"
+					fill="none"
+					stroke-width={ circleBaseStrokeWidht }
+				>
+					<circle cx="50" cy="50" r="45"></circle>
+				</svg>
+			</span>
+			<span
+				class={
+					"absolute bottom-0 top-0 right-0 left-0",
+					"flex justify-center items-center",
+				}
+			>
+				<svg
+					class="rotate-[270deg]"
+					viewBox="0 0 100 100"
+					width={ circleWidth }
+					height={ circleHeight }
+					stroke="currentColor"
+					fill="none"
+					stroke-width={ circleProgressStrokeWidht }
+				>
+					<circle
+						cx="50"
+						cy="50"
+						r="45"
+						stroke-dasharray={ fmt.Sprintf("%d", circleDashArray) }
+						stroke-dashoffset={ dashOffset(elapsed) }
+					></circle>
+				</svg>
+			</span>
+			<span
+				class={
+					"absolute bottom-0 top-0 right-0 left-0",
+					"flex justify-center items-center",
+				}
+			>
+				<span class="text-xl">{ fmt.Sprintf("%d", elapsed) }</span>
+			</span>
+		} else {
+			<span
+				class={
+					"absolute bottom-0 top-0 right-0 left-0",
+					"flex justify-center items-center",
+				}
+			>
+				<svg
+					fill="none"
+					height="24"
+					width="24"
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="10"
+					viewBox="60 60 60 60"
+				>
+					<polyline points="65 90 85 110 115 70"></polyline>
+				</svg>
+			</span>
+			<span
+				class={
+					"absolute bottom-0 top-0 right-0 left-0",
+					"flex justify-center items-center",
+				}
+			>
+				<svg
+					class="rotate-[270deg]"
+					viewBox="0 0 100 100"
+					width={ circleWidth }
+					height={ circleHeight }
+					stroke="currentColor"
+					fill="none"
+					stroke-width={ circleBaseStrokeWidht }
+				>
+					<circle cx="50" cy="50" r="45"></circle>
+				</svg>
+			</span>
+		}
+	</div>
+}

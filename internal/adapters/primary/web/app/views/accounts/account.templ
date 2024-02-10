@@ -1,6 +1,5 @@
 package accounts
 
-import "fmt"
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
 
 type Account interface {
@@ -12,13 +11,18 @@ type Account interface {
 	InTheRed() bool
 }
 
+templ accountName(text string) {
+	<h5 class="text-lg inline-block w-fit whitespace-nowrap">{ text }</h5>
+}
+
 templ account(acc Account) {
-	<div
+	<account-preview
 		class={
 			"grid grid-cols-account-preview grid-rows-account-preview gap-2",
-			"border-button border-neutral-50 rounded-lg",
+			"border-button border-neutral-500 rounded-lg",
 			"overflow-clip",
 			"min-w-[15vw]",
+			"group",
 		}
 	>
 		switch acc.Type() {
@@ -35,20 +39,17 @@ templ account(acc Account) {
 			default:
 				<div>Unsupported Type</div>
 		}
-	</div>
+	</account-preview>
 }
 
 templ normalAccount(acc Account) {
-	<div
-		class={
-			"row-span-2 w-[3.5rem] flex justify-center items-center",
-			"bg-neutral-50 text-neutral-950",
-		}
-	>
+	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
 		<span class="text-4xl">€</span>
 	</div>
-	@components.Heading5(acc.Name(), true)
-	<div class="flex flex-row-reverse justify-between items-center pr-2">
+	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+		@accountName(acc.Name())
+	</div>
+	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2">
 		<span
 			class={
 				templ.KV("text-red-500", acc.InTheRed()),
@@ -61,16 +62,13 @@ templ normalAccount(acc Account) {
 }
 
 templ savingsAccount(acc Account) {
-	<div
-		class={
-			"row-span-2 w-[3.5rem] flex justify-center items-center",
-			"bg-neutral-50 text-neutral-950",
-		}
-	>
+	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
 		<span class="text-4xl">S</span>
 	</div>
-	@components.Heading5(acc.Name(), true)
-	<div class="flex flex-row-reverse justify-between items-center pr-2">
+	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+		@accountName(acc.Name())
+	</div>
+	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2">
 		<span
 			class={
 				templ.KV("text-red-500", acc.InTheRed()),
@@ -83,71 +81,21 @@ templ savingsAccount(acc Account) {
 }
 
 templ loanAccount(acc Account) {
+	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
+		<span class="text-4xl">L</span>
+	</div>
+	<div class="account-name m-0 p-0 w-full overflow-x-hidden">
+		@accountName(acc.Name())
+	</div>
 	<div
 		class={
 			"row-span-2",
-			"w-[3.5rem]",
-			"relative",
-			"bg-neutral-50 text-neutral-950",
+			"flex justify-center items-center",
 		}
 	>
-		if acc.Covered() < 100 {
-			<span
-				class={
-					"absolute bottom-0 top-0 right-0 left-0",
-					"flex justify-center items-center",
-				}
-			>
-				<svg
-					class="rotate-[270deg]"
-					viewBox="0 0 100 100"
-					width="50"
-					height="50"
-					stroke="currentColor"
-					fill="none"
-					stroke-width="10"
-				>
-					<circle
-						cx="50"
-						cy="50"
-						r="45"
-						stroke-dasharray="300"
-						stroke-dashoffset={ fmt.Sprintf("%d", 300-int64(float64(acc.Covered())/100*300)) }
-					></circle>
-				</svg>
-			</span>
-			<span
-				class={
-					"absolute bottom-0 top-0 right-0 left-0",
-					"flex justify-center items-center",
-				}
-			>
-				<span class="text-xl">{ fmt.Sprintf("%d", acc.Covered()) }</span>
-			</span>
-		} else {
-			<span
-				class={
-					"absolute bottom-0 top-0 right-0 left-0",
-					"flex justify-center items-center",
-				}
-			>
-				<svg
-					fill="none"
-					height="35"
-					width="35"
-					stroke="currentColor"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="10"
-					viewBox="60 60 60 60"
-				>
-					<polyline points="65 90 85 110 115 70"></polyline>
-				</svg>
-			</span>
-		}
+		@components.ProgressCircle(acc.Covered())
 	</div>
-	@components.Heading5(acc.Name(), true)
-	<div class="flex flex-row-reverse justify-between items-center pr-2">
+	<div class="flex flex-row-reverse justify-between items-center">
 		<span
 			class={
 				templ.KV("text-red-500", acc.InTheRed()),
@@ -160,54 +108,21 @@ templ loanAccount(acc Account) {
 }
 
 templ creditAccount(acc Account) {
+	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
+		<span class="text-4xl">L</span>
+	</div>
+	<div class="account-name m-0 p-0 w-full overflow-x-hidden">
+		@accountName(acc.Name())
+	</div>
 	<div
 		class={
 			"row-span-2",
-			"w-[3.5rem]",
-			"relative",
-			"bg-neutral-50 text-neutral-950",
+			"flex justify-center items-center",
 		}
 	>
-		<span
-			class={
-				"absolute bottom-0 top-0 right-0 left-0",
-				"flex justify-center items-center",
-			}
-		>
-			<svg
-				class="rotate-[270deg]"
-				viewBox="0 0 100 100"
-				width="50"
-				height="50"
-				stroke="currentColor"
-				fill="none"
-				stroke-width="10"
-			>
-				<circle
-					cx="50"
-					cy="50"
-					r="45"
-					stroke-dasharray="300"
-					stroke-dashoffset={ fmt.Sprintf("%d", 300-int64(float64(acc.Covered())/100*300)) }
-				></circle>
-			</svg>
-		</span>
-		<span
-			class={
-				"absolute bottom-0 top-0 right-0 left-0",
-				"flex justify-center items-center",
-			}
-		>
-			<span
-				class={
-					templ.KV("text-2xl", acc.Covered() < 100),
-					templ.KV("text-xl", acc.Covered() >= 100),
-				}
-			>{ fmt.Sprintf("%d", acc.Covered()) }</span>
-		</span>
+		@components.ProgressCircle(acc.Covered())
 	</div>
-	@components.Heading5(acc.Name(), true)
-	<div class="flex flex-row-reverse justify-between items-center pr-2">
+	<div class="flex flex-row-reverse justify-between items-center">
 		<span
 			class={
 				templ.KV("text-red-500", acc.InTheRed()),
@@ -227,14 +142,11 @@ templ creditAccount(acc Account) {
 }
 
 templ externalAccount(acc Account) {
-	<div
-		class={
-			"row-span-2 w-[3.5rem] min-h-[3.5rem] flex justify-center items-center",
-			"bg-neutral-50 text-neutral-950",
-		}
-	>
+	<div class="row-span-2 w-[3.5rem] min-h-[3.5rem] flex justify-center items-center">
 		<span class="text-4xl">EX</span>
 	</div>
-	@components.Heading5(acc.Name(), true)
-	<div class="flex flex-row-reverse justify-between items-center pr-2"></div>
+	<div class="account-name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+		@accountName(acc.Name())
+	</div>
+	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2"></div>
 }

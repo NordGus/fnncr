@@ -8,8 +8,8 @@ import (
 
 func (h *handler) NormalAccountsHandlerFunc(c echo.Context) error {
 	acc := []models.Account{
-		models.NewAccount(models.NormalAccount, models.NoneDebt, "My Personal Account", 426900, 0),
-		models.NewAccount(models.NormalAccount, models.NoneDebt, "My Freelancer Account", -20000, 0),
+		models.NewAccount(models.NormalAccount, "My Personal Account", 426900, 0),
+		models.NewAccount(models.NormalAccount, "My Freelancer Account", -20000, 0),
 	}
 
 	return view.HTMXList(acc).Render(c.Request().Context(), c.Response())

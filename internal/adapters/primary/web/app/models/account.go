@@ -2,36 +2,27 @@ package models
 
 import (
 	"math"
-
-	"golang.org/x/text/number"
 )
 
 type AccountType string
-type DebtType string
 
 type Account struct {
-	AccType        AccountType
-	DebtType       DebtType
-	DisplayName    string
-	CurrentBalance int64
-	Limit          int64
+	model   AccountType
+	name    string
+	balance int64
+	limit   int64
 }
 
-func NewAccount(at AccountType, dt DebtType, name string, balance int64, limit int64) Account {
+func NewAccount(at AccountType, name string, balance int64, limit int64) Account {
 	return Account{
-		AccType:        at,
-		DebtType:       dt,
-		DisplayName:    name,
-		CurrentBalance: balance,
-		Limit:          limit,
+		model:   at,
+		name:    name,
+		balance: balance,
+		limit:   limit,
 	}
 }
 
 const (
-	NoneDebt    DebtType = "none"
-	IAmOwedDebt DebtType = "owed"
-	IOweDebt    DebtType = "owe"
-
 	NormalAccount   AccountType = "normal"
 	SavingsAccount  AccountType = "savings"
 	LoanAccount     AccountType = "loan"
@@ -40,109 +31,45 @@ const (
 )
 
 func (a Account) Type() string {
-	return string(a.AccType)
+	return string(a.model)
 }
 
 func (a Account) Name() string {
-	return a.DisplayName
+	return a.name
 }
 
 func (a Account) Balance() string {
-	switch a.AccType {
-	case LoanAccount:
-		return printer.Sprintf(
-			"%v",
-			number.Decimal(
-				a.loanAccountBalance(),
-				number.MaxFractionDigits(2),
-				number.MinFractionDigits(2),
-			),
-		)
-	default:
-		return printer.Sprintf(
-			"%v",
-			number.Decimal(
-				float64(a.CurrentBalance)/cents,
-				number.MaxFractionDigits(2),
-				number.MinFractionDigits(2),
-			),
-		)
-	}
+	return currencySprintf(a.balance)
 }
 
 func (a Account) Available() string {
-	switch a.DebtType {
-	case IOweDebt:
-		return printer.Sprintf(
-			"%v",
-			number.Decimal(
-				float64((a.Limit+a.CurrentBalance))/cents,
-				number.MaxFractionDigits(2),
-				number.MinFractionDigits(2),
-			),
-		)
-	case IAmOwedDebt:
-		return printer.Sprintf(
-			"%v",
-			number.Decimal(
-				float64(a.Limit-a.CurrentBalance)/cents,
-				number.MaxFractionDigits(2),
-				number.MinFractionDigits(2),
-			),
-		)
-	default:
-		return a.Balance()
-
-	}
-}
-
-func (a Account) Covered() int16 {
-	switch a.AccType {
-	case NormalAccount, SavingsAccount, ExternalAccount:
-		return 100
+	switch a.model {
 	case CreditAccount:
-		return int16(a.creditAccountCovered())
+		return currencySprintf(a.limit + a.balance)
 	default:
-		return int16(a.loanAccountCovered())
+		return currencySprintf(a.balance)
 	}
 }
 
-func (a Account) InTheRed() bool {
-	switch a.AccType {
-	case CreditAccount:
-		return (a.Limit + a.CurrentBalance) < 0
-	case LoanAccount:
-		return a.DebtType == IOweDebt
-	default:
-		return a.CurrentBalance < 0
-	}
-}
+func (a Account) Covered() int64 {
+	var covered int64 = 100
 
-func (a Account) creditAccountCovered() float64 {
-	covered := math.Floor(float64(a.Limit+a.CurrentBalance) / float64(a.Limit) * 100.0)
-
-	if a.DebtType == IOweDebt {
-		return covered
+	if a.model == LoanAccount || a.model == CreditAccount {
+		covered = int64((math.Abs(float64(a.balance)) - math.Abs(float64(a.limit))) / math.Abs(float64(a.limit)) * 100)
 	}
 
-	return -covered
-}
-
-func (a Account) loanAccountCovered() float64 {
-	covered := math.Floor(float64(a.CurrentBalance) / float64(a.Limit) * 100.0)
-
-	if a.DebtType == IOweDebt {
+	if covered < 0 {
 		return -covered
 	}
 
 	return covered
 }
 
-func (a Account) loanAccountBalance() float64 {
-	switch a.DebtType {
-	case IOweDebt:
-		return -float64(a.Limit+a.CurrentBalance) / cents
+func (a Account) InTheRed() bool {
+	switch a.model {
+	case CreditAccount:
+		return (a.limit + a.balance) < 0
 	default:
-		return float64(a.Limit-a.CurrentBalance) / cents
+		return a.balance < 0
 	}
 }

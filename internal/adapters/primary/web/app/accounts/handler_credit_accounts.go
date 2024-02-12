@@ -8,8 +8,8 @@ import (
 
 func (h *handler) CreditAccountsHandlerFunc(c echo.Context) error {
 	acc := []models.Account{
-		models.NewAccount(models.CreditAccount, models.IOweDebt, "Credit Card", -177300, 300000),
-		models.NewAccount(models.CreditAccount, models.IOweDebt, "Credit Line", 0, 250000),
+		models.NewAccount(models.CreditAccount, "Credit Card", -177300, 300000),
+		models.NewAccount(models.CreditAccount, "Credit Line", 0, 250000),
 	}
 
 	return view.HTMXList(acc).Render(c.Request().Context(), c.Response())

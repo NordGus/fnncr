@@ -5,7 +5,7 @@ import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/compone
 type Account interface {
 	Type() string
 	Name() string
-	Covered() int16
+	Covered() int64
 	Balance() string
 	Available() string
 	InTheRed() bool

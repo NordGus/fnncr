@@ -12,14 +12,14 @@ const (
 	circleDashArray           = 300
 )
 
-func dashOffset(elapsed int16) string {
+func dashOffset(elapsed int64) string {
 	return fmt.Sprintf(
 		"%d",
 		circleDashArray-int64(float64(elapsed)/100*circleDashArray),
 	)
 }
 
-templ ProgressCircle(elapsed int16) {
+templ ProgressCircle(elapsed int64) {
 	<div
 		class={
 			"w-[3.5rem]",

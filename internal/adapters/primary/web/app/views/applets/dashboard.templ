@@ -62,7 +62,23 @@ templ dashboardSection(sect DashboardSection) {
 	<section
 		class="grid grid-rows-[min-content_1fr] gap-4"
 	>
-		@components.Heading3(sect.Title, true)
+		<div class="flex justify-between items-center">
+			@components.Heading3(sect.Title, true)
+			<button
+				class={
+					"rounded-lg",
+					"border-button",
+					"border-neutral-500",
+					"hover:border-neutral-400",
+					"py-1.5",
+					"px-3",
+					"block",
+					"cursor-pointer",
+				}
+			>
+				add
+			</button>
+		</div>
 		<div
 			id={ sect.Id }
 			hx-get={ sect.FetchURL }

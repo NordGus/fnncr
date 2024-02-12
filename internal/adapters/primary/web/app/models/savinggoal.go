@@ -1,23 +1,31 @@
 package models
 
 type SavingsGoal struct {
-	GoalName string
-	Goal     int64
-	Saved    int64
+	name    string
+	goal    int64
+	balance int64
+}
+
+func NewSavingsGoal(name string, balance int64, goal int64) SavingsGoal {
+	return SavingsGoal{
+		name:    name,
+		balance: balance,
+		goal:    goal,
+	}
 }
 
 func (sg SavingsGoal) Name() string {
-	return sg.GoalName
+	return sg.name
 }
 
 func (sg SavingsGoal) Remaining() string {
-	return currencySprintf(sg.Goal - sg.Saved)
+	return currencySprintf(sg.goal - sg.balance)
 }
 
 func (sg SavingsGoal) Balance() string {
-	return currencySprintf(sg.Saved)
+	return currencySprintf(sg.balance)
 }
 
 func (sg SavingsGoal) Covered() int64 {
-	return int64((float64(sg.Saved) / float64(sg.Goal) * 100))
+	return int64((float64(sg.balance) / float64(sg.goal) * 100))
 }

@@ -20,7 +20,7 @@ templ savingsGoal(goal SavingGoal) {
 		>
 			<span class="text-4xl">G</span>
 		</div>
-		<div class="name m-0 p-0 w-full overflow-x-auto pr-2">
+		<div class="name m-0 p-0 w-full overflow-x-hidden">
 			@components.MarqueeHeading5(goal.Name())
 		</div>
 		<div
@@ -40,7 +40,9 @@ templ savingsGoal(goal SavingGoal) {
 			<span
 				class={ "text-green-500" }
 			>
-				{ goal.Balance() }
+				if goal.Covered() > 0 {
+					{ goal.Balance() }
+				}
 			</span>
 		</div>
 	}

@@ -4,21 +4,27 @@ import (
 	"math"
 )
 
-type AccountType string
+type (
+	AccountType string
 
-type Account struct {
-	model   AccountType
-	name    string
-	balance int64
-	limit   int64
-}
+	AccountCurrency string
 
-func NewAccount(at AccountType, name string, balance int64, limit int64) Account {
+	Account struct {
+		model    AccountType
+		currency AccountCurrency
+		name     string
+		balance  int64
+		limit    int64
+	}
+)
+
+func NewAccount(at AccountType, name string, balance int64, limit int64, currency AccountCurrency) Account {
 	return Account{
-		model:   at,
-		name:    name,
-		balance: balance,
-		limit:   limit,
+		model:    at,
+		currency: currency,
+		name:     name,
+		balance:  balance,
+		limit:    limit,
 	}
 }
 
@@ -28,6 +34,12 @@ const (
 	LoanAccount     AccountType = "loan"
 	CreditAccount   AccountType = "credit"
 	ExternalAccount AccountType = "external"
+
+	USD AccountCurrency = "USD"
+	EUR AccountCurrency = "EUR"
+	GBP AccountCurrency = "GBP"
+	AUD AccountCurrency = "AUD"
+	CAD AccountCurrency = "CAD"
 )
 
 func (a Account) Type() string {
@@ -39,15 +51,15 @@ func (a Account) Name() string {
 }
 
 func (a Account) Balance() string {
-	return currencySprintf(a.balance)
+	return currencySprintf(a.balance, string(a.currency))
 }
 
 func (a Account) Available() string {
 	switch a.model {
 	case CreditAccount:
-		return currencySprintf(a.limit + a.balance)
+		return currencySprintf(a.limit+a.balance, string(a.currency))
 	default:
-		return currencySprintf(a.balance)
+		return currencySprintf(a.balance, string(a.currency))
 	}
 }
 

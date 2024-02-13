@@ -14,13 +14,14 @@ var (
 	printer = message.NewPrinter(language.English)
 )
 
-func currencySprintf(amount int64) string {
+func currencySprintf(amount int64, currency string) string {
 	return printer.Sprintf(
-		"%v",
+		"%v %s",
 		number.Decimal(
 			float64(amount)/cents,
 			number.MaxFractionDigits(2),
 			number.MinFractionDigits(2),
 		),
+		currency,
 	)
 }

@@ -25,8 +25,8 @@ func (h *handler) DashboardAppletHandlerFunc(c echo.Context) error {
 			FetchURL: accounts.ExternalAccountsRoute,
 		},
 		{
-			Title:    "saving goals",
-			Id:       "saving_goals",
+			Title:    "savings goals",
+			Id:       "savings_goals",
 			FetchURL: savingsgoals.SavingsGoalsRoute,
 		},
 	}

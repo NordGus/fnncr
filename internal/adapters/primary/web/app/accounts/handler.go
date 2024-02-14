@@ -7,22 +7,20 @@ import (
 const (
 	// Routes
 
-	NormalAccountsRoute = "/accounts/normal"
-	LoanAccountsRoute   = "/accounts/loans"
-	// NOTE: Credit accounts are a little bit weird because they count as debts and assets. Where the available credit
+	// NOTE: Personal accounts are all accounts that can be a simple bank account and a savings account. Savings
+	// accounts balance go towards fulfilling Savings Goals.
+	PersonalAccountsRoute = "/accounts/personal"
+	// NOTE: Debt accounts are loans and credit lines, basically any kind of personal debt that the user has or is owed.
+	// Credit accounts are a little bit weird because they count as debts and assets. Where the available credit
 	// count as an asset and the expended credit count as debt.
-	CreditAccountsRoute = "/accounts/credits"
-	// NOTE: Savings accounts are basically normal accounts but their balance go to fulfill Savings Goals.
-	SavingsAccountsRoute = "/accounts/savings"
+	DebtAccountsRoute = "/accounts/debt"
 	// NOTE: External are basically transaction categories but in this case are easier administer.
 	ExternalAccountsRoute = "/accounts/external"
 )
 
 type Handler interface {
-	NormalAccountsHandlerFunc(c echo.Context) error
-	LoanAccountsHandlerFunc(c echo.Context) error
-	CreditAccountsHandlerFunc(c echo.Context) error
-	SavingsAccountsHandlerFunc(c echo.Context) error
+	PersonalAccountsHandlerFunc(c echo.Context) error
+	DebtAccountsHandlerFunc(c echo.Context) error
 	ExternalAccountsHandlerFunc(c echo.Context) error
 }
 

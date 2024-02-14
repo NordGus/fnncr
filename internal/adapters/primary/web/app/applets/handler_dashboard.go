@@ -10,34 +10,24 @@ import (
 func (h *handler) DashboardAppletHandlerFunc(c echo.Context) error {
 	sections := []view.DashboardSection{
 		{
-			Title:    "normal accounts",
-			Id:       "normal",
-			FetchURL: accounts.NormalAccountsRoute,
+			Title:    "capital",
+			Id:       "capital",
+			FetchURL: accounts.PersonalAccountsRoute,
 		},
 		{
-			Title:    "credit lines",
-			Id:       "credit",
-			FetchURL: accounts.CreditAccountsRoute,
+			Title:    "debt",
+			Id:       "debt",
+			FetchURL: accounts.DebtAccountsRoute,
 		},
 		{
-			Title:    "loans",
-			Id:       "loans",
-			FetchURL: accounts.LoanAccountsRoute,
-		},
-		{
-			Title:    "savings accounts",
-			Id:       "savings",
-			FetchURL: accounts.SavingsAccountsRoute,
+			Title:    "income and expenses",
+			Id:       "external",
+			FetchURL: accounts.ExternalAccountsRoute,
 		},
 		{
 			Title:    "saving goals",
 			Id:       "saving_goals",
 			FetchURL: savingsgoals.SavingsGoalsRoute,
-		},
-		{
-			Title:    "external accounts",
-			Id:       "external",
-			FetchURL: accounts.ExternalAccountsRoute,
 		},
 	}
 

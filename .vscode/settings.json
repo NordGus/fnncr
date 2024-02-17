@@ -36,11 +36,15 @@
         "shardulm",
         "sslmode",
         "sssn",
+        "struct",
         "tailwindcss",
         "tamasfe",
         "templ",
         "templating",
         "usersrepo",
         "zhuangtongfa"
+    ],
+    "cSpell.enableFiletypes": [
+        "templ"
     ]
 }

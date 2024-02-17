@@ -12,7 +12,7 @@ func (h *handler) DashboardAppletHandlerFunc(c echo.Context) error {
 		{
 			Title:    "capital",
 			Id:       "capital",
-			FetchURL: accounts.PersonalAccountsRoute,
+			FetchURL: accounts.CapitalAccountsRoute,
 		},
 		{
 			Title:    "debt",
@@ -31,8 +31,20 @@ func (h *handler) DashboardAppletHandlerFunc(c echo.Context) error {
 		},
 	}
 
+	actions := []view.ActionButton{
+		{
+			Name: "add savings goal",
+			URL:  "/savings_goals/new",
+		},
+		{
+			Name: "add account",
+			URL:  "/accounts/new",
+		},
+	}
+
 	return view.Dashboard(
 		layoutData(getUser(c), "fnncr | dashboard", dashboard),
 		sections,
+		actions,
 	).Render(c.Request().Context(), c.Response())
 }

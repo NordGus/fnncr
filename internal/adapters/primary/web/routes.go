@@ -28,9 +28,10 @@ func (a *App) setRoutes() {
 	a.echo.GET(applets.BudgetAppletRoute, apptls.BudgetAppletHandlerFunc, auth.AuthorizeMiddleware)
 	a.echo.GET(applets.IntelligenceAppletRoute, apptls.IntelligenceAppletHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(accounts.PersonalAccountsRoute, accnts.PersonalAccountsHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.CapitalAccountsRoute, accnts.CapitalHandlerFunc, auth.AuthorizeMiddleware)
 	a.echo.GET(accounts.DebtAccountsRoute, accnts.DebtAccountsHandlerFunc, auth.AuthorizeMiddleware)
 	a.echo.GET(accounts.ExternalAccountsRoute, accnts.ExternalAccountsHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.NewAccountRoute, accnts.NewHandlerFunc, auth.AuthorizeMiddleware)
 
 	a.echo.GET(savingsgoals.SavingsGoalsRoute, svngsgls.ListSavingsGoalsHandlerFunc, auth.AuthorizeMiddleware)
 }

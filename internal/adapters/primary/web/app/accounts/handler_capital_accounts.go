@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h *handler) PersonalAccountsHandlerFunc(c echo.Context) error {
+func (h *handler) CapitalHandlerFunc(c echo.Context) error {
 	acc := []models.Account{
 		models.NewAccount(models.NormalAccount, "My Personal Account", 426900, 0, models.EUR),
 		models.NewAccount(models.NormalAccount, "My Freelancer Account", -20000, 0, models.EUR),

@@ -1,0 +1,35 @@
+package accounts
+
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/applets"
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+
+type CreationOption struct {
+	Name        string
+	Description string
+	URL         string
+}
+
+templ HTMXNew(options []CreationOption) {
+	<div class="flex-1 flex flex-col justify-center items-center gap-4">
+		@components.Heading2("which type of account you want to add?", false)
+		for i := 0; i < len(options); i++ {
+			@creationOptionComponent(options[i])
+		}
+	</div>
+}
+
+templ creationOptionComponent(option CreationOption) {
+	<a
+		hx-get={ option.URL }
+		hx-target={ applets.DashboardActionTargetID }
+		class={
+			"inline-block py-1.5 px-3 rounded-lg",
+			"border-button border-neutral-500 hover:border-neutral-400",
+			"hover:text-neutral-400 hover:cursor-pointer",
+			"w-[20vw]",
+		}
+	>
+		@components.Heading4(option.Name, false)
+		<p class="text-sm text-neutral-400">{ option.Description }</p>
+	</a>
+}

@@ -2,6 +2,10 @@ package applets
 
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components/buttons"
+import "fmt"
+
+const DashboardActionTargetID = "action-target"
 
 type DashboardSection struct {
 	Title    string
@@ -9,7 +13,12 @@ type DashboardSection struct {
 	FetchURL string
 }
 
-templ Dashboard(ald layouts.ApplicationLayoutData, sections []DashboardSection) {
+type ActionButton struct {
+	Name string
+	URL  string
+}
+
+templ Dashboard(ald layouts.ApplicationLayoutData, sections []DashboardSection, actions []ActionButton) {
 	@layouts.Application(ald) {
 		<div
 			class={
@@ -23,8 +32,9 @@ templ Dashboard(ald layouts.ApplicationLayoutData, sections []DashboardSection) 
 			<div class="col-span-3 flex justify-between items-center">
 				@components.Heading1("dashboard", true)
 				<div class="flex gap-4">
-					<button class="rounded-lg">add savings goal</button>
-					<button class="rounded-lg">add account</button>
+					for i := 0; i < len(actions); i++ {
+						@buttons.ActionWithTarget(actions[i].Name, actions[i].URL, fmt.Sprintf("#%v", DashboardActionTargetID))
+					}
 				</div>
 			</div>
 			<div class="flex gap-4 col-span-2">
@@ -46,12 +56,8 @@ templ Dashboard(ald layouts.ApplicationLayoutData, sections []DashboardSection) 
 				</span>
 			</div>
 			<div
-				class={
-					"flex flex-col",
-					"row-span-3",
-					"overflow-y-scroll",
-				}
-				id={ "selected-acount" }
+				class="flex flex-col row-span-3 overflow-y-scroll"
+				id={ DashboardActionTargetID }
 			>
 				<div class="flex-1 flex justify-center items-center">
 					@components.Heading4("no entry selected", true)

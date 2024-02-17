@@ -26,3 +26,15 @@ func (h *handler) NewHandlerFunc(c echo.Context) error {
 
 	return view.HTMXNew(options).Render(c.Request().Context(), c.Response())
 }
+
+func (h *handler) NewCapitalAccountHandlerFunc(c echo.Context) error {
+	return view.HTMXNewCapital().Render(c.Request().Context(), c.Response())
+}
+
+func (h *handler) NewDebtAccountHandlerFunc(c echo.Context) error {
+	return view.HTMXNewDebt().Render(c.Request().Context(), c.Response())
+}
+
+func (h *handler) NewExternalAccountHandlerFunc(c echo.Context) error {
+	return view.HTMXNewExternal().Render(c.Request().Context(), c.Response())
+}

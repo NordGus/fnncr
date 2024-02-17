@@ -30,6 +30,9 @@ type Handler interface {
 	ExternalAccountsHandlerFunc(c echo.Context) error
 
 	NewHandlerFunc(c echo.Context) error
+	NewCapitalAccountHandlerFunc(c echo.Context) error
+	NewDebtAccountHandlerFunc(c echo.Context) error
+	NewExternalAccountHandlerFunc(c echo.Context) error
 }
 
 type handler struct {

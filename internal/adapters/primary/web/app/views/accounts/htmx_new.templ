@@ -2,6 +2,7 @@ package accounts
 
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/applets"
 import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+import "fmt"
 
 type CreationOption struct {
 	Name        string
@@ -21,7 +22,7 @@ templ HTMXNew(options []CreationOption) {
 templ creationOptionComponent(option CreationOption) {
 	<a
 		hx-get={ option.URL }
-		hx-target={ applets.DashboardActionTargetID }
+		hx-target={ fmt.Sprintf("#%v", applets.DashboardActionTargetID) }
 		class={
 			"inline-block py-1.5 px-3 rounded-lg",
 			"border-button border-neutral-500 hover:border-neutral-400",

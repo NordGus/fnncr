@@ -1,6 +1,8 @@
 package accounts
 
 import (
+	"time"
+
 	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/accounts"
 	"github.com/labstack/echo/v4"
 )
@@ -28,7 +30,23 @@ func (h *handler) NewHandlerFunc(c echo.Context) error {
 }
 
 func (h *handler) NewCapitalAccountHandlerFunc(c echo.Context) error {
-	return view.HTMXNewCapital().Render(c.Request().Context(), c.Response())
+	form := view.CapitalAccountForm{
+		Name:      "new capital account",
+		ActionURL: "/not_implemented",
+		Currencies: [][2]string{
+			{"EUR", "Euro"},
+			{"USD", "US Dollar"},
+		},
+		InitialBalance: struct {
+			Amount int64
+			At     time.Time
+		}{
+			Amount: 0,
+			At:     time.Now().UTC(),
+		},
+	}
+
+	return view.HTMXNewCapital(form).Render(c.Request().Context(), c.Response())
 }
 
 func (h *handler) NewDebtAccountHandlerFunc(c echo.Context) error {

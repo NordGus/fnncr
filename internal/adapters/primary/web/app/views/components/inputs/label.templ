@@ -1,6 +1,19 @@
 package inputs
 
-type Label struct{}
+type Label struct {
+	For      string
+	Text     string
+	IsInline bool
+}
 
-templ PlainLabelComponent() {
+templ PlainLabelComponent(l Label) {
+	<label
+		class={
+			"font-bold py-1.5 px-2",
+			templ.KV("w-full", !l.IsInline),
+		}
+		for={ l.For }
+	>
+		{ l.Text }
+	</label>
 }

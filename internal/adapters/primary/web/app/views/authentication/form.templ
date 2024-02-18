@@ -18,7 +18,13 @@ templ form(f FormLogin) {
 			</div>
 		}
 		<div class="flex justify-between my-3">
-			<label for="username">username</label>
+			@inputs.PlainLabelComponent(
+				inputs.Label{
+					For:      "username",
+					Text:     "username",
+					IsInline: true,
+				},
+			)
 			@inputs.PlainInputComponent(
 				inputs.Input{
 					Type:     "text",
@@ -29,7 +35,13 @@ templ form(f FormLogin) {
 			)
 		</div>
 		<div class="flex justify-between my-3">
-			<label for="password">password</label>
+			@inputs.PlainLabelComponent(
+				inputs.Label{
+					For:      "password",
+					Text:     "password",
+					IsInline: true,
+				},
+			)
 			@inputs.PlainInputComponent(
 				inputs.Input{
 					Type:     "password",

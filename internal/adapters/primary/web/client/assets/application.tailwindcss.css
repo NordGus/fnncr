@@ -6,8 +6,4 @@
     :root {
         @apply text-neutral-800 dark:text-neutral-100 dark:bg-neutral-800;
     }
-
-    label {
-        @apply font-bold py-1.5;
-    }
 }

@@ -1,0 +1,13 @@
+package applets
+
+import "financo/internal/adapters/primary/web/api/app/views/layouts"
+import "financo/internal/adapters/primary/web/api/app/views/components"
+
+templ Root(ald layouts.ApplicationLayoutData) {
+	@layouts.Application(ald) {
+		<div class="flex flex-col justify-center items-center h-full">
+			@components.Heading1("Welcome to financo", false)
+			@components.Heading5("your personal finances helper", true)
+		</div>
+	}
+}

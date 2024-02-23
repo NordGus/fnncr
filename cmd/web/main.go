@@ -8,7 +8,7 @@ import (
 
 	pgserv "financo/database/postgresql"
 	rdsserv "financo/database/redis"
-	"financo/internal/adapters/primary/web"
+	web "financo/internal/adapters/primary/web/api"
 	"financo/internal/adapters/secondary/postgres"
 	"financo/internal/adapters/secondary/redis"
 	"financo/internal/core/services/authentication"

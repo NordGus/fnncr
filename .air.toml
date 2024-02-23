@@ -4,7 +4,7 @@ tmp_dir = "tmp"
 
 [build]
 args_bin = []
-bin = "./tmp/web"
+bin = "./tmp/web/api"
 cmd = "npm run build:src && npm run build:css && templ generate && go build -o ./tmp/web/api ./cmd/web/api"
 delay = 1000
 exclude_dir = [

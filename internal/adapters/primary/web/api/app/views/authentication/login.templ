@@ -1,0 +1,13 @@
+package authentication
+
+import "financo/internal/adapters/primary/web/api/app/views/layouts"
+import "financo/internal/adapters/primary/web/api/app/views/components"
+
+templ Login(f FormLogin) {
+	@layouts.Login() {
+		@components.Heading1("financo", false)
+		<div id="login-form">
+			@form(f)
+		</div>
+	}
+}

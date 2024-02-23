@@ -4,8 +4,8 @@ tmp_dir = "tmp"
 
 [build]
 args_bin = []
-bin = "./tmp/web"
-cmd = "npm run build:src && npm run build:css && templ generate && go build -o ./tmp/web ./cmd/web"
+bin = "./tmp/web/api"
+cmd = "npm run build:src && npm run build:css && templ generate && go build -o ./tmp/web/api ./cmd/web/api"
 delay = 1000
 exclude_dir = [
     "tmp",
@@ -14,7 +14,7 @@ exclude_dir = [
     "node_modules",
     ".vscode",
     ".devcontainer",
-    "internal/adapters/primary/web/dist",
+    "internal/adapters/primary/web/api/dist",
 ]
 exclude_file = [
     "package.json",
@@ -55,5 +55,5 @@ time = false
 clean_on_exit = false
 
 [screen]
-clear_on_rebuild = false
+clear_on_rebuild = true
 keep_scroll = true

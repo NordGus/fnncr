@@ -5,9 +5,9 @@
   "author": "Azimetrico Inc.",
   "private": true,
   "scripts": {
-    "build:src": "esbuild internal/adapters/primary/web/client/src/*.* --bundle --sourcemap --outdir=internal/adapters/primary/web/dist/src --public-path=/dist/src",
-    "build:src:prod": "esbuild internal/adapters/primary/web/client/src/*.* --bundle --outdir=internal/adapters/primary/web/dist/src --public-path=/dist/src",
-    "build:css": "tailwindcss -i ./internal/adapters/primary/web/client/assets/application.tailwindcss.css -o ./internal/adapters/primary/web/dist/assets/application.css"
+    "build:src": "esbuild internal/adapters/primary/web/api/client/src/*.* --bundle --sourcemap --outdir=internal/adapters/primary/web/api/dist/src --public-path=/dist/src",
+    "build:src:prod": "esbuild internal/adapters/primary/web/api/client/src/*.* --bundle --outdir=internal/adapters/primary/web/api/dist/src --public-path=/dist/src",
+    "build:css": "tailwindcss -i ./internal/adapters/primary/web/api/client/assets/application.tailwindcss.css -o ./internal/adapters/primary/web/api/dist/assets/application.css"
   },
   "dependencies": {
     "htmx.org": "1.9.10"

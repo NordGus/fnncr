@@ -1,0 +1,7 @@
+package accounts
+
+templ HTMXList[Model Account](accounts []Model) {
+	for i := 0; i < len(accounts); i++ {
+		@account(accounts[i])
+	}
+}

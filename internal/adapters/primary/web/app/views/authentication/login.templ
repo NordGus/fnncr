@@ -5,7 +5,7 @@ import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/compone
 
 templ Login(f FormLogin) {
 	@layouts.Login() {
-		@components.Heading1("fnncr")
+		@components.Heading1("fnncr", false)
 		<div id="login-form">
 			@form(f)
 		</div>

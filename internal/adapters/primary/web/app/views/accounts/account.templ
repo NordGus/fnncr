@@ -1,0 +1,140 @@
+package accounts
+
+import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+
+type Account interface {
+	Type() string
+	Name() string
+	Covered() int64
+	Balance() string
+	Available() string
+	InTheRed() bool
+}
+
+templ account(acc Account) {
+	@components.DashboardPreviewContainer() {
+		switch acc.Type() {
+			case "normal":
+				@normalAccount(acc)
+			case "savings":
+				@savingsAccount(acc)
+			case "loan":
+				@loanAccount(acc)
+			case "credit":
+				@creditAccount(acc)
+			case "external":
+				@externalAccount(acc)
+			default:
+				<div>Unsupported Type</div>
+		}
+	}
+}
+
+templ normalAccount(acc Account) {
+	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
+		<span class="text-4xl">€</span>
+	</div>
+	<div class="name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+		@components.MarqueeHeading5(acc.Name())
+	</div>
+	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2">
+		<span
+			class={
+				templ.KV("text-red-500", acc.InTheRed()),
+				templ.KV("text-green-500", !acc.InTheRed()),
+			}
+		>
+			{ acc.Balance() }
+		</span>
+	</div>
+}
+
+templ savingsAccount(acc Account) {
+	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
+		<span class="text-4xl">S</span>
+	</div>
+	<div class="name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+		@components.MarqueeHeading5(acc.Name())
+	</div>
+	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2">
+		<span
+			class={
+				templ.KV("text-red-500", acc.InTheRed()),
+				templ.KV("text-green-500", !acc.InTheRed()),
+			}
+		>
+			{ acc.Balance() }
+		</span>
+	</div>
+}
+
+templ loanAccount(acc Account) {
+	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
+		<span class="text-4xl">L</span>
+	</div>
+	<div class="name m-0 p-0 w-full overflow-x-hidden">
+		@components.MarqueeHeading5(acc.Name())
+	</div>
+	<div
+		class={
+			"row-span-2",
+			"flex justify-center items-center",
+		}
+	>
+		@components.ProgressCircle(acc.Covered())
+	</div>
+	<div class="flex flex-row-reverse justify-between items-center">
+		<span
+			class={
+				templ.KV("text-red-500", acc.InTheRed()),
+				templ.KV("text-green-500", !acc.InTheRed()),
+			}
+		>
+			{ acc.Balance() }
+		</span>
+	</div>
+}
+
+templ creditAccount(acc Account) {
+	<div class="row-span-2 w-[3.5rem] flex justify-center items-center">
+		<span class="text-4xl">C</span>
+	</div>
+	<div class="name m-0 p-0 w-full overflow-x-hidden">
+		@components.MarqueeHeading5(acc.Name())
+	</div>
+	<div
+		class={
+			"row-span-2",
+			"flex justify-center items-center",
+		}
+	>
+		@components.ProgressCircle(acc.Covered())
+	</div>
+	<div class="flex flex-row-reverse justify-between items-center">
+		<span
+			class={
+				templ.KV("text-red-500", acc.InTheRed()),
+				templ.KV("text-green-500", !acc.InTheRed()),
+			}
+		>
+			{ acc.Available() }
+		</span>
+		<span
+			class={ "text-red-500" }
+		>
+			if acc.Covered() < 100 {
+				{ acc.Balance() }
+			}
+		</span>
+	</div>
+}
+
+templ externalAccount(acc Account) {
+	<div class="row-span-2 w-[3.5rem] min-h-[3.5rem] flex justify-center items-center">
+		<span class="text-4xl">EX</span>
+	</div>
+	<div class="name m-0 p-0 w-full overflow-x-hidden col-span-2 pr-2">
+		@components.MarqueeHeading5(acc.Name())
+	</div>
+	<div class="flex flex-row-reverse justify-between items-center col-span-2 pr-2"></div>
+}

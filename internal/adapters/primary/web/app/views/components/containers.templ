@@ -1,0 +1,18 @@
+package components
+
+templ DashboardPreviewContainer() {
+	<dashboard-preview
+		class={
+			"grid",
+			"grid-cols-account-preview",
+			"grid-rows-account-preview",
+			"gap-2",
+			"border-button border-neutral-500 rounded-lg",
+			"overflow-clip",
+			"min-w-[15vw]",
+			"group",
+		}
+	>
+		{ children... }
+	</dashboard-preview>
+}

@@ -2,24 +2,17 @@ package web
 
 import (
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/accounts"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/assets"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/applets"
 	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/budget"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/summary"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/transactions"
-	views "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/application"
-	"github.com/labstack/echo/v4"
+	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/savingsgoals"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func (a *App) setRoutes() {
 	auth := authentication.New(a.AuthAPI)
+	apptls := applets.New()
 	accnts := accounts.New()
-	trnsctns := transactions.New()
-	bdgt := budget.New()
-	assts := assets.New()
-	smmry := summary.New()
+	svngsgls := savingsgoals.New()
 
 	a.echo.Use(middleware.Logger())
 
@@ -29,19 +22,19 @@ func (a *App) setRoutes() {
 	a.echo.POST(authentication.SignInRoute, auth.SignInHandlerFunc)
 	a.echo.GET(authentication.SignOutRoute, auth.SignOutHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(accounts.AppletRoute, accnts.AppletHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET("/", apptls.RootAppletHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(applets.DashboardAppletRoute, apptls.DashboardAppletHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(applets.BookAppletRoute, apptls.BookAppletHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(applets.BudgetAppletRoute, apptls.BudgetAppletHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(applets.IntelligenceAppletRoute, apptls.IntelligenceAppletHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(transactions.AppletRoute, trnsctns.AppletHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.CapitalAccountsRoute, accnts.CapitalHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.DebtAccountsRoute, accnts.DebtAccountsHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.ExternalAccountsRoute, accnts.ExternalAccountsHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.NewAccountRoute, accnts.NewHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.NewCapitalAccountRoute, accnts.NewCapitalAccountHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.NewDebtAccountRoute, accnts.NewDebtAccountHandlerFunc, auth.AuthorizeMiddleware)
+	a.echo.GET(accounts.NewExternalAccountRoute, accnts.NewExternalAccountHandlerFunc, auth.AuthorizeMiddleware)
 
-	a.echo.GET(budget.AppletRoute, bdgt.AppletHandlerFunc, auth.AuthorizeMiddleware)
-
-	a.echo.GET(assets.AppletRoute, assts.AppletHandlerFunc, auth.AuthorizeMiddleware)
-
-	a.echo.GET(summary.AppletRoute, smmry.AppletHandlerFunc, auth.AuthorizeMiddleware)
-
-	a.echo.GET("/", func(c echo.Context) error {
-		usr := c.Get(authentication.CurrentUserCtxKey).(models.User)
-
-		return views.Root(usr).Render(c.Request().Context(), c.Response())
-	}, auth.AuthorizeMiddleware)
+	a.echo.GET(savingsgoals.SavingsGoalsRoute, svngsgls.ListSavingsGoalsHandlerFunc, auth.AuthorizeMiddleware)
 }

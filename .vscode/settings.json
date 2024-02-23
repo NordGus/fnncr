@@ -13,6 +13,8 @@
         "godotenv",
         "gopls",
         "goredis",
+        "Gruntfuggly",
+        "HTMX",
         "jackc",
         "joho",
         "labstack",
@@ -26,17 +28,23 @@
         "rdsadapter",
         "rdsdb",
         "rdsserv",
+        "savingsgoals",
+        "sdras",
         "seccomp",
         "Segoe",
         "sessionrepo",
         "shardulm",
         "sslmode",
         "sssn",
+        "struct",
         "tailwindcss",
         "tamasfe",
         "templ",
         "templating",
         "usersrepo",
         "zhuangtongfa"
+    ],
+    "cSpell.enableFiletypes": [
+        "templ"
     ]
 }

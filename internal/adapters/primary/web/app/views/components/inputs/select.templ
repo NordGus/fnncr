@@ -1,0 +1,42 @@
+package inputs
+
+type Select struct {
+	Name     string
+	Prompt   string
+	Value    string
+	Options  [][2]string
+	IsInline bool
+}
+
+templ PlainSelectComponent(s Select) {
+	<select
+		name={ s.Name }
+		class={
+			"py-1.5 px-3 rounded-lg",
+			"border-button border-neutral-500 hover:enabled:border-neutral-400 disabled:border-neutral-300",
+			"disabled:text-neutral-500 hover:enabled:text-neutral-400",
+			"cursor-pointer disabled:cursor-not-allowed",
+			"bg-transparent disabled:bg-neutral-300",
+			templ.KV("w-[75%]", s.IsInline),
+			templ.KV("w-full", !s.IsInline),
+		}
+	>
+		<option value="">
+			if s.Prompt == "" {
+				select an option
+			} else {
+				{ s.Prompt }
+			}
+		</option>
+		for i:=0;i<len(s.Options);i++ {
+			<option
+				value={ s.Options[i][0] }
+				if s.Options[i][0] == s.Value {
+					selected
+				}
+			>
+				{ s.Options[i][1] }
+			</option>
+		}
+	</select>
+}

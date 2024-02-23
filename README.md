@@ -43,3 +43,5 @@ files from the `templ` templates.
 > `devcontainer.json`. If you add any further modifications to the settings
 > related to `templ` please add them to `devcontainer.json` settings section, so
 > all developers can work in the same environment.
+
+> The GoTH stack. - NordGus

@@ -10,7 +10,7 @@ import (
 const (
 	CurrentUserCtxKey = "currentUser"
 
-	sessionCookieName   = "_session_fnncr"
+	sessionCookieName   = "_session_financo"
 	sessionCookieMaxAge = 30 * 24 * time.Hour
 
 	// Routes

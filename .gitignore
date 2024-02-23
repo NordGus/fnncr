@@ -27,3 +27,5 @@ dist/
 # Go workspace file
 go.work
 
+# intellij entry
+.idea

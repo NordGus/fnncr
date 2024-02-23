@@ -3,8 +3,8 @@ package authentication
 import (
 	"net/http"
 
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
-	"github.com/NordGus/fnncr/internal/core/services/authentication"
+	"financo/internal/adapters/primary/web/app/models"
+	"financo/internal/core/services/authentication"
 	"github.com/labstack/echo/v4"
 )
 

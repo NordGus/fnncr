@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/NordGus/fnncr/internal/core/domain/session"
-	"github.com/NordGus/fnncr/internal/ports"
+	"financo/internal/core/domain/session"
+	"financo/internal/ports"
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
 )

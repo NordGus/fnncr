@@ -1,7 +1,7 @@
 package applets
 
 import (
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/applets"
+	view "financo/internal/adapters/primary/web/app/views/applets"
 	"github.com/labstack/echo/v4"
 )
 

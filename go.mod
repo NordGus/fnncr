@@ -1,4 +1,4 @@
-module github.com/NordGus/fnncr
+module financo
 
 go 1.22.0
 

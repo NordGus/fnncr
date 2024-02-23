@@ -3,7 +3,7 @@ package accounts
 import (
 	"time"
 
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/accounts"
+	view "financo/internal/adapters/primary/web/app/views/accounts"
 	"github.com/labstack/echo/v4"
 )
 

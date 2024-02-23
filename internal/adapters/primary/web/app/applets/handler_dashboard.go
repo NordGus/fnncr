@@ -1,9 +1,9 @@
 package applets
 
 import (
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/accounts"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/savingsgoals"
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/applets"
+	"financo/internal/adapters/primary/web/app/accounts"
+	"financo/internal/adapters/primary/web/app/savingsgoals"
+	view "financo/internal/adapters/primary/web/app/views/applets"
 	"github.com/labstack/echo/v4"
 )
 

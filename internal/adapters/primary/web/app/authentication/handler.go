@@ -3,7 +3,7 @@ package authentication
 import (
 	"time"
 
-	"github.com/NordGus/fnncr/internal/core/services/authentication"
+	"financo/internal/core/services/authentication"
 	"github.com/labstack/echo/v4"
 )
 

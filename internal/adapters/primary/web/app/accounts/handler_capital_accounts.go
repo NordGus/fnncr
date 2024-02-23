@@ -1,8 +1,8 @@
 package accounts
 
 import (
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/accounts"
+	"financo/internal/adapters/primary/web/app/models"
+	view "financo/internal/adapters/primary/web/app/views/accounts"
 	"github.com/labstack/echo/v4"
 )
 

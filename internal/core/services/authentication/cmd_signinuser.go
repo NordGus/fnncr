@@ -6,8 +6,8 @@ import (
 	"io"
 	"time"
 
-	"github.com/NordGus/fnncr/internal/core/domain/session"
-	"github.com/NordGus/fnncr/internal/core/domain/user"
+	"financo/internal/core/domain/session"
+	"financo/internal/core/domain/user"
 	"golang.org/x/crypto/bcrypt"
 )
 

@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	pgserv "github.com/NordGus/fnncr/database/postgresql"
-	"github.com/NordGus/fnncr/internal/adapters/secondary/postgres"
-	"github.com/NordGus/fnncr/internal/core/services/users"
+	pgserv "financo/database/postgresql"
+	"financo/internal/adapters/secondary/postgres"
+	"financo/internal/core/services/users"
 )
 
 func main() {

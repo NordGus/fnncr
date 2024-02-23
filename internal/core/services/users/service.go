@@ -3,7 +3,7 @@ package users
 import (
 	"context"
 
-	"github.com/NordGus/fnncr/internal/ports"
+	"financo/internal/ports"
 )
 
 type (

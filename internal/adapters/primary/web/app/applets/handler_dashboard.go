@@ -1,9 +1,9 @@
 package applets
 
 import (
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/accounts"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/savingsgoals"
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/applets"
+	"financo/internal/adapters/primary/web/app/accounts"
+	"financo/internal/adapters/primary/web/app/savingsgoals"
+	view "financo/internal/adapters/primary/web/app/views/applets"
 	"github.com/labstack/echo/v4"
 )
 
@@ -43,7 +43,7 @@ func (h *handler) DashboardAppletHandlerFunc(c echo.Context) error {
 	}
 
 	return view.Dashboard(
-		layoutData(getUser(c), "fnncr | dashboard", dashboard),
+		layoutData(getUser(c), "financo | dashboard", dashboard),
 		sections,
 		actions,
 	).Render(c.Request().Context(), c.Response())

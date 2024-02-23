@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/NordGus/fnncr/internal/core/domain/user"
+	"financo/internal/core/domain/user"
 	"github.com/google/uuid"
 )
 

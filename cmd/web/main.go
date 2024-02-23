@@ -6,12 +6,12 @@ import (
 	"os"
 	"time"
 
-	pgserv "github.com/NordGus/fnncr/database/postgresql"
-	rdsserv "github.com/NordGus/fnncr/database/redis"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web"
-	"github.com/NordGus/fnncr/internal/adapters/secondary/postgres"
-	"github.com/NordGus/fnncr/internal/adapters/secondary/redis"
-	"github.com/NordGus/fnncr/internal/core/services/authentication"
+	pgserv "financo/database/postgresql"
+	rdsserv "financo/database/redis"
+	"financo/internal/adapters/primary/web"
+	"financo/internal/adapters/secondary/postgres"
+	"financo/internal/adapters/secondary/redis"
+	"financo/internal/core/services/authentication"
 	_ "github.com/joho/godotenv/autoload"
 	goredis "github.com/redis/go-redis/v9"
 )

@@ -1,10 +1,10 @@
 package applets
 
 import (
-	auth "github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
+	auth "financo/internal/adapters/primary/web/app/authentication"
+	"financo/internal/adapters/primary/web/app/models"
+	"financo/internal/adapters/primary/web/app/views/components"
+	"financo/internal/adapters/primary/web/app/views/layouts"
 	"github.com/labstack/echo/v4"
 )
 

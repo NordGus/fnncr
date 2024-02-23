@@ -1,8 +1,8 @@
 package savingsgoals
 
 import (
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/models"
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/savingsgoals"
+	"financo/internal/adapters/primary/web/app/models"
+	view "financo/internal/adapters/primary/web/app/views/savingsgoals"
 	"github.com/labstack/echo/v4"
 )
 

@@ -1,10 +1,10 @@
 package web
 
 import (
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/accounts"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/applets"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/authentication"
-	"github.com/NordGus/fnncr/internal/adapters/primary/web/app/savingsgoals"
+	"financo/internal/adapters/primary/web/app/accounts"
+	"financo/internal/adapters/primary/web/app/applets"
+	"financo/internal/adapters/primary/web/app/authentication"
+	"financo/internal/adapters/primary/web/app/savingsgoals"
 	"github.com/labstack/echo/v4/middleware"
 )
 

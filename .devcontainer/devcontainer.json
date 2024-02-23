@@ -1,10 +1,10 @@
 {
-  "name": "fnncr",
+  "name": "financo",
   "build": {
     "args": {
       "GO_VERSION": "1.22.0",
       "ALPINE_VERSION": "3.19",
-      "NODE_VERSION": "20.11.0",
+      "NODE_VERSION": "20.11.1",
       "NPM_VERSION": "latest",
       "GOPLS_VERSION": "latest",
       "GO_AIR_VERSION": "v1.49.0",
@@ -15,11 +15,11 @@
     "dockerfile": "devcontainer.Dockerfile"
   },
   "containerEnv": {
-    "PG_DB_USERNAME": "fnncr",
+    "PG_DB_USERNAME": "financo",
     "PG_DB_PASSWORD": "local_dev",
     "PG_DB_HOST": "127.0.0.1",
     "PG_DB_PORT": "5432",
-    "PG_DB_DATABASE": "fnncr_dev"
+    "PG_DB_DATABASE": "financo_dev"
   },
   "customizations": {
     "vscode": {

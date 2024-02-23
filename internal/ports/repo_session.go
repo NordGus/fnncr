@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/NordGus/fnncr/internal/core/domain/session"
+	"financo/internal/core/domain/session"
 )
 
 var (

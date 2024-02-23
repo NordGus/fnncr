@@ -1,13 +1,13 @@
 package applets
 
 import (
-	view "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/applets"
+	view "financo/internal/adapters/primary/web/app/views/applets"
 	"github.com/labstack/echo/v4"
 )
 
 func (h *handler) BookAppletHandlerFunc(c echo.Context) error {
 	return view.NotImplemented(
-		layoutData(getUser(c), "fnncr | book", book),
+		layoutData(getUser(c), "financo | book", book),
 		BookAppletRoute,
 	).Render(c.Request().Context(), c.Response())
 }

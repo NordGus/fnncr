@@ -6,8 +6,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/NordGus/fnncr/internal/core/domain/user"
-	"github.com/NordGus/fnncr/internal/ports"
+	"financo/internal/core/domain/user"
+	"financo/internal/ports"
 	"github.com/google/uuid"
 )
 

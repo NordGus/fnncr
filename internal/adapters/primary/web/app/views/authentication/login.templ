@@ -1,11 +1,11 @@
 package authentication
 
-import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/layouts"
-import "github.com/NordGus/fnncr/internal/adapters/primary/web/app/views/components"
+import "financo/internal/adapters/primary/web/app/views/layouts"
+import "financo/internal/adapters/primary/web/app/views/components"
 
 templ Login(f FormLogin) {
 	@layouts.Login() {
-		@components.Heading1("fnncr", false)
+		@components.Heading1("financo", false)
 		<div id="login-form">
 			@form(f)
 		</div>

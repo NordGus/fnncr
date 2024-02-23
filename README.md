@@ -1,10 +1,10 @@
-# fnncr
+# financo
 
 A personal finances and budgeting application.
 
 ## Setting up development environment and IDE
 
-`fnncr`'s development environment was build using `Visual Studio Code`'s
+`financo`'s development environment was build using `Visual Studio Code`'s
 `devcontainer` feature to create a portable and standardized development
 environment. So you are required to install the following programs:
 

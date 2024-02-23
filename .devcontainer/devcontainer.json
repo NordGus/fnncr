@@ -1,5 +1,5 @@
 {
-  "name": "fnncr",
+  "name": "financo",
   "build": {
     "args": {
       "GO_VERSION": "1.22.0",
@@ -15,11 +15,11 @@
     "dockerfile": "devcontainer.Dockerfile"
   },
   "containerEnv": {
-    "PG_DB_USERNAME": "fnncr",
+    "PG_DB_USERNAME": "financo",
     "PG_DB_PASSWORD": "local_dev",
     "PG_DB_HOST": "127.0.0.1",
     "PG_DB_PORT": "5432",
-    "PG_DB_DATABASE": "fnncr_dev"
+    "PG_DB_DATABASE": "financo_dev"
   },
   "customizations": {
     "vscode": {

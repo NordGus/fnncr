@@ -7,14 +7,14 @@ import (
 	"os"
 	"time"
 
-	pgserv "financo/database/postgresql"
-	"financo/internal/adapters/secondary/postgres"
+	pgadapter "financo/internal/adapters/secondary/postgres"
 	"financo/internal/core/services/users"
+	pgdb "financo/internal/database/postgresql"
 )
 
 func main() {
 	var (
-		pg = pgserv.New(
+		pg = pgdb.New(
 			os.Getenv("PG_DB_USERNAME"),
 			os.Getenv("PG_DB_PASSWORD"),
 			os.Getenv("PG_DB_HOST"),
@@ -25,9 +25,9 @@ func main() {
 			func(db *sql.DB) { db.SetConnMaxIdleTime(15 * time.Second) },
 		)
 
-		usersrepo = postgres.NewUsersRepository(pg.DB())
+		usersRepo = pgadapter.NewUsersRepository(pg.DB())
 
-		usersserv = users.NewService(usersrepo)
+		usersserv = users.NewService(usersRepo)
 	)
 	defer pg.Close()
 

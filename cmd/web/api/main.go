@@ -6,14 +6,14 @@ import (
 	"os"
 	"time"
 
-	pgserv "financo/database/postgresql"
-	rdsserv "financo/database/redis"
 	web "financo/internal/adapters/primary/web/api"
-	"financo/internal/adapters/secondary/postgres"
-	"financo/internal/adapters/secondary/redis"
+	pgadpter "financo/internal/adapters/secondary/postgres"
+	rdsadapter "financo/internal/adapters/secondary/redis"
 	"financo/internal/core/services/authentication"
+	pgdb "financo/internal/database/postgresql"
+	rdsdb "financo/internal/database/redis"
 	_ "github.com/joho/godotenv/autoload"
-	goredis "github.com/redis/go-redis/v9"
+	"github.com/redis/go-redis/v9"
 )
 
 const (
@@ -22,7 +22,7 @@ const (
 
 func main() {
 	var (
-		pg = pgserv.New(
+		pg = pgdb.New(
 			os.Getenv("PG_DB_USERNAME"),
 			os.Getenv("PG_DB_PASSWORD"),
 			os.Getenv("PG_DB_HOST"),
@@ -32,7 +32,7 @@ func main() {
 			func(db *sql.DB) { db.SetMaxIdleConns(5) },
 			func(db *sql.DB) { db.SetConnMaxIdleTime(15 * time.Second) },
 		)
-		rds = rdsserv.New(goredis.Options{
+		rds = rdsdb.New(redis.Options{
 			Addr:            "127.0.0.1:6379",
 			Password:        "",
 			DB:              0,
@@ -40,10 +40,10 @@ func main() {
 			ConnMaxIdleTime: 1 * time.Second,
 		})
 
-		usersrepo   = postgres.NewUsersRepository(pg.DB())
-		sessionrepo = redis.NewSessionRepository(rds.Client())
+		usersRepo   = pgadpter.NewUsersRepository(pg.DB())
+		sessionRepo = rdsadapter.NewSessionRepository(rds.Client())
 
-		auth = authentication.NewService(sessionMaxAge, sessionrepo, usersrepo)
+		authAPI = authentication.NewService(sessionMaxAge, sessionRepo, usersRepo)
 	)
 
 	defer pg.Close()
@@ -51,7 +51,7 @@ func main() {
 
 	app := web.NewApp(
 		web.DefaultAppOptions,
-		func(a *web.App) { a.AuthAPI = auth },
+		func(a *web.App) { a.AuthAPI = authAPI },
 	)
 
 	if err := app.Run(); err != nil {

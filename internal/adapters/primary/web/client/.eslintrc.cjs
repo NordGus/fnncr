@@ -14,6 +14,10 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
-    quotes: [ "error", "double", { "allowTemplateLiterals": true } ]
+    quotes: [
+      "error",
+      "double",
+      { "allowTemplateLiterals": true }
+    ]
   },
 }

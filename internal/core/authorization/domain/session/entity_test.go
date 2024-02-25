@@ -1,7 +1,6 @@
 package session
 
 import (
-	"encoding/base64"
 	"reflect"
 	"testing"
 	"time"
@@ -39,7 +38,7 @@ func TestEntity_Expired(t *testing.T) {
 	}
 
 	uid := uuid.New()
-	i, _ := id.New([id.ByteSize]byte{}, base64.URLEncoding)
+	i, _ := id.New([id.ByteSize]byte{}, id.DefaultEncoder)
 	ver, _ := version.New(42)
 	createdAt, _ := creationtime.New(time.Now().Add(-7 * 24 * time.Hour))
 
@@ -117,7 +116,7 @@ func TestNew(t *testing.T) {
 	}
 
 	uid := uuid.New()
-	i, _ := id.New([id.ByteSize]byte{1}, base64.URLEncoding)
+	i, _ := id.New([id.ByteSize]byte{1}, id.DefaultEncoder)
 	ver, _ := version.New(42)
 	createdAt, _ := creationtime.New(time.Now())
 

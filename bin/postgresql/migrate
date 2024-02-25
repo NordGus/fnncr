@@ -1,5 +1,6 @@
-# !/bin/sh
+#!/usr/bin/env sh
 
+# shellcheck disable=SC2068
 migrate -path ./database/postgresql/migrations \
     -database "postgres://$PG_DB_USERNAME:$PG_DB_PASSWORD@$PG_DB_HOST:$PG_DB_PORT/$PG_DB_DATABASE?sslmode=disable" \
     -verbose $@

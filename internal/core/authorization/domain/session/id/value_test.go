@@ -10,7 +10,7 @@ type encoderMock struct {
 	fail bool
 }
 
-func (mock encoderMock) EncodeToString(src []byte) string {
+func (mock encoderMock) EncodeToString(_ []byte) string {
 	return "mock string"
 }
 

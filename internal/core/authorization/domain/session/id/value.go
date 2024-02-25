@@ -1,10 +1,17 @@
 package id
 
 import (
+	"encoding/base64"
 	"errors"
 )
 
-const ByteSize = 64
+const (
+	ByteSize = 64
+)
+
+var (
+	DefaultEncoder = base64.URLEncoding
+)
 
 type Encoder interface {
 	EncodeToString(src []byte) string

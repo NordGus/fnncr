@@ -2,6 +2,7 @@ package version
 
 import (
 	"errors"
+	"reflect"
 	"testing"
 )
 
@@ -29,7 +30,7 @@ func TestNew(t *testing.T) {
 			name: "initializes a new version value",
 			args: args{version: theAnswer},
 			want: want{
-				value: Value(theAnswer),
+				value: Value{value: theAnswer},
 				err:   nil,
 			},
 		},
@@ -41,7 +42,7 @@ func TestNew(t *testing.T) {
 				t.Errorf("New() error = %v, want %v", err, tt.want.err)
 				return
 			}
-			if got != tt.want.value {
+			if !reflect.DeepEqual(got, tt.want.value) {
 				t.Errorf("New() got = %v, want %v", got, tt.want.value)
 			}
 		})
@@ -60,13 +61,13 @@ func TestValue_IsInvalid(t *testing.T) {
 	}{
 		{
 			name: "is a valid version",
-			v:    Value(theAnswer),
+			v:    Value{value: theAnswer},
 			args: args{version: theAnswer},
 			want: false,
 		},
 		{
 			name: "is an invalid version",
-			v:    Value(theAnswer),
+			v:    Value{value: theAnswer},
 			args: args{version: stepsToWorldDomination},
 			want: true,
 		},
@@ -88,7 +89,7 @@ func TestValue_Uint32(t *testing.T) {
 	}{
 		{
 			name: "returns the primitive under the value",
-			v:    Value(theAnswer),
+			v:    Value{value: theAnswer},
 			want: theAnswer,
 		},
 	}

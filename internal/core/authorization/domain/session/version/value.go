@@ -1,15 +1,17 @@
 package version
 
-type Value uint32
+type Value struct {
+	value uint32
+}
 
 func New(version uint32) (Value, error) {
-	return Value(version), nil
+	return Value{value: version}, nil
 }
 
 func (v Value) Uint32() uint32 {
-	return uint32(v)
+	return v.value
 }
 
 func (v Value) IsInvalid(version uint32) bool {
-	return v.Uint32() != version
+	return v.value != version
 }

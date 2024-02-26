@@ -35,3 +35,7 @@ func New(
 		UpdatedAt:      ut,
 	}
 }
+
+func (e *Entity) CurrentSessionVersion() uint32 {
+	return e.SessionVersion.Uint32()
+}

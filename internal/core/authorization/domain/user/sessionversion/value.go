@@ -9,3 +9,7 @@ func New(version uint32) (Value, error) {
 		version: version,
 	}, nil
 }
+
+func (v *Value) Uint32() uint32 {
+	return v.version
+}

@@ -14,6 +14,17 @@ const (
 	maxLen   = 64
 )
 
+var (
+	ErrPasswordEmpty       = errors.New("password is empty")
+	ErrPasswordTooShort    = errors.New("password is too short")
+	ErrPasswordTooLong     = errors.New("password is too long")
+	ErrPasswordDoesntMatch = errors.New("password and password confirmation don't match")
+	ErrHashInvalid         = errors.New("hash is invalid")
+	ErrHashCostInvalid     = errors.New("hash cost is invalid")
+
+	ErrInvalidPassword = errors.New("invalid password")
+)
+
 type Value struct {
 	hash                 []byte
 	password             string
@@ -78,5 +89,10 @@ func (v Value) String() string {
 }
 
 func (v Value) Compare(password string) error {
-	return v.crypt.CompareHashAndPassword(v.hash, []byte(password))
+	err := v.crypt.CompareHashAndPassword(v.hash, []byte(password))
+	if err != nil {
+		return errors.Join(err, ErrInvalidPassword)
+	}
+
+	return nil
 }

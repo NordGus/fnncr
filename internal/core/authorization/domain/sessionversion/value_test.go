@@ -1,4 +1,4 @@
-package version
+package sessionversion
 
 import (
 	"errors"
@@ -27,7 +27,7 @@ func TestNew(t *testing.T) {
 		want want
 	}{
 		{
-			name: "initializes a new version value",
+			name: "initializes a new sessionversion",
 			args: args{version: theAnswer},
 			want: want{
 				value: Value{value: theAnswer},
@@ -51,7 +51,7 @@ func TestNew(t *testing.T) {
 
 func TestValue_IsInvalid(t *testing.T) {
 	type args struct {
-		version uint32
+		version Value
 	}
 	tests := []struct {
 		name string
@@ -62,13 +62,13 @@ func TestValue_IsInvalid(t *testing.T) {
 		{
 			name: "is a valid version",
 			v:    Value{value: theAnswer},
-			args: args{version: theAnswer},
+			args: args{version: Value{value: theAnswer}},
 			want: false,
 		},
 		{
 			name: "is an invalid version",
 			v:    Value{value: theAnswer},
-			args: args{version: stepsToWorldDomination},
+			args: args{version: Value{value: stepsToWorldDomination}},
 			want: true,
 		},
 	}

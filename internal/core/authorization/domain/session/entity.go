@@ -3,32 +3,29 @@ package session
 import (
 	"time"
 
-	"financo/internal/core/authorization/domain/session/creationtime"
-	"financo/internal/core/authorization/domain/session/id"
-	"financo/internal/core/authorization/domain/session/version"
+	"financo/internal/core/authorization/domain/sessionID"
+	"financo/internal/core/authorization/domain/sessionversion"
+	"financo/internal/core/authorization/domain/timestamp"
+	"financo/internal/core/authorization/domain/user"
 	"github.com/google/uuid"
 )
 
-type UserEntity interface {
-	CurrentSessionVersion() uint32
-}
-
 type Entity struct {
-	ID        id.Value
-	UserID    uuid.UUID
-	Version   version.Value
-	CreatedAt creationtime.Value
+	id        sessionID.Value
+	userID    uuid.UUID // TODO: migrate to a value object.
+	version   sessionversion.Value
+	createdAt timestamp.Value
 }
 
-func New(id id.Value, version version.Value, createdAt creationtime.Value, userID uuid.UUID) Entity {
+func New(id sessionID.Value, version sessionversion.Value, createdAt timestamp.Value, userID uuid.UUID) Entity {
 	return Entity{
-		ID:        id,
-		Version:   version,
-		CreatedAt: createdAt,
-		UserID:    userID,
+		id:        id,
+		version:   version,
+		createdAt: createdAt,
+		userID:    userID,
 	}
 }
 
-func (e *Entity) Expired(user UserEntity, maxAge time.Duration) bool {
-	return e.Version.IsInvalid(user.CurrentSessionVersion()) || e.CreatedAt.IsTooOld(maxAge)
+func (e *Entity) Expired(user user.Entity, maxAge time.Duration) bool {
+	return e.version.IsInvalid(user.CurrentSessionVersion()) || time.Since(e.createdAt.Time()) > maxAge
 }

@@ -1,4 +1,4 @@
-package id
+package sessionID
 
 import (
 	"encoding/base64"
@@ -11,6 +11,8 @@ const (
 
 var (
 	DefaultEncoder = base64.URLEncoding
+
+	ErrCantBeDecodedFromString = errors.New("can't be decoded")
 )
 
 type Encoder interface {
@@ -19,12 +21,12 @@ type Encoder interface {
 }
 
 type Value struct {
-	value   [ByteSize]byte
+	id      [ByteSize]byte
 	encoder Encoder
 }
 
 func New(id [ByteSize]byte, encoder Encoder) (Value, error) {
-	return Value{value: id, encoder: encoder}, nil
+	return Value{id: id, encoder: encoder}, nil
 }
 
 func NewFromString(id string, encoder Encoder) (Value, error) {
@@ -33,9 +35,9 @@ func NewFromString(id string, encoder Encoder) (Value, error) {
 		return Value{}, errors.Join(ErrCantBeDecodedFromString, err)
 	}
 
-	return Value{value: [ByteSize]byte(bytes), encoder: encoder}, nil
+	return Value{id: [ByteSize]byte(bytes), encoder: encoder}, nil
 }
 
 func (v Value) String() string {
-	return v.encoder.EncodeToString(v.value[:])
+	return v.encoder.EncodeToString(v.id[:])
 }

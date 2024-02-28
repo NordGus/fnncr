@@ -1,4 +1,4 @@
-package version
+package sessionversion
 
 type Value struct {
 	value uint32
@@ -12,6 +12,6 @@ func (v Value) Uint32() uint32 {
 	return v.value
 }
 
-func (v Value) IsInvalid(version uint32) bool {
-	return v.value != version
+func (v Value) IsInvalid(current Value) bool {
+	return v.value != current.value
 }

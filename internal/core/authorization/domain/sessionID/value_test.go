@@ -1,4 +1,4 @@
-package id
+package sessionID
 
 import (
 	"errors"
@@ -34,13 +34,13 @@ func TestNew(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "initializes a new id value",
+			name: "initializes a new sessionID",
 			args: args{
 				id:      [ByteSize]byte{},
 				encoder: encoderMock{fail: false},
 			},
 			want: Value{
-				value:   [ByteSize]byte{},
+				id:      [ByteSize]byte{},
 				encoder: encoderMock{fail: false},
 			},
 			wantErr: false,
@@ -72,19 +72,19 @@ func TestNewFromString(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "initializes a new id value",
+			name: "initializes a new sessionID",
 			args: args{
 				id:      "valid-id",
 				encoder: encoderMock{fail: false},
 			},
 			want: Value{
-				value:   [ByteSize]byte{},
+				id:      [ByteSize]byte{},
 				encoder: encoderMock{fail: false},
 			},
 			wantErr: false,
 		},
 		{
-			name: "fails to initialize a new id value, because the string can't be parsed",
+			name: "fails to initialize a new sessionID, because the string can't be parsed",
 			args: args{
 				id:      "invalid-id",
 				encoder: encoderMock{fail: true},
@@ -129,7 +129,7 @@ func TestValue_String(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			v := Value{
-				value:   tt.fields.value,
+				id:      tt.fields.value,
 				encoder: tt.fields.encoder,
 			}
 			if got := v.String(); got != tt.want {

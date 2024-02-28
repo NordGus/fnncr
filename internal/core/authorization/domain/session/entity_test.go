@@ -5,42 +5,57 @@ import (
 	"testing"
 	"time"
 
-	"financo/internal/core/authorization/domain/session/creationtime"
-	"financo/internal/core/authorization/domain/session/id"
-	"financo/internal/core/authorization/domain/session/version"
+	"financo/internal/core/authorization/domain/sessionID"
+	"financo/internal/core/authorization/domain/sessionversion"
+	"financo/internal/core/authorization/domain/timestamp"
+	"financo/internal/core/authorization/domain/user"
+	"financo/internal/core/authorization/domain/user/passworddigest"
+	"financo/internal/core/authorization/domain/user/username"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
-type userEntityMock struct {
-	sessionVersion uint32
+type cryptMock struct{}
+
+func (cryptMock) CompareHashAndPassword(hashedPassword []byte, password []byte) error {
+	return bcrypt.CompareHashAndPassword(hashedPassword, password)
 }
 
-func (mock userEntityMock) CurrentSessionVersion() uint32 {
-	return mock.sessionVersion
+func (cryptMock) GenerateFromPassword(password []byte, cost int) ([]byte, error) {
+	return bcrypt.GenerateFromPassword(password, cost)
 }
 
-func newUserEntityMock(version uint32) userEntityMock {
-	return userEntityMock{
-		sessionVersion: version,
-	}
+func (cryptMock) Cost(hashedPassword []byte) (int, error) {
+	return bcrypt.Cost(hashedPassword)
+}
+
+func userMock(sessionVersion uint32) user.Entity {
+	uid := uuid.New()
+	un, _ := username.New("john_wick")
+	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	sv, _ := sessionversion.New(sessionVersion)
+	ct, _ := timestamp.New(time.Now())
+	ut, _ := timestamp.New(time.Now())
+
+	return user.New(uid, un, pw, sv, ct, ut)
 }
 
 func TestEntity_Expired(t *testing.T) {
 	type fields struct {
-		id        id.Value
-		version   version.Value
-		createdAt creationtime.Value
+		id        sessionID.Value
+		version   sessionversion.Value
+		createdAt timestamp.Value
 		userID    uuid.UUID
 	}
 	type args struct {
-		user   UserEntity
+		user   user.Entity
 		maxAge time.Duration
 	}
 
 	uid := uuid.New()
-	i, _ := id.New([id.ByteSize]byte{}, id.DefaultEncoder)
-	ver, _ := version.New(42)
-	createdAt, _ := creationtime.New(time.Now().Add(-7 * 24 * time.Hour))
+	i, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	ver, _ := sessionversion.New(42)
+	createdAt, _ := timestamp.New(time.Now().Add(-7 * 24 * time.Hour))
 
 	tests := []struct {
 		name   string
@@ -57,7 +72,7 @@ func TestEntity_Expired(t *testing.T) {
 				userID:    uid,
 			},
 			args: args{
-				user:   newUserEntityMock(42),
+				user:   userMock(42),
 				maxAge: 30 * 24 * time.Hour,
 			},
 			want: false,
@@ -71,7 +86,7 @@ func TestEntity_Expired(t *testing.T) {
 				userID:    uid,
 			},
 			args: args{
-				user:   newUserEntityMock(42),
+				user:   userMock(42),
 				maxAge: 24 * time.Hour,
 			},
 			want: true,
@@ -85,7 +100,7 @@ func TestEntity_Expired(t *testing.T) {
 				userID:    uid,
 			},
 			args: args{
-				user:   newUserEntityMock(7),
+				user:   userMock(7),
 				maxAge: 30 * 24 * time.Hour,
 			},
 			want: true,
@@ -94,10 +109,10 @@ func TestEntity_Expired(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			e := &Entity{
-				ID:        tt.fields.id,
-				UserID:    tt.fields.userID,
-				Version:   tt.fields.version,
-				CreatedAt: tt.fields.createdAt,
+				id:        tt.fields.id,
+				userID:    tt.fields.userID,
+				version:   tt.fields.version,
+				createdAt: tt.fields.createdAt,
 			}
 
 			if got := e.Expired(tt.args.user, tt.args.maxAge); got != tt.want {
@@ -109,16 +124,16 @@ func TestEntity_Expired(t *testing.T) {
 
 func TestNew(t *testing.T) {
 	type args struct {
-		id        id.Value
-		version   version.Value
-		createdAt creationtime.Value
+		id        sessionID.Value
+		version   sessionversion.Value
+		createdAt timestamp.Value
 		userID    uuid.UUID
 	}
 
 	uid := uuid.New()
-	i, _ := id.New([id.ByteSize]byte{1}, id.DefaultEncoder)
-	ver, _ := version.New(42)
-	createdAt, _ := creationtime.New(time.Now())
+	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, sessionID.DefaultEncoder)
+	ver, _ := sessionversion.New(42)
+	createdAt, _ := timestamp.New(time.Now())
 
 	tests := []struct {
 		name string
@@ -134,10 +149,10 @@ func TestNew(t *testing.T) {
 				userID:    uid,
 			},
 			want: Entity{
-				ID:        i,
-				UserID:    uid,
-				Version:   ver,
-				CreatedAt: createdAt,
+				id:        i,
+				userID:    uid,
+				version:   ver,
+				createdAt: createdAt,
 			},
 		},
 	}

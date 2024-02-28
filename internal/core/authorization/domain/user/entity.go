@@ -1,41 +1,40 @@
 package user
 
 import (
-	"financo/internal/core/authorization/domain/user/creationtime"
+	"financo/internal/core/authorization/domain/sessionversion"
+	"financo/internal/core/authorization/domain/timestamp"
 	"financo/internal/core/authorization/domain/user/passworddigest"
-	"financo/internal/core/authorization/domain/user/sessionversion"
-	"financo/internal/core/authorization/domain/user/updatetime"
 	"financo/internal/core/authorization/domain/user/username"
 	"github.com/google/uuid"
 )
 
 type Entity struct {
-	ID             uuid.UUID
-	Username       username.Value
-	PasswordDigest passworddigest.Value
-	SessionVersion sessionversion.Value
-	CreateAt       creationtime.Value
-	UpdatedAt      updatetime.Value
+	id             uuid.UUID // TODO: migrate to a value object.
+	username       username.Value
+	passwordDigest passworddigest.Value
+	sessionVersion sessionversion.Value
+	createAt       timestamp.Value
+	updatedAt      timestamp.Value
 }
 
 func New(
 	id uuid.UUID,
-	un username.Value,
-	pw passworddigest.Value,
-	sv sessionversion.Value,
-	ct creationtime.Value,
-	ut updatetime.Value,
+	username username.Value,
+	passwordDigest passworddigest.Value,
+	sessionVersion sessionversion.Value,
+	createdAt timestamp.Value,
+	updatedAt timestamp.Value,
 ) Entity {
 	return Entity{
-		ID:             id,
-		Username:       un,
-		PasswordDigest: pw,
-		SessionVersion: sv,
-		CreateAt:       ct,
-		UpdatedAt:      ut,
+		id:             id,
+		username:       username,
+		passwordDigest: passwordDigest,
+		sessionVersion: sessionVersion,
+		createAt:       createdAt,
+		updatedAt:      updatedAt,
 	}
 }
 
-func (e *Entity) CurrentSessionVersion() uint32 {
-	return e.SessionVersion.Uint32()
+func (e *Entity) CurrentSessionVersion() sessionversion.Value {
+	return e.sessionVersion
 }

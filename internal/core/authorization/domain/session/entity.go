@@ -29,3 +29,7 @@ func New(id sessionID.Value, version sessionversion.Value, createdAt timestamp.V
 func (e *Entity) Expired(user user.Entity, maxAge time.Duration) bool {
 	return e.version.IsInvalid(user.CurrentSessionVersion()) || time.Since(e.createdAt.Time()) > maxAge
 }
+
+func (e *Entity) IsTooOld(maxAge time.Duration) bool {
+	return time.Since(e.createdAt.Time()) > maxAge
+}

@@ -105,6 +105,20 @@ func TestEntity_Expired(t *testing.T) {
 			},
 			want: true,
 		},
+		{
+			name: "is an invalid session",
+			fields: fields{
+				id:        i,
+				version:   ver,
+				createdAt: createdAt,
+				userID:    uid,
+			},
+			args: args{
+				user:   userMock(7),
+				maxAge: 24 * time.Hour,
+			},
+			want: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -160,6 +174,66 @@ func TestNew(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := New(tt.args.id, tt.args.version, tt.args.createdAt, tt.args.userID); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("New() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestEntity_IsTooOld(t *testing.T) {
+	type fields struct {
+		id        sessionID.Value
+		userID    uuid.UUID
+		version   sessionversion.Value
+		createdAt timestamp.Value
+	}
+	type args struct {
+		maxAge time.Duration
+	}
+
+	uid := uuid.New()
+	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, sessionID.DefaultEncoder)
+	ver, _ := sessionversion.New(42)
+	createdAt, _ := timestamp.New(time.Now().Add(-7 * 24 * time.Hour))
+
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   bool
+	}{
+		{
+			name: "is not too old",
+			fields: fields{
+				id:        i,
+				userID:    uid,
+				version:   ver,
+				createdAt: createdAt,
+			},
+			args: args{maxAge: 30 * 24 * time.Hour},
+			want: false,
+		},
+		{
+			name: "is too old",
+			fields: fields{
+				id:        i,
+				userID:    uid,
+				version:   ver,
+				createdAt: createdAt,
+			},
+			args: args{maxAge: 24 * time.Hour},
+			want: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := &Entity{
+				id:        tt.fields.id,
+				userID:    tt.fields.userID,
+				version:   tt.fields.version,
+				createdAt: tt.fields.createdAt,
+			}
+			if got := e.IsTooOld(tt.args.maxAge); got != tt.want {
+				t.Errorf("IsTooOld() = %v, want %v", got, tt.want)
 			}
 		})
 	}

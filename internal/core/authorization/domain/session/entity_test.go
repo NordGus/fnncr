@@ -239,3 +239,179 @@ func TestEntity_IsTooOld(t *testing.T) {
 		})
 	}
 }
+
+func TestEntity_CreatedAt(t *testing.T) {
+	type fields struct {
+		id        sessionID.Value
+		userID    userID.Value
+		version   sessionversion.Value
+		createdAt timestamp.Value
+	}
+
+	id, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	uid, _ := userID.New(uuid.NewString())
+	ver, _ := sessionversion.New(42)
+	createdAt, _ := timestamp.New(time.Now())
+
+	tests := []struct {
+		name   string
+		fields fields
+		want   timestamp.Value
+	}{
+		{
+			name: "returns the session creation timestamp",
+			fields: fields{
+				id:        id,
+				userID:    uid,
+				version:   ver,
+				createdAt: createdAt,
+			},
+			want: createdAt,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := &Entity{
+				id:        tt.fields.id,
+				userID:    tt.fields.userID,
+				version:   tt.fields.version,
+				createdAt: tt.fields.createdAt,
+			}
+			if got := e.CreatedAt(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("CreatedAt() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestEntity_ID(t *testing.T) {
+	type fields struct {
+		id        sessionID.Value
+		userID    userID.Value
+		version   sessionversion.Value
+		createdAt timestamp.Value
+	}
+
+	id, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	uid, _ := userID.New(uuid.NewString())
+	ver, _ := sessionversion.New(42)
+	createdAt, _ := timestamp.New(time.Now())
+
+	tests := []struct {
+		name   string
+		fields fields
+		want   sessionID.Value
+	}{
+		{
+			name: "returns the session id",
+			fields: fields{
+				id:        id,
+				userID:    uid,
+				version:   ver,
+				createdAt: createdAt,
+			},
+			want: id,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := &Entity{
+				id:        tt.fields.id,
+				userID:    tt.fields.userID,
+				version:   tt.fields.version,
+				createdAt: tt.fields.createdAt,
+			}
+			if got := e.ID(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ID() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestEntity_UserID(t *testing.T) {
+	type fields struct {
+		id        sessionID.Value
+		userID    userID.Value
+		version   sessionversion.Value
+		createdAt timestamp.Value
+	}
+
+	id, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	uid, _ := userID.New(uuid.NewString())
+	ver, _ := sessionversion.New(42)
+	createdAt, _ := timestamp.New(time.Now())
+
+	tests := []struct {
+		name   string
+		fields fields
+		want   userID.Value
+	}{
+		{
+			name: "returns the session user id",
+			fields: fields{
+				id:        id,
+				userID:    uid,
+				version:   ver,
+				createdAt: createdAt,
+			},
+			want: uid,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := &Entity{
+				id:        tt.fields.id,
+				userID:    tt.fields.userID,
+				version:   tt.fields.version,
+				createdAt: tt.fields.createdAt,
+			}
+			if got := e.UserID(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("UserID() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestEntity_Version(t *testing.T) {
+	type fields struct {
+		id        sessionID.Value
+		userID    userID.Value
+		version   sessionversion.Value
+		createdAt timestamp.Value
+	}
+
+	id, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	uid, _ := userID.New(uuid.NewString())
+	ver, _ := sessionversion.New(42)
+	createdAt, _ := timestamp.New(time.Now())
+
+	tests := []struct {
+		name   string
+		fields fields
+		want   sessionversion.Value
+	}{
+		{
+			name: "returns the session version",
+			fields: fields{
+				id:        id,
+				userID:    uid,
+				version:   ver,
+				createdAt: createdAt,
+			},
+			want: ver,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := &Entity{
+				id:        tt.fields.id,
+				userID:    tt.fields.userID,
+				version:   tt.fields.version,
+				createdAt: tt.fields.createdAt,
+			}
+			if got := e.Version(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Version() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

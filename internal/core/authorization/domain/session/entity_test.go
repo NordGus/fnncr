@@ -5,12 +5,13 @@ import (
 	"testing"
 	"time"
 
+	"financo/internal/core/authorization/domain/passworddigest"
 	"financo/internal/core/authorization/domain/sessionID"
 	"financo/internal/core/authorization/domain/sessionversion"
 	"financo/internal/core/authorization/domain/timestamp"
 	"financo/internal/core/authorization/domain/user"
-	"financo/internal/core/authorization/domain/user/passworddigest"
-	"financo/internal/core/authorization/domain/user/username"
+	"financo/internal/core/authorization/domain/userID"
+	"financo/internal/core/authorization/domain/username"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -30,7 +31,7 @@ func (cryptMock) Cost(hashedPassword []byte) (int, error) {
 }
 
 func userMock(sessionVersion uint32) user.Entity {
-	uid := uuid.New()
+	uid, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
 	sv, _ := sessionversion.New(sessionVersion)
@@ -45,14 +46,14 @@ func TestEntity_Expired(t *testing.T) {
 		id        sessionID.Value
 		version   sessionversion.Value
 		createdAt timestamp.Value
-		userID    uuid.UUID
+		userID    userID.Value
 	}
 	type args struct {
 		user   user.Entity
 		maxAge time.Duration
 	}
 
-	uid := uuid.New()
+	uid, _ := userID.New(uuid.NewString())
 	i, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now().Add(-7 * 24 * time.Hour))
@@ -141,10 +142,10 @@ func TestNew(t *testing.T) {
 		id        sessionID.Value
 		version   sessionversion.Value
 		createdAt timestamp.Value
-		userID    uuid.UUID
+		userID    userID.Value
 	}
 
-	uid := uuid.New()
+	uid, _ := userID.New(uuid.NewString())
 	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, sessionID.DefaultEncoder)
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
@@ -182,7 +183,7 @@ func TestNew(t *testing.T) {
 func TestEntity_IsTooOld(t *testing.T) {
 	type fields struct {
 		id        sessionID.Value
-		userID    uuid.UUID
+		userID    userID.Value
 		version   sessionversion.Value
 		createdAt timestamp.Value
 	}
@@ -190,7 +191,7 @@ func TestEntity_IsTooOld(t *testing.T) {
 		maxAge time.Duration
 	}
 
-	uid := uuid.New()
+	uid, _ := userID.New(uuid.NewString())
 	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, sessionID.DefaultEncoder)
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now().Add(-7 * 24 * time.Hour))

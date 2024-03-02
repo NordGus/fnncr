@@ -1,15 +1,15 @@
 package user
 
 import (
+	"financo/internal/core/authorization/domain/passworddigest"
 	"financo/internal/core/authorization/domain/sessionversion"
 	"financo/internal/core/authorization/domain/timestamp"
-	"financo/internal/core/authorization/domain/user/passworddigest"
-	"financo/internal/core/authorization/domain/user/username"
-	"github.com/google/uuid"
+	"financo/internal/core/authorization/domain/userID"
+	"financo/internal/core/authorization/domain/username"
 )
 
 type Entity struct {
-	id             uuid.UUID // TODO: migrate to a value object.
+	id             userID.Value
 	username       username.Value
 	passwordDigest passworddigest.Value
 	sessionVersion sessionversion.Value
@@ -18,7 +18,7 @@ type Entity struct {
 }
 
 func New(
-	id uuid.UUID,
+	id userID.Value,
 	username username.Value,
 	passwordDigest passworddigest.Value,
 	sessionVersion sessionversion.Value,
@@ -35,6 +35,26 @@ func New(
 	}
 }
 
-func (e *Entity) CurrentSessionVersion() sessionversion.Value {
+func (e *Entity) ID() userID.Value {
+	return e.id
+}
+
+func (e *Entity) Username() username.Value {
+	return e.username
+}
+
+func (e *Entity) PasswordDigest() passworddigest.Value {
+	return e.passwordDigest
+}
+
+func (e *Entity) SessionVersion() sessionversion.Value {
 	return e.sessionVersion
+}
+
+func (e *Entity) CreatedAt() timestamp.Value {
+	return e.createAt
+}
+
+func (e *Entity) UpdatedAt() timestamp.Value {
+	return e.updatedAt
 }

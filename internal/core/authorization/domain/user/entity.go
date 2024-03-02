@@ -13,7 +13,7 @@ type Entity struct {
 	username       username.Value
 	passwordDigest passworddigest.Value
 	sessionVersion sessionversion.Value
-	createAt       timestamp.Value
+	createdAt      timestamp.Value
 	updatedAt      timestamp.Value
 }
 
@@ -30,7 +30,7 @@ func New(
 		username:       username,
 		passwordDigest: passwordDigest,
 		sessionVersion: sessionVersion,
-		createAt:       createdAt,
+		createdAt:      createdAt,
 		updatedAt:      updatedAt,
 	}
 }
@@ -52,7 +52,7 @@ func (e *Entity) SessionVersion() sessionversion.Value {
 }
 
 func (e *Entity) CreatedAt() timestamp.Value {
-	return e.createAt
+	return e.createdAt
 }
 
 func (e *Entity) UpdatedAt() timestamp.Value {

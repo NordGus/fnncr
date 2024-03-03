@@ -1,7 +1,6 @@
 package sessionID
 
 import (
-	"encoding/base64"
 	"errors"
 )
 
@@ -10,8 +9,6 @@ const (
 )
 
 var (
-	DefaultEncoder = base64.URLEncoding
-
 	ErrCantBeDecodedFromString = errors.New("can't be decoded")
 )
 

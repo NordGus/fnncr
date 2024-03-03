@@ -1,30 +1,26 @@
 package user
 
 import (
+	"reflect"
+	"testing"
+	"time"
+
 	"financo/internal/core/authorization/domain/passworddigest"
 	"financo/internal/core/authorization/domain/sessionversion"
 	"financo/internal/core/authorization/domain/timestamp"
 	"financo/internal/core/authorization/domain/userID"
 	"financo/internal/core/authorization/domain/username"
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
-	"reflect"
-	"testing"
-	"time"
 )
 
 type cryptMock struct{}
 
-func (cryptMock) CompareHashAndPassword(hashedPassword []byte, password []byte) error {
-	return bcrypt.CompareHashAndPassword(hashedPassword, password)
+func (cryptMock) CompareHashAndPassword(_ []byte, _ []byte) error {
+	return nil
 }
 
-func (cryptMock) GenerateFromPassword(password []byte, cost int) ([]byte, error) {
-	return bcrypt.GenerateFromPassword(password, cost)
-}
-
-func (cryptMock) Cost(hashedPassword []byte) (int, error) {
-	return bcrypt.Cost(hashedPassword)
+func (cryptMock) Cost(_ []byte) (int, error) {
+	return 10, nil
 }
 
 func TestEntity_CreatedAt(t *testing.T) {
@@ -39,7 +35,7 @@ func TestEntity_CreatedAt(t *testing.T) {
 
 	id, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
-	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
 	ct, _ := timestamp.New(time.Now())
 	ut, _ := timestamp.New(time.Now())
@@ -91,7 +87,7 @@ func TestEntity_ID(t *testing.T) {
 
 	id, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
-	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
 	ct, _ := timestamp.New(time.Now())
 	ut, _ := timestamp.New(time.Now())
@@ -143,7 +139,7 @@ func TestEntity_PasswordDigest(t *testing.T) {
 
 	id, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
-	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
 	ct, _ := timestamp.New(time.Now())
 	ut, _ := timestamp.New(time.Now())
@@ -195,7 +191,7 @@ func TestEntity_SessionVersion(t *testing.T) {
 
 	id, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
-	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
 	ct, _ := timestamp.New(time.Now())
 	ut, _ := timestamp.New(time.Now())
@@ -247,7 +243,7 @@ func TestEntity_UpdatedAt(t *testing.T) {
 
 	id, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
-	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
 	ct, _ := timestamp.New(time.Now())
 	ut, _ := timestamp.New(time.Now())
@@ -299,7 +295,7 @@ func TestEntity_Username(t *testing.T) {
 
 	id, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
-	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
 	ct, _ := timestamp.New(time.Now())
 	ut, _ := timestamp.New(time.Now())
@@ -351,7 +347,7 @@ func TestNew(t *testing.T) {
 
 	id, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
-	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
 	ct, _ := timestamp.New(time.Now())
 	ut, _ := timestamp.New(time.Now())

@@ -20,7 +20,7 @@ func (cm cryptMock) CompareHashAndPassword(_ []byte, _ []byte) error {
 	return nil
 }
 
-func (cm cryptMock) Cost(hashedPassword []byte) (int, error) {
+func (cm cryptMock) Cost(_ []byte) (int, error) {
 	if cm.costErr {
 		return cm.cost, errors.New("cost error")
 	}

@@ -13,27 +13,32 @@ import (
 	"financo/internal/core/authorization/domain/userID"
 	"financo/internal/core/authorization/domain/username"
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type cryptMock struct{}
 
-func (cryptMock) CompareHashAndPassword(hashedPassword []byte, password []byte) error {
-	return bcrypt.CompareHashAndPassword(hashedPassword, password)
+func (cryptMock) CompareHashAndPassword(_ []byte, _ []byte) error {
+	return nil
 }
 
-func (cryptMock) GenerateFromPassword(password []byte, cost int) ([]byte, error) {
-	return bcrypt.GenerateFromPassword(password, cost)
+func (cryptMock) Cost(_ []byte) (int, error) {
+	return 10, nil
 }
 
-func (cryptMock) Cost(hashedPassword []byte) (int, error) {
-	return bcrypt.Cost(hashedPassword)
+type encoderMock struct{}
+
+func (encoderMock) EncodeToString(src []byte) string {
+	return string(src)
+}
+
+func (encoderMock) DecodeString(s string) ([]byte, error) {
+	return []byte(s), nil
 }
 
 func userMock(sessionVersion uint32) user.Entity {
 	uid, _ := userID.New(uuid.NewString())
 	un, _ := username.New("john_wick")
-	pw, _ := passworddigest.NewFromPassword("12345678", "12345678", cryptMock{})
+	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(sessionVersion)
 	ct, _ := timestamp.New(time.Now())
 	ut, _ := timestamp.New(time.Now())
@@ -54,7 +59,7 @@ func TestEntity_Expired(t *testing.T) {
 	}
 
 	uid, _ := userID.New(uuid.NewString())
-	i, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	i, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now().Add(-7 * 24 * time.Hour))
 
@@ -146,7 +151,7 @@ func TestNew(t *testing.T) {
 	}
 
 	uid, _ := userID.New(uuid.NewString())
-	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, sessionID.DefaultEncoder)
+	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, encoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
 
@@ -192,7 +197,7 @@ func TestEntity_IsTooOld(t *testing.T) {
 	}
 
 	uid, _ := userID.New(uuid.NewString())
-	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, sessionID.DefaultEncoder)
+	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, encoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now().Add(-7 * 24 * time.Hour))
 
@@ -248,7 +253,7 @@ func TestEntity_CreatedAt(t *testing.T) {
 		createdAt timestamp.Value
 	}
 
-	id, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	id, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
 	uid, _ := userID.New(uuid.NewString())
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
@@ -292,7 +297,7 @@ func TestEntity_ID(t *testing.T) {
 		createdAt timestamp.Value
 	}
 
-	id, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	id, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
 	uid, _ := userID.New(uuid.NewString())
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
@@ -336,7 +341,7 @@ func TestEntity_UserID(t *testing.T) {
 		createdAt timestamp.Value
 	}
 
-	id, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	id, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
 	uid, _ := userID.New(uuid.NewString())
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
@@ -380,7 +385,7 @@ func TestEntity_Version(t *testing.T) {
 		createdAt timestamp.Value
 	}
 
-	id, _ := sessionID.New([sessionID.ByteSize]byte{}, sessionID.DefaultEncoder)
+	id, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
 	uid, _ := userID.New(uuid.NewString())
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())

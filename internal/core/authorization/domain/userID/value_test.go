@@ -61,20 +61,6 @@ func TestNew(t *testing.T) {
 			},
 		},
 		{
-			name: "failed to initialize userID, id is empty",
-			args: args{
-				id:      "",
-				encoder: encoderMock{},
-			},
-			want: want{
-				value: Value{
-					value:   uuid.UUID{},
-					encoder: encoderMock{},
-				},
-				err: ErrEmpty,
-			},
-		},
-		{
 			name: "failed to initialize userID, id is invalid",
 			args: args{
 				id:      i.String(),

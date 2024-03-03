@@ -6,7 +6,6 @@ import (
 )
 
 var (
-	ErrEmpty          = errors.New("must be present")
 	ErrInvalid        = errors.New("is invalid")
 	ErrFailedToParsed = errors.New("failed to parse")
 )
@@ -23,10 +22,6 @@ type Value struct {
 
 func New(id string, encoder Encoder) (Value, error) {
 	var errs error
-
-	if id == "" {
-		errs = errors.Join(errs, ErrEmpty)
-	}
 
 	err := encoder.Validate(id)
 	if err != nil {

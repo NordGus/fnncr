@@ -23,6 +23,16 @@ func (cryptMock) Cost(_ []byte) (int, error) {
 	return 10, nil
 }
 
+type encoderMock struct{}
+
+func (encoderMock) Validate(s string) error {
+	return uuid.Validate(s)
+}
+
+func (encoderMock) Parse(s string) (uuid.UUID, error) {
+	return uuid.Parse(s)
+}
+
 func TestEntity_CreatedAt(t *testing.T) {
 	type fields struct {
 		id             userID.Value
@@ -33,7 +43,7 @@ func TestEntity_CreatedAt(t *testing.T) {
 		updatedAt      timestamp.Value
 	}
 
-	id, _ := userID.New(uuid.NewString())
+	id, _ := userID.New(uuid.NewString(), encoderMock{})
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
@@ -85,7 +95,7 @@ func TestEntity_ID(t *testing.T) {
 		updatedAt      timestamp.Value
 	}
 
-	id, _ := userID.New(uuid.NewString())
+	id, _ := userID.New(uuid.NewString(), encoderMock{})
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
@@ -137,7 +147,7 @@ func TestEntity_PasswordDigest(t *testing.T) {
 		updatedAt      timestamp.Value
 	}
 
-	id, _ := userID.New(uuid.NewString())
+	id, _ := userID.New(uuid.NewString(), encoderMock{})
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
@@ -189,7 +199,7 @@ func TestEntity_SessionVersion(t *testing.T) {
 		updatedAt      timestamp.Value
 	}
 
-	id, _ := userID.New(uuid.NewString())
+	id, _ := userID.New(uuid.NewString(), encoderMock{})
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
@@ -241,7 +251,7 @@ func TestEntity_UpdatedAt(t *testing.T) {
 		updatedAt      timestamp.Value
 	}
 
-	id, _ := userID.New(uuid.NewString())
+	id, _ := userID.New(uuid.NewString(), encoderMock{})
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
@@ -293,7 +303,7 @@ func TestEntity_Username(t *testing.T) {
 		updatedAt      timestamp.Value
 	}
 
-	id, _ := userID.New(uuid.NewString())
+	id, _ := userID.New(uuid.NewString(), encoderMock{})
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)
@@ -345,7 +355,7 @@ func TestNew(t *testing.T) {
 		updatedAt      timestamp.Value
 	}
 
-	id, _ := userID.New(uuid.NewString())
+	id, _ := userID.New(uuid.NewString(), encoderMock{})
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(42)

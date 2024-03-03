@@ -35,8 +35,18 @@ func (encoderMock) DecodeString(s string) ([]byte, error) {
 	return []byte(s), nil
 }
 
+type uuidEncoderMock struct{}
+
+func (uuidEncoderMock) Validate(s string) error {
+	return uuid.Validate(s)
+}
+
+func (uuidEncoderMock) Parse(s string) (uuid.UUID, error) {
+	return uuid.Parse(s)
+}
+
 func userMock(sessionVersion uint32) user.Entity {
-	uid, _ := userID.New(uuid.NewString())
+	uid, _ := userID.New(uuid.NewString(), uuidEncoderMock{})
 	un, _ := username.New("john_wick")
 	pw, _ := passworddigest.New("hash", cryptMock{})
 	sv, _ := sessionversion.New(sessionVersion)
@@ -58,7 +68,7 @@ func TestEntity_Expired(t *testing.T) {
 		maxAge time.Duration
 	}
 
-	uid, _ := userID.New(uuid.NewString())
+	uid, _ := userID.New(uuid.NewString(), uuidEncoderMock{})
 	i, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now().Add(-7 * 24 * time.Hour))
@@ -150,7 +160,7 @@ func TestNew(t *testing.T) {
 		userID    userID.Value
 	}
 
-	uid, _ := userID.New(uuid.NewString())
+	uid, _ := userID.New(uuid.NewString(), uuidEncoderMock{})
 	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, encoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
@@ -196,7 +206,7 @@ func TestEntity_IsTooOld(t *testing.T) {
 		maxAge time.Duration
 	}
 
-	uid, _ := userID.New(uuid.NewString())
+	uid, _ := userID.New(uuid.NewString(), uuidEncoderMock{})
 	i, _ := sessionID.New([sessionID.ByteSize]byte{1}, encoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now().Add(-7 * 24 * time.Hour))
@@ -254,7 +264,7 @@ func TestEntity_CreatedAt(t *testing.T) {
 	}
 
 	id, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
-	uid, _ := userID.New(uuid.NewString())
+	uid, _ := userID.New(uuid.NewString(), uuidEncoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
 
@@ -298,7 +308,7 @@ func TestEntity_ID(t *testing.T) {
 	}
 
 	id, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
-	uid, _ := userID.New(uuid.NewString())
+	uid, _ := userID.New(uuid.NewString(), uuidEncoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
 
@@ -342,7 +352,7 @@ func TestEntity_UserID(t *testing.T) {
 	}
 
 	id, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
-	uid, _ := userID.New(uuid.NewString())
+	uid, _ := userID.New(uuid.NewString(), uuidEncoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
 
@@ -386,7 +396,7 @@ func TestEntity_Version(t *testing.T) {
 	}
 
 	id, _ := sessionID.New([sessionID.ByteSize]byte{}, encoderMock{})
-	uid, _ := userID.New(uuid.NewString())
+	uid, _ := userID.New(uuid.NewString(), uuidEncoderMock{})
 	ver, _ := sessionversion.New(42)
 	createdAt, _ := timestamp.New(time.Now())
 

@@ -11,29 +11,36 @@ var (
 	ErrFailedToParsed = errors.New("failed to parse")
 )
 
-type Value struct {
-	value uuid.UUID
+type Encoder interface {
+	Validate(s string) error
+	Parse(s string) (uuid.UUID, error)
 }
 
-func New(id string) (Value, error) {
+type Value struct {
+	value   uuid.UUID
+	encoder Encoder
+}
+
+func New(id string, encoder Encoder) (Value, error) {
 	var errs error
 
 	if id == "" {
 		errs = errors.Join(errs, ErrEmpty)
 	}
 
-	err := uuid.Validate(id)
+	err := encoder.Validate(id)
 	if err != nil {
 		errs = errors.Join(errs, ErrInvalid)
 	}
 
-	val, err := uuid.Parse(id)
+	val, err := encoder.Parse(id)
 	if err != nil {
 		errs = errors.Join(errs, ErrFailedToParsed)
 	}
 
 	return Value{
-		value: val,
+		value:   val,
+		encoder: encoder,
 	}, errs
 }
 

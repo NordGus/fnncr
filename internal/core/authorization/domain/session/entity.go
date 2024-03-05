@@ -1,6 +1,7 @@
 package session
 
 import (
+	"errors"
 	"time"
 
 	"financo/internal/core/authorization/domain/sessionID"
@@ -8,6 +9,11 @@ import (
 	"financo/internal/core/authorization/domain/timestamp"
 	"financo/internal/core/authorization/domain/user"
 	"financo/internal/core/authorization/domain/userID"
+)
+
+var (
+	ErrExpired = errors.New("session expired")
+	ErrStale   = errors.New("session stale")
 )
 
 type Entity struct {
@@ -42,10 +48,18 @@ func (e *Entity) UserID() userID.Value {
 	return e.userID
 }
 
-func (e *Entity) Expired(user user.Entity, maxAge time.Duration) bool {
-	return e.version.IsInvalid(user.SessionVersion()) || time.Since(e.createdAt.Time()) > maxAge
+func (e *Entity) Expired(user user.Entity, maxAge time.Duration) error {
+	if e.version.IsInvalid(user.SessionVersion()) || time.Since(e.createdAt.Time()) > maxAge {
+		return ErrExpired
+	}
+
+	return nil
 }
 
-func (e *Entity) IsTooOld(maxAge time.Duration) bool {
-	return time.Since(e.createdAt.Time()) > maxAge
+func (e *Entity) IsTooOld(maxAge time.Duration) error {
+	if time.Since(e.createdAt.Time()) > maxAge {
+		return ErrStale
+	}
+
+	return nil
 }

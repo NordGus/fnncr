@@ -1,6 +1,7 @@
 package session
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 	"time"
@@ -77,7 +78,7 @@ func TestEntity_Expired(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   bool
+		want   error
 	}{
 		{
 			name: "is a valid session",
@@ -91,7 +92,7 @@ func TestEntity_Expired(t *testing.T) {
 				user:   userMock(42),
 				maxAge: 30 * 24 * time.Hour,
 			},
-			want: false,
+			want: nil,
 		},
 		{
 			name: "is an invalid session, because is too old",
@@ -105,7 +106,7 @@ func TestEntity_Expired(t *testing.T) {
 				user:   userMock(42),
 				maxAge: 24 * time.Hour,
 			},
-			want: true,
+			want: ErrExpired,
 		},
 		{
 			name: "is an invalid session, because the session is invalid",
@@ -119,7 +120,7 @@ func TestEntity_Expired(t *testing.T) {
 				user:   userMock(7),
 				maxAge: 30 * 24 * time.Hour,
 			},
-			want: true,
+			want: ErrExpired,
 		},
 		{
 			name: "is an invalid session",
@@ -133,7 +134,7 @@ func TestEntity_Expired(t *testing.T) {
 				user:   userMock(7),
 				maxAge: 24 * time.Hour,
 			},
-			want: true,
+			want: ErrExpired,
 		},
 	}
 	for _, tt := range tests {
@@ -145,7 +146,7 @@ func TestEntity_Expired(t *testing.T) {
 				createdAt: tt.fields.createdAt,
 			}
 
-			if got := e.Expired(tt.args.user, tt.args.maxAge); got != tt.want {
+			if got := e.Expired(tt.args.user, tt.args.maxAge); !errors.Is(got, tt.want) {
 				t.Errorf("Expired() = %v, want %v", got, tt.want)
 			}
 		})
@@ -215,7 +216,7 @@ func TestEntity_IsTooOld(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   bool
+		want   error
 	}{
 		{
 			name: "is not too old",
@@ -226,7 +227,7 @@ func TestEntity_IsTooOld(t *testing.T) {
 				createdAt: createdAt,
 			},
 			args: args{maxAge: 30 * 24 * time.Hour},
-			want: false,
+			want: nil,
 		},
 		{
 			name: "is too old",
@@ -237,7 +238,7 @@ func TestEntity_IsTooOld(t *testing.T) {
 				createdAt: createdAt,
 			},
 			args: args{maxAge: 24 * time.Hour},
-			want: true,
+			want: ErrStale,
 		},
 	}
 	for _, tt := range tests {
@@ -248,7 +249,7 @@ func TestEntity_IsTooOld(t *testing.T) {
 				version:   tt.fields.version,
 				createdAt: tt.fields.createdAt,
 			}
-			if got := e.IsTooOld(tt.args.maxAge); got != tt.want {
+			if got := e.IsTooOld(tt.args.maxAge); !errors.Is(got, tt.want) {
 				t.Errorf("IsTooOld() = %v, want %v", got, tt.want)
 			}
 		})

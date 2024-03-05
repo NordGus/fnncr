@@ -83,9 +83,10 @@ func (c *command) Execute(req Request) Response {
 		return res
 	}
 
-	// TODO: Refactor session.Entity.Expired and session.Entity.IsTooOld to return errors instead of booleans
-	if sess.Expired(usr, c.sessionMaxAge) || sess.IsTooOld(c.sessionStaleAge) {
-		res.err = errors.Join(errors.New("session expired"), c.sessionRepository.Delete(req.ctx, id))
+	res.err = errors.Join(res.err, sess.Expired(usr, c.sessionMaxAge), sess.IsTooOld(c.sessionStaleAge))
+
+	if res.err != nil {
+		res.err = errors.Join(res.err, c.sessionRepository.Delete(req.ctx, id))
 	} else {
 		res.user = usr
 	}

@@ -28,17 +28,6 @@ type (
 		Create(ctx context.Context, entity session.Entity) error
 	}
 
-	Request struct {
-		ctx      context.Context
-		username string
-		password string
-	}
-
-	Response struct {
-		sessionID string
-		err       error
-	}
-
 	command struct {
 		userRepository    UserRepository
 		sessionRepository SessionRepository
@@ -49,14 +38,6 @@ func New(userRepository UserRepository, sessionRepository SessionRepository) Com
 	return &command{
 		userRepository:    userRepository,
 		sessionRepository: sessionRepository,
-	}
-}
-
-func NewRequest(ctx context.Context, username string, password string) Request {
-	return Request{
-		ctx:      ctx,
-		username: username,
-		password: password,
 	}
 }
 

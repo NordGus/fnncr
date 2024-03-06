@@ -26,16 +26,6 @@ type (
 		Delete(ctx context.Context, id sessionID.Value) error
 	}
 
-	Request struct {
-		ctx       context.Context
-		sessionID string
-	}
-
-	Response struct {
-		user user.Entity
-		err  error
-	}
-
 	command struct {
 		userRepository    UserRepository
 		sessionRepository SessionRepository
@@ -55,13 +45,6 @@ func New(
 		sessionRepository: sessionRepository,
 		sessionMaxAge:     sessionMaxAge,
 		sessionStaleAge:   sessionStaleAge,
-	}
-}
-
-func NewRequest(ctx context.Context, sessionID string) Request {
-	return Request{
-		ctx:       ctx,
-		sessionID: sessionID,
 	}
 }
 

@@ -19,15 +19,6 @@ type (
 		Save(ctx context.Context, entity user.Entity) error
 	}
 
-	Request struct {
-		ctx  context.Context
-		user user.Entity
-	}
-
-	Response struct {
-		err error
-	}
-
 	command struct {
 		userRepository UserRepository
 	}
@@ -36,13 +27,6 @@ type (
 func New(userRepository UserRepository) Command {
 	return &command{
 		userRepository: userRepository,
-	}
-}
-
-func NewRequest(ctx context.Context, user user.Entity) Request {
-	return Request{
-		ctx:  ctx,
-		user: user,
 	}
 }
 

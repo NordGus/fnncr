@@ -2,7 +2,6 @@ package authenticate
 
 import (
 	"context"
-	"encoding/base64"
 	"errors"
 	"time"
 
@@ -51,12 +50,11 @@ func New(
 func (c *command) Execute(req Request) Response {
 	var res Response
 
-	id, err := sessionID.NewFromString(req.sessionID, base64.URLEncoding)
-	if res.err = errors.Join(err, res.err); res.err != nil {
+	if res.err = errors.Join(req.err, res.err); res.err != nil {
 		return res
 	}
 
-	sess, err := c.sessionRepository.Get(req.ctx, id)
+	sess, err := c.sessionRepository.Get(req.ctx, req.sessionID)
 	if res.err = errors.Join(err, res.err); res.err != nil {
 		return res
 	}
@@ -69,7 +67,7 @@ func (c *command) Execute(req Request) Response {
 	res.err = errors.Join(res.err, sess.Expired(usr, c.sessionMaxAge), sess.IsTooOld(c.sessionStaleAge))
 
 	if res.err != nil {
-		res.err = errors.Join(res.err, c.sessionRepository.Delete(req.ctx, id))
+		res.err = errors.Join(res.err, c.sessionRepository.Delete(req.ctx, req.sessionID))
 	} else {
 		res.user = usr
 	}

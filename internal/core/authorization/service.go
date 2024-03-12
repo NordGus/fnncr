@@ -2,12 +2,12 @@ package authorization
 
 import (
 	"context"
-	"financo/internal/core/authorization/domain/passworddigest"
-	"financo/internal/core/authorization/domain/userID"
+	"encoding/base64"
 
 	"financo/internal/core/authorization/commands/authenticate"
 	"financo/internal/core/authorization/commands/signin"
 	"financo/internal/core/authorization/commands/signout"
+	"github.com/google/uuid"
 )
 
 type (
@@ -21,8 +21,6 @@ type (
 		signInCommand       signin.Command
 		signOutCommand      signout.Command
 		authenticateCommand authenticate.Command
-		userIDEncoder       userID.Encoder
-		passwordDigestCrypt passworddigest.Crypt
 	}
 )
 
@@ -30,26 +28,49 @@ func newService(
 	signInCmd signin.Command,
 	signOutCmd signout.Command,
 	authenticateCmd authenticate.Command,
-	userIDEncoder userID.Encoder,
-	pwdCrypt passworddigest.Crypt,
 ) API {
 	return &service{
 		signInCommand:       signInCmd,
 		signOutCommand:      signOutCmd,
 		authenticateCommand: authenticateCmd,
-		userIDEncoder:       userIDEncoder,
-		passwordDigestCrypt: pwdCrypt,
 	}
 }
 
 func (s *service) SignIn(ctx context.Context, username string, password string) SignInResponse {
-	return SignInResponse{}
+	req := signin.NewRequest(ctx, username, password)
+	res := s.signInCommand.Execute(req)
+
+	return SignInResponse{
+		SessionID: res.SessionID(),
+		Err:       res.Error(),
+	}
 }
 
 func (s *service) SignOut(ctx context.Context, sessionID string) SignOutResponse {
-	return SignOutResponse{}
+	authRes := s.authenticateCommand.Execute(authenticate.NewRequest(ctx, sessionID, base64.URLEncoding))
+	if authRes.Error() != nil {
+		return SignOutResponse{Err: authRes.Error()}
+	}
+
+	res := s.signOutCommand.Execute(signout.NewRequest(ctx, authRes.User()))
+	return SignOutResponse{Err: res.Error()}
 }
 
 func (s *service) AuthenticateUser(ctx context.Context, sessionID string) AuthenticateUserResponse {
-	return AuthenticateUserResponse{}
+	res := s.authenticateCommand.Execute(authenticate.NewRequest(ctx, sessionID, base64.URLEncoding))
+	if res.Error() != nil {
+		return AuthenticateUserResponse{Err: res.Error()}
+	}
+
+	user := res.User()
+
+	return AuthenticateUserResponse{
+		CurrentUser: struct {
+			ID    uuid.UUID
+			Roles []string
+		}{
+			ID:    user.ID().UUID(),
+			Roles: []string{},
+		},
+	}
 }

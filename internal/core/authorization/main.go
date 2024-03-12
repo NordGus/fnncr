@@ -57,8 +57,6 @@ func New(pgService users_repository.PostgresService, redisService sessions_repos
 		signin.New(userRepo, sessionRepo),
 		signout.New(userRepo),
 		authenticate.New(userRepo, sessionRepo, opts.SessionMaxAge, opts.SessionStaleAge),
-		userIDEncoder,
-		passwordDigestCrypt,
 	)
 
 	return instance

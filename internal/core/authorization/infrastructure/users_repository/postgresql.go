@@ -1,4 +1,4 @@
-package user_repository
+package users_repository
 
 import (
 	"context"
@@ -6,7 +6,6 @@ import (
 	"errors"
 	"time"
 
-	"financo/internal/core/authorization"
 	"financo/internal/core/authorization/domain/passworddigest"
 	"financo/internal/core/authorization/domain/sessionversion"
 	"financo/internal/core/authorization/domain/timestamp"
@@ -40,7 +39,7 @@ func NewPostgreSQLRepository(
 	serv PostgresService,
 	userIDEncoder userID.Encoder,
 	pwdCrypt passworddigest.Crypt,
-) authorization.UserRepository {
+) Repository {
 	return &postgreSQLRepository{
 		conn:                serv.DB(),
 		userIDEncoder:       userIDEncoder,

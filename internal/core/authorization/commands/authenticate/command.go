@@ -55,12 +55,12 @@ func (c *command) Execute(req Request) Response {
 	}
 
 	sess, err := c.sessionRepository.Get(req.ctx, req.sessionID)
-	if res.err = errors.Join(err, res.err); res.err != nil {
+	if res.err = errors.Join(res.err, err); res.err != nil {
 		return res
 	}
 
 	usr, err := c.userRepository.GetByID(req.ctx, sess.UserID())
-	if res.err = errors.Join(err, res.err); res.err != nil {
+	if res.err = errors.Join(res.err, err); res.err != nil {
 		return res
 	}
 

@@ -1,4 +1,4 @@
-package session_repository
+package sessions_repository
 
 import (
 	"context"
@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"time"
 
-	"financo/internal/core/authorization"
 	"financo/internal/core/authorization/domain/session"
 	"financo/internal/core/authorization/domain/sessionID"
 	"financo/internal/core/authorization/domain/sessionversion"
@@ -33,7 +32,7 @@ type (
 	}
 )
 
-func NewRedisRepository(serv RedisService, userIDEncoder userID.Encoder) authorization.SessionRepository {
+func NewRedisRepository(serv RedisService, userIDEncoder userID.Encoder) Repository {
 	return &redisRepository{
 		conn:          serv.Client(),
 		userIDEncoder: userIDEncoder,

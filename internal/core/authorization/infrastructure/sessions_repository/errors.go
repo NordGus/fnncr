@@ -1,4 +1,4 @@
-package session_repository
+package sessions_repository
 
 import "errors"
 

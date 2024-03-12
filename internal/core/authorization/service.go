@@ -2,6 +2,8 @@ package authorization
 
 import (
 	"context"
+	"financo/internal/core/authorization/domain/passworddigest"
+	"financo/internal/core/authorization/domain/userID"
 
 	"financo/internal/core/authorization/commands/authenticate"
 	"financo/internal/core/authorization/commands/signin"
@@ -19,14 +21,24 @@ type (
 		signInCommand       signin.Command
 		signOutCommand      signout.Command
 		authenticateCommand authenticate.Command
+		userIDEncoder       userID.Encoder
+		passwordDigestCrypt passworddigest.Crypt
 	}
 )
 
-func newService(signInCmd signin.Command, signOutCmd signout.Command, authenticateCmd authenticate.Command) API {
+func newService(
+	signInCmd signin.Command,
+	signOutCmd signout.Command,
+	authenticateCmd authenticate.Command,
+	userIDEncoder userID.Encoder,
+	pwdCrypt passworddigest.Crypt,
+) API {
 	return &service{
 		signInCommand:       signInCmd,
 		signOutCommand:      signOutCmd,
 		authenticateCommand: authenticateCmd,
+		userIDEncoder:       userIDEncoder,
+		passwordDigestCrypt: pwdCrypt,
 	}
 }
 

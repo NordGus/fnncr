@@ -1,15 +1,15 @@
 package authorization
 
 import (
-	"financo/internal/core/authorization/infrastructure/bcrypt_crypt"
-	"financo/internal/core/authorization/infrastructure/sessions_repository"
-	"financo/internal/core/authorization/infrastructure/users_repository"
-	"financo/internal/core/authorization/infrastructure/uuid_encoder"
 	"time"
 
 	"financo/internal/core/authorization/commands/authenticate"
 	"financo/internal/core/authorization/commands/signin"
 	"financo/internal/core/authorization/commands/signout"
+	"financo/internal/core/authorization/infrastructure/bcrypt_crypt"
+	"financo/internal/core/authorization/infrastructure/sessions_repository"
+	"financo/internal/core/authorization/infrastructure/users_repository"
+	"financo/internal/core/authorization/infrastructure/uuid_encoder"
 )
 
 var (

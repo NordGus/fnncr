@@ -25,6 +25,6 @@ func New(moment time.Time) (Value, error) {
 	}, errs
 }
 
-func (v *Value) Time() time.Time {
+func (v Value) Time() time.Time {
 	return v.timestamp
 }

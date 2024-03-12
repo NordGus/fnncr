@@ -24,6 +24,6 @@ func New(username string) (Value, error) {
 	}, errs
 }
 
-func (v *Value) String() string {
+func (v Value) String() string {
 	return v.username
 }

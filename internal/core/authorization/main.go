@@ -1,18 +1,15 @@
 package authorization
 
 import (
-	"context"
+	"financo/internal/core/authorization/infrastructure/bcrypt_crypt"
+	"financo/internal/core/authorization/infrastructure/sessions_repository"
+	"financo/internal/core/authorization/infrastructure/users_repository"
+	"financo/internal/core/authorization/infrastructure/uuid_encoder"
 	"time"
 
 	"financo/internal/core/authorization/commands/authenticate"
 	"financo/internal/core/authorization/commands/signin"
 	"financo/internal/core/authorization/commands/signout"
-
-	"financo/internal/core/authorization/domain/session"
-	"financo/internal/core/authorization/domain/sessionID"
-	"financo/internal/core/authorization/domain/user"
-	"financo/internal/core/authorization/domain/userID"
-	"financo/internal/core/authorization/domain/username"
 )
 
 var (
@@ -20,18 +17,6 @@ var (
 )
 
 type (
-	UserRepository interface {
-		GetByID(ctx context.Context, id userID.Value) (user.Entity, error)
-		GetByUsername(ctx context.Context, value username.Value) (user.Entity, error)
-		Save(ctx context.Context, entity user.Entity) error
-	}
-
-	SessionRepository interface {
-		Get(ctx context.Context, id sessionID.Value) (session.Entity, error)
-		Create(ctx context.Context, entity session.Entity) error
-		Delete(ctx context.Context, id sessionID.Value) error
-	}
-
 	// Opts is a configuration struct for the authentication service.
 	Opts struct {
 		// SessionMaxAge is the maximum age for the current user session. Default 1 hour.
@@ -51,12 +36,18 @@ func defaultOptions() *Opts {
 	}
 }
 
-func New(userRepo UserRepository, sessionRepo SessionRepository, configs ...OptFunc) API {
+func New(pgService users_repository.PostgresService, redisService sessions_repository.RedisService, configs ...OptFunc) API {
 	if instance != nil {
 		return instance
 	}
 
-	opts := defaultOptions()
+	var (
+		userIDEncoder       = uuid_encoder.New()
+		passwordDigestCrypt = bcrypt_crypt.New()
+		userRepo            = users_repository.NewPostgreSQLRepository(pgService, userIDEncoder, passwordDigestCrypt)
+		sessionRepo         = sessions_repository.NewRedisRepository(redisService, userIDEncoder)
+		opts                = defaultOptions()
+	)
 
 	for i := 0; i < len(configs); i++ {
 		configs[i](opts)

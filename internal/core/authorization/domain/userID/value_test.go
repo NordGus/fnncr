@@ -137,3 +137,38 @@ func TestValue_String(t *testing.T) {
 		})
 	}
 }
+
+func TestValue_UUID(t *testing.T) {
+	type fields struct {
+		value   uuid.UUID
+		encoder Encoder
+	}
+
+	i := uuid.New()
+
+	tests := []struct {
+		name   string
+		fields fields
+		want   uuid.UUID
+	}{
+		{
+			name: "returns the expected inner uuid",
+			fields: fields{
+				value:   i,
+				encoder: encoderMock{},
+			},
+			want: i,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			v := Value{
+				value:   tt.fields.value,
+				encoder: tt.fields.encoder,
+			}
+			if got := v.UUID(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("UUID() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

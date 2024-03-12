@@ -42,3 +42,7 @@ func New(id string, encoder Encoder) (Value, error) {
 func (v Value) String() string {
 	return v.value.String()
 }
+
+func (v Value) UUID() uuid.UUID {
+	return v.value
+}

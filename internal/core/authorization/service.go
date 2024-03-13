@@ -9,25 +9,17 @@ import (
 	"github.com/google/uuid"
 )
 
-type (
-	API interface {
-		SignIn(ctx context.Context, username string, password string) SignInResponse
-		SignOut(ctx context.Context, sessionID string) SignOutResponse
-		AuthenticateUser(ctx context.Context, sessionID string) AuthenticateUserResponse
-	}
-
-	service struct {
-		signInCommand       signin.Command
-		signOutCommand      signout.Command
-		authenticateCommand authenticate.Command
-	}
-)
+type service struct {
+	signInCommand       signin.Command
+	signOutCommand      signout.Command
+	authenticateCommand authenticate.Command
+}
 
 func newService(
 	signInCmd signin.Command,
 	signOutCmd signout.Command,
 	authenticateCmd authenticate.Command,
-) API {
+) *service {
 	return &service{
 		signInCommand:       signInCmd,
 		signOutCommand:      signOutCmd,

@@ -1,6 +1,7 @@
 package authorization
 
 import (
+	"context"
 	"encoding/base64"
 	"time"
 
@@ -18,6 +19,12 @@ var (
 )
 
 type (
+	API interface {
+		SignIn(ctx context.Context, username string, password string) SignInResponse
+		SignOut(ctx context.Context, sessionID string) SignOutResponse
+		AuthenticateUser(ctx context.Context, sessionID string) AuthenticateUserResponse
+	}
+
 	// Opts is a configuration struct for the authentication service.
 	Opts struct {
 		// SessionMaxAge is the maximum age for the current user session. Default 1 hour.

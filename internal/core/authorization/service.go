@@ -2,7 +2,6 @@ package authorization
 
 import (
 	"context"
-	"encoding/base64"
 
 	"financo/internal/core/authorization/commands/authenticate"
 	"financo/internal/core/authorization/commands/signin"
@@ -41,13 +40,13 @@ func (s *service) SignIn(ctx context.Context, username string, password string) 
 	res := s.signInCommand.Execute(req)
 
 	return SignInResponse{
-		SessionID: res.SessionID(),
+		SessionID: res.SessionID().String(),
 		Err:       res.Error(),
 	}
 }
 
 func (s *service) SignOut(ctx context.Context, sessionID string) SignOutResponse {
-	authRes := s.authenticateCommand.Execute(authenticate.NewRequest(ctx, sessionID, base64.URLEncoding))
+	authRes := s.authenticateCommand.Execute(authenticate.NewRequest(ctx, sessionID))
 	if authRes.Error() != nil {
 		return SignOutResponse{Err: authRes.Error()}
 	}
@@ -57,7 +56,7 @@ func (s *service) SignOut(ctx context.Context, sessionID string) SignOutResponse
 }
 
 func (s *service) AuthenticateUser(ctx context.Context, sessionID string) AuthenticateUserResponse {
-	res := s.authenticateCommand.Execute(authenticate.NewRequest(ctx, sessionID, base64.URLEncoding))
+	res := s.authenticateCommand.Execute(authenticate.NewRequest(ctx, sessionID))
 	if res.Error() != nil {
 		return AuthenticateUserResponse{Err: res.Error()}
 	}

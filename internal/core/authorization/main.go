@@ -1,6 +1,7 @@
 package authorization
 
 import (
+	"encoding/base64"
 	"time"
 
 	"financo/internal/core/authorization/commands/authenticate"
@@ -56,7 +57,7 @@ func New(pgService users_repository.PostgresService, redisService sessions_repos
 	instance = newService(
 		signin.New(userRepo, sessionRepo),
 		signout.New(userRepo),
-		authenticate.New(userRepo, sessionRepo, opts.SessionMaxAge, opts.SessionStaleAge),
+		authenticate.New(userRepo, sessionRepo, opts.SessionMaxAge, opts.SessionStaleAge, base64.URLEncoding),
 	)
 
 	return instance

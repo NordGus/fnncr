@@ -82,7 +82,7 @@ func (c *command) Execute(req Request) Response {
 		return res
 	}
 
-	res.sessionID = sid.String()
+	res.sessionID = sid
 
 	return res
 }

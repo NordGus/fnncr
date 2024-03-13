@@ -1,11 +1,13 @@
 package signin
 
+import "financo/internal/core/authorization/domain/sessionID"
+
 type Response struct {
-	sessionID string
+	sessionID sessionID.Value
 	err       error
 }
 
-func (resp *Response) SessionID() string {
+func (resp *Response) SessionID() sessionID.Value {
 	return resp.sessionID
 }
 

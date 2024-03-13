@@ -30,6 +30,7 @@ type (
 		sessionRepository SessionRepository
 		sessionMaxAge     time.Duration
 		sessionStaleAge   time.Duration
+		sessionIDEncoder  sessionID.Encoder
 	}
 )
 
@@ -38,36 +39,39 @@ func New(
 	sessionRepository SessionRepository,
 	sessionMaxAge time.Duration,
 	sessionStaleAge time.Duration,
+	sessionIDEncoder sessionID.Encoder,
 ) Command {
 	return &command{
 		userRepository:    userRepository,
 		sessionRepository: sessionRepository,
 		sessionMaxAge:     sessionMaxAge,
 		sessionStaleAge:   sessionStaleAge,
+		sessionIDEncoder:  sessionIDEncoder,
 	}
 }
 
 func (c *command) Execute(req Request) Response {
 	var res Response
 
-	if res.err = errors.Join(req.err, res.err); res.err != nil {
-		return res
-	}
-
-	sess, err := c.sessionRepository.Get(req.ctx, req.sessionID)
+	id, err := sessionID.NewFromString(req.sessionID, c.sessionIDEncoder)
 	if res.err = errors.Join(res.err, err); res.err != nil {
 		return res
 	}
 
-	usr, err := c.userRepository.GetByID(req.ctx, sess.UserID())
+	sssn, err := c.sessionRepository.Get(req.ctx, id)
 	if res.err = errors.Join(res.err, err); res.err != nil {
 		return res
 	}
 
-	res.err = errors.Join(res.err, sess.Expired(usr, c.sessionMaxAge), sess.IsTooOld(c.sessionStaleAge))
+	usr, err := c.userRepository.GetByID(req.ctx, sssn.UserID())
+	if res.err = errors.Join(res.err, err); res.err != nil {
+		return res
+	}
+
+	res.err = errors.Join(res.err, sssn.Expired(usr, c.sessionMaxAge), sssn.IsTooOld(c.sessionStaleAge))
 
 	if res.err != nil {
-		res.err = errors.Join(res.err, c.sessionRepository.Delete(req.ctx, req.sessionID))
+		res.err = errors.Join(res.err, c.sessionRepository.Delete(req.ctx, id))
 	} else {
 		res.user = usr
 	}

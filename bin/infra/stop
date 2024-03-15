@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+echo "Stating project's infrastructure"
+docker compose down --remove-orphans

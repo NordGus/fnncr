@@ -3,6 +3,6 @@ package transaction_form
 import "time"
 
 type ExecutedAt struct {
-	Value  time.Time
-	Errors []error
+	Value  time.Time `json:"value"`
+	Errors []error   `json:"errors"`
 }

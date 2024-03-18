@@ -5,6 +5,6 @@ import (
 )
 
 type Currency struct {
-	Value  model.Currency
-	Errors []error
+	Value  model.Currency `json:"value"`
+	Errors []error        `json:"errors"`
 }

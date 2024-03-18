@@ -7,18 +7,18 @@ import (
 )
 
 type Form struct {
-	FromID FromID
-	ToID   ToID
+	FromID FromID `json:"fromID"`
+	ToID   ToID   `json:"toID"`
 
-	FromAmount FromAmount
-	ToAmount   ToAmount
+	FromAmount FromAmount `json:"fromAmount"`
+	ToAmount   ToAmount   `json:"toAmount"`
 
-	IssuedAt   IssuedAt
-	ExecutedAt ExecutedAt
+	IssuedAt   IssuedAt   `json:"issuedAt"`
+	ExecutedAt ExecutedAt `json:"executedAt"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt time.Time `json:"-"`
 }
 
 func New(

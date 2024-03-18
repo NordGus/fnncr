@@ -9,21 +9,21 @@ import (
 )
 
 type Form struct {
-	ParentID ParentID
+	ParentID ParentID `json:"parentID"`
 
-	Type      Type
-	Currency  Currency
-	Limit     Limit
-	IsArchive IsArchive
+	Type      Type      `json:"type"`
+	Currency  Currency  `json:"currency"`
+	Limit     Limit     `json:"limit"`
+	IsArchive IsArchive `json:"isArchive"`
 
-	Name        Name
-	Description Description
-	Color       Color
-	Icon        Icon
+	Name        Name        `json:"name"`
+	Description Description `json:"description"`
+	Color       Color       `json:"color"`
+	Icon        Icon        `json:"icon"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt time.Time `json:"-"`
 }
 
 func New(

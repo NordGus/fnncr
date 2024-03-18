@@ -1,6 +1,6 @@
 package account_form
 
 type Name struct {
-	Value  string
-	Errors []error
+	Value  string  `json:"value"`
+	Errors []error `json:"errors"`
 }

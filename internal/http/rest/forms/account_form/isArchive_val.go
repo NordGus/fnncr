@@ -1,6 +1,6 @@
 package account_form
 
 type IsArchive struct {
-	Value  bool
-	Errors []error
+	Value  bool    `json:"value"`
+	Errors []error `json:"errors"`
 }

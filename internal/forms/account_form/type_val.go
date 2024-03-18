@@ -1,6 +1,8 @@
 package account_form
 
-import model "financo/internal/http/rest/models/account_model"
+import (
+	model "financo/internal/entities/account_entity"
+)
 
 type Type struct {
 	Value  model.Type `json:"value"`

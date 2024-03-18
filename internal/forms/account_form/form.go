@@ -3,8 +3,8 @@ package account_form
 import (
 	"time"
 
-	model "financo/internal/http/rest/models/account_model"
-	"financo/internal/http/rest/models/shared"
+	account "financo/internal/entities/account_entity"
+	"financo/internal/entities/shared"
 	"github.com/google/uuid"
 )
 
@@ -27,7 +27,7 @@ type Form struct {
 }
 
 func New(
-	t model.Type,
+	t account.Type,
 	c shared.Currency,
 	name string,
 	description string,
@@ -58,7 +58,7 @@ func New(
 
 func NewChild(
 	parentID uuid.UUID,
-	t model.Type,
+	t account.Type,
 	c shared.Currency,
 	name string,
 	description string,

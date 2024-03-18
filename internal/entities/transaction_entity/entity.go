@@ -1,13 +1,13 @@
-package transaction_model
+package transaction_entity
 
 import (
 	"time"
 
-	account "financo/internal/http/rest/models/account_model"
+	account "financo/internal/entities/account_entity"
 	"github.com/google/uuid"
 )
 
-type Model struct {
+type Entity struct {
 	ID     uuid.UUID `json:"id"`
 	FromID uuid.UUID `json:"fromID"`
 	ToID   uuid.UUID `json:"toID"`
@@ -25,8 +25,8 @@ type Model struct {
 
 func New(
 	id uuid.UUID,
-	from account.Model,
-	to account.Model,
+	from account.Entity,
+	to account.Entity,
 	fromAmount int64,
 	toAccount int64,
 	issuedAt time.Time,
@@ -34,8 +34,8 @@ func New(
 	createdAt time.Time,
 	updatedAt time.Time,
 	deletedAt time.Time,
-) Model {
-	return Model{
+) Entity {
+	return Entity{
 		ID:         id,
 		FromID:     from.ID,
 		ToID:       to.ID,

@@ -1,10 +1,10 @@
 package account_form
 
 import (
-	"financo/internal/http/rest/models/shared"
 	"time"
 
 	model "financo/internal/http/rest/models/account_model"
+	"financo/internal/http/rest/models/shared"
 	"github.com/google/uuid"
 )
 

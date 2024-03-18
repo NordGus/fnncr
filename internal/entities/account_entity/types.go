@@ -1,4 +1,4 @@
-package account_model
+package account_entity
 
 type Type string
 

@@ -1,13 +1,13 @@
-package account_model
+package account_entity
 
 import (
 	"time"
 
-	"financo/internal/http/rest/models/shared"
+	"financo/internal/entities/shared"
 	"github.com/google/uuid"
 )
 
-type Model struct {
+type Entity struct {
 	ID       uuid.UUID `json:"id"`
 	ParentID uuid.UUID `json:"parentID"`
 
@@ -39,8 +39,8 @@ func New(
 	createdAt time.Time,
 	updatedAt time.Time,
 	deletedAt time.Time,
-) Model {
-	return Model{
+) Entity {
+	return Entity{
 		ID:          id,
 		ParentID:    uuid.UUID{},
 		Type:        t,
@@ -59,7 +59,7 @@ func New(
 
 func NewChild(
 	id uuid.UUID,
-	parent Model,
+	parent Entity,
 	name string,
 	description string,
 	icon string,
@@ -68,8 +68,8 @@ func NewChild(
 	createdAt time.Time,
 	updatedAt time.Time,
 	deletedAt time.Time,
-) Model {
-	return Model{
+) Entity {
+	return Entity{
 		ID:          id,
 		ParentID:    parent.ID,
 		Type:        parent.Type,

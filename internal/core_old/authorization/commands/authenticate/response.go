@@ -1,6 +1,6 @@
 package authenticate
 
-import "financo/internal/core/authorization/domain/user"
+import "financo/internal/core_old/authorization/domain/user"
 
 type Response struct {
 	user user.Entity

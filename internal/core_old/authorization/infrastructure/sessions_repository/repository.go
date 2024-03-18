@@ -3,8 +3,8 @@ package sessions_repository
 import (
 	"context"
 
-	"financo/internal/core/authorization/domain/session"
-	"financo/internal/core/authorization/domain/sessionID"
+	"financo/internal/core_old/authorization/domain/session"
+	"financo/internal/core_old/authorization/domain/sessionID"
 )
 
 type Repository interface {

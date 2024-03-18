@@ -5,9 +5,9 @@ import (
 	"errors"
 	"time"
 
-	"financo/internal/core/authorization/domain/sessionversion"
-	"financo/internal/core/authorization/domain/timestamp"
-	"financo/internal/core/authorization/domain/user"
+	"financo/internal/core_old/authorization/domain/sessionversion"
+	"financo/internal/core_old/authorization/domain/timestamp"
+	"financo/internal/core_old/authorization/domain/user"
 )
 
 type (

@@ -3,9 +3,9 @@ package authorization
 import (
 	"context"
 
-	"financo/internal/core/authorization/commands/authenticate"
-	"financo/internal/core/authorization/commands/signin"
-	"financo/internal/core/authorization/commands/signout"
+	"financo/internal/core_old/authorization/commands/authenticate"
+	"financo/internal/core_old/authorization/commands/signin"
+	"financo/internal/core_old/authorization/commands/signout"
 	"github.com/google/uuid"
 )
 

@@ -8,11 +8,11 @@ import (
 	"io"
 	"time"
 
-	"financo/internal/core/authorization/domain/session"
-	"financo/internal/core/authorization/domain/sessionID"
-	"financo/internal/core/authorization/domain/timestamp"
-	"financo/internal/core/authorization/domain/user"
-	"financo/internal/core/authorization/domain/username"
+	"financo/internal/core_old/authorization/domain/session"
+	"financo/internal/core_old/authorization/domain/sessionID"
+	"financo/internal/core_old/authorization/domain/timestamp"
+	"financo/internal/core_old/authorization/domain/user"
+	"financo/internal/core_old/authorization/domain/username"
 )
 
 type (

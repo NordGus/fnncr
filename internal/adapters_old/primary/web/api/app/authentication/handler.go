@@ -3,7 +3,7 @@ package authentication
 import (
 	"time"
 
-	"financo/internal/core/services/authentication"
+	"financo/internal/core_old/services/authentication"
 	"github.com/labstack/echo/v4"
 )
 

@@ -5,10 +5,10 @@ import (
 	"errors"
 	"time"
 
-	"financo/internal/core/authorization/domain/session"
-	"financo/internal/core/authorization/domain/sessionID"
-	"financo/internal/core/authorization/domain/user"
-	"financo/internal/core/authorization/domain/userID"
+	"financo/internal/core_old/authorization/domain/session"
+	"financo/internal/core_old/authorization/domain/sessionID"
+	"financo/internal/core_old/authorization/domain/user"
+	"financo/internal/core_old/authorization/domain/userID"
 )
 
 type (

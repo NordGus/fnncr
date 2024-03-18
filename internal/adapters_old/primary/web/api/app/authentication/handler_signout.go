@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"financo/internal/adapters_old/primary/web/api/app/models"
-	"financo/internal/core/services/authentication"
+	"financo/internal/core_old/services/authentication"
 	"github.com/labstack/echo/v4"
 )
 

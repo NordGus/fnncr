@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"time"
 
-	"financo/internal/core/authorization/domain/session"
-	"financo/internal/core/authorization/domain/sessionID"
-	"financo/internal/core/authorization/domain/sessionversion"
-	"financo/internal/core/authorization/domain/timestamp"
-	"financo/internal/core/authorization/domain/userID"
+	"financo/internal/core_old/authorization/domain/session"
+	"financo/internal/core_old/authorization/domain/sessionID"
+	"financo/internal/core_old/authorization/domain/sessionversion"
+	"financo/internal/core_old/authorization/domain/timestamp"
+	"financo/internal/core_old/authorization/domain/userID"
 	"github.com/redis/go-redis/v9"
 )
 

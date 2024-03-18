@@ -3,9 +3,9 @@ package users_repository
 import (
 	"context"
 
-	"financo/internal/core/authorization/domain/user"
-	"financo/internal/core/authorization/domain/userID"
-	"financo/internal/core/authorization/domain/username"
+	"financo/internal/core_old/authorization/domain/user"
+	"financo/internal/core_old/authorization/domain/userID"
+	"financo/internal/core_old/authorization/domain/username"
 )
 
 type Repository interface {

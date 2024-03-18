@@ -5,13 +5,13 @@ import (
 	"encoding/base64"
 	"time"
 
-	"financo/internal/core/authorization/commands/authenticate"
-	"financo/internal/core/authorization/commands/signin"
-	"financo/internal/core/authorization/commands/signout"
-	"financo/internal/core/authorization/infrastructure/bcrypt_crypt"
-	"financo/internal/core/authorization/infrastructure/sessions_repository"
-	"financo/internal/core/authorization/infrastructure/users_repository"
-	"financo/internal/core/authorization/infrastructure/uuid_encoder"
+	"financo/internal/core_old/authorization/commands/authenticate"
+	"financo/internal/core_old/authorization/commands/signin"
+	"financo/internal/core_old/authorization/commands/signout"
+	"financo/internal/core_old/authorization/infrastructure/bcrypt_crypt"
+	"financo/internal/core_old/authorization/infrastructure/sessions_repository"
+	"financo/internal/core_old/authorization/infrastructure/users_repository"
+	"financo/internal/core_old/authorization/infrastructure/uuid_encoder"
 )
 
 var (

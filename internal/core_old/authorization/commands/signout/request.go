@@ -2,7 +2,7 @@ package signout
 
 import (
 	"context"
-	"financo/internal/core/authorization/domain/user"
+	"financo/internal/core_old/authorization/domain/user"
 )
 
 type Request struct {

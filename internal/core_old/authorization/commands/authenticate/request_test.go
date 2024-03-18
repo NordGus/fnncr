@@ -3,7 +3,7 @@ package authenticate
 import (
 	"context"
 	"errors"
-	"financo/internal/core/authorization/domain/sessionID"
+	"financo/internal/core_old/authorization/domain/sessionID"
 	"reflect"
 	"testing"
 )

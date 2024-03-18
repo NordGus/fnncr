@@ -1,28 +1,29 @@
 package account_model
 
 import (
+	"time"
+
 	"financo/internal/http/rest/models/shared"
 	"github.com/google/uuid"
-	"time"
 )
 
 type Model struct {
-	ID       uuid.UUID
-	ParentID uuid.UUID
+	ID       uuid.UUID `json:"id"`
+	ParentID uuid.UUID `json:"parentID"`
 
-	Type      Type
-	Currency  shared.Currency
-	Limit     int64
-	IsArchive bool
+	Type      Type            `json:"type"`
+	Currency  shared.Currency `json:"currency"`
+	Limit     int64           `json:"limit"`
+	IsArchive bool            `json:"isArchive"`
 
-	Name        string
-	Description string
-	Color       string
-	Icon        string
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Color       string `json:"color"`
+	Icon        string `json:"icon"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt time.Time `json:"-"`
 }
 
 func New(

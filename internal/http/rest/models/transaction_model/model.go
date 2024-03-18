@@ -8,19 +8,19 @@ import (
 )
 
 type Model struct {
-	ID     uuid.UUID
-	FromID uuid.UUID
-	ToID   uuid.UUID
+	ID     uuid.UUID `json:"id"`
+	FromID uuid.UUID `json:"fromID"`
+	ToID   uuid.UUID `json:"toID"`
 
-	FromAmount int64
-	ToAmount   int64
+	FromAmount int64 `json:"fromAmount"`
+	ToAmount   int64 `json:"toAmount"`
 
-	IssuedAt   time.Time
-	ExecutedAt time.Time
+	IssuedAt   time.Time `json:"issuedAt"`
+	ExecutedAt time.Time `json:"executedAt"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt time.Time `json:"-"`
 }
 
 func New(

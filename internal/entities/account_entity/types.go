@@ -1,9 +1,9 @@
 package account_entity
 
-type Type string
+type Kind string
 
 const (
-	NormalAccount  Type = "capital.normal"
+	NormalAccount  Kind = "capital.normal"
 	SavingsAccount      = "capital.savings"
 	DebtAccount         = "debt.normal"
 	CreditAccount       = "debt.credit"

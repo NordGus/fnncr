@@ -1,10 +1,10 @@
 package account_form
 
 import (
-	"financo/internal/entities/shared"
+	"financo/internal/entities/shared/currencies"
 )
 
 type Currency struct {
-	Value  shared.Currency `json:"value"`
-	Errors []error         `json:"errors"`
+	Value  currencies.Currency `json:"value"`
+	Errors []error             `json:"errors"`
 }

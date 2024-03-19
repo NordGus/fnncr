@@ -4,14 +4,14 @@ import (
 	"time"
 
 	account "financo/internal/entities/account_entity"
-	"financo/internal/entities/shared"
+	"financo/internal/entities/shared/currencies"
 	"github.com/google/uuid"
 )
 
 type Form struct {
 	ParentID ParentID `json:"parentID"`
 
-	Type      Type      `json:"type"`
+	Kind      Kind      `json:"kind"`
 	Currency  Currency  `json:"currency"`
 	Limit     Limit     `json:"limit"`
 	IsArchive IsArchive `json:"isArchive"`
@@ -27,8 +27,8 @@ type Form struct {
 }
 
 func New(
-	t account.Type,
-	c shared.Currency,
+	t account.Kind,
+	c currencies.Currency,
 	name string,
 	description string,
 	color string,
@@ -40,7 +40,7 @@ func New(
 	deletedAt time.Time,
 ) Form {
 	f := Form{
-		Type:        Type{Value: t, Errors: nil},
+		Kind:        Kind{Value: t, Errors: nil},
 		Currency:    Currency{Value: c, Errors: nil},
 		Limit:       Limit{Value: limit, Errors: nil},
 		IsArchive:   IsArchive{Value: isArchived, Errors: nil},
@@ -58,8 +58,8 @@ func New(
 
 func NewChild(
 	parentID uuid.UUID,
-	t account.Type,
-	c shared.Currency,
+	t account.Kind,
+	c currencies.Currency,
 	name string,
 	description string,
 	color string,
@@ -72,7 +72,7 @@ func NewChild(
 ) Form {
 	f := Form{
 		ParentID:    ParentID{Value: parentID, Errors: nil},
-		Type:        Type{Value: t, Errors: nil},
+		Kind:        Kind{Value: t, Errors: nil},
 		Currency:    Currency{Value: c, Errors: nil},
 		Limit:       Limit{Value: limit, Errors: nil},
 		IsArchive:   IsArchive{Value: isArchived, Errors: nil},

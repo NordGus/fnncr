@@ -3,7 +3,7 @@ package account_entity
 import (
 	"time"
 
-	"financo/internal/entities/shared"
+	"financo/internal/entities/shared/currencies"
 	"github.com/google/uuid"
 )
 
@@ -11,10 +11,10 @@ type Entity struct {
 	ID       uuid.UUID `json:"id"`
 	ParentID uuid.UUID `json:"parentID"`
 
-	Type      Type            `json:"type"`
-	Currency  shared.Currency `json:"currency"`
-	Limit     int64           `json:"limit"`
-	IsArchive bool            `json:"isArchive"`
+	Kind      Kind                `json:"kind"`
+	Currency  currencies.Currency `json:"currency"`
+	Limit     int64               `json:"limit"`
+	IsArchive bool                `json:"isArchive"`
 
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -28,8 +28,8 @@ type Entity struct {
 
 func New(
 	id uuid.UUID,
-	t Type,
-	c shared.Currency,
+	t Kind,
+	c currencies.Currency,
 	name string,
 	description string,
 	color string,
@@ -43,7 +43,7 @@ func New(
 	return Entity{
 		ID:          id,
 		ParentID:    uuid.UUID{},
-		Type:        t,
+		Kind:        t,
 		Currency:    c,
 		Limit:       limit,
 		IsArchive:   isArchived,
@@ -72,7 +72,7 @@ func NewChild(
 	return Entity{
 		ID:          id,
 		ParentID:    parent.ID,
-		Type:        parent.Type,
+		Kind:        parent.Kind,
 		Currency:    parent.Currency,
 		Limit:       limit,
 		IsArchive:   isArchived,

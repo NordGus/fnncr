@@ -3,46 +3,82 @@ package transaction_form
 import (
 	"time"
 
-	"github.com/google/uuid"
+	"financo/internal/forms/shared/form_value"
 )
 
-type Form struct {
-	FromID FromID `json:"fromID"`
-	ToID   ToID   `json:"toID"`
+type (
+	Transaction interface {
+		GetID() string
+		GetFromID() string
+		GetToID() string
 
-	FromAmount FromAmount `json:"fromAmount"`
-	ToAmount   ToAmount   `json:"toAmount"`
+		GetFromAmount() int64
+		GetToAmount() int64
 
-	IssuedAt   IssuedAt   `json:"issuedAt"`
-	ExecutedAt ExecutedAt `json:"executedAt"`
+		GetIssuedAt() time.Time
+		GetExecutedAt() time.Time
+	}
 
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	DeletedAt time.Time `json:"-"`
+	Form struct {
+		ID     form_value.Value[string] `json:"id"`
+		FromID form_value.Value[string] `json:"fromID"`
+		ToID   form_value.Value[string] `json:"toID"`
+
+		FromAmount form_value.Value[int64] `json:"fromAmount"`
+		ToAmount   form_value.Value[int64] `json:"toAmount"`
+
+		IssuedAt   form_value.Value[time.Time] `json:"issuedAt"`
+		ExecutedAt form_value.Value[time.Time] `json:"executedAt"`
+
+		IsValid bool `json:"isValid"`
+	}
+)
+
+func NewEntry(raw Form, validator Validator) Form {
+	f := Form{
+		ID:         form_value.New(raw.ID.Value, validator.IDValidators()...),
+		FromID:     form_value.New(raw.FromID.Value, validator.FromIDValidators()...),
+		ToID:       form_value.New(raw.ToID.Value, validator.ToIDValidators()...),
+		FromAmount: form_value.New(raw.FromAmount.Value, validator.FromAmountValidators()...),
+		ToAmount:   form_value.New(raw.ToAmount.Value, validator.ToAmountValidators()...),
+		IssuedAt:   form_value.New(raw.IssuedAt.Value, validator.IssuedAtValidators()...),
+		ExecutedAt: form_value.New(raw.ExecutedAt.Value, validator.IssuedAtValidators()...),
+	}
+
+	f.Validate()
+
+	return f
 }
 
-func New(
-	from uuid.UUID,
-	to uuid.UUID,
-	fromAmount int64,
-	toAccount int64,
-	issuedAt time.Time,
-	executedAt time.Time,
-	createdAt time.Time,
-	updatedAt time.Time,
-	deletedAt time.Time,
-) Form {
+func New(t Transaction) Form {
 	f := Form{
-		FromID:     FromID{Value: from, Errors: nil},
-		ToID:       ToID{Value: to, Errors: nil},
-		FromAmount: FromAmount{Value: fromAmount, Errors: nil},
-		ToAmount:   ToAmount{Value: toAccount, Errors: nil},
-		IssuedAt:   IssuedAt{Value: issuedAt, Errors: nil},
-		ExecutedAt: ExecutedAt{Value: executedAt, Errors: nil},
-		CreatedAt:  createdAt,
-		UpdatedAt:  updatedAt,
-		DeletedAt:  deletedAt,
+		ID:         form_value.New(t.GetID()),
+		FromID:     form_value.New(t.GetFromID()),
+		ToID:       form_value.New(t.GetToID()),
+		FromAmount: form_value.New(t.GetFromAmount()),
+		ToAmount:   form_value.New(t.GetToAmount()),
+		IssuedAt:   form_value.New(t.GetIssuedAt()),
+		ExecutedAt: form_value.New(t.GetExecutedAt()),
+		IsValid:    true,
 	}
 
 	return f
+}
+
+func (f *Form) Validate() {
+	f.ID.Validate()
+	f.FromAmount.Validate()
+	f.ToID.Validate()
+	f.FromAmount.Validate()
+	f.ToAmount.Validate()
+	f.IssuedAt.Validate()
+	f.ExecutedAt.Validate()
+
+	f.IsValid = f.ID.Valid() &&
+		f.FromAmount.Valid() &&
+		f.ToID.Valid() &&
+		f.FromAmount.Valid() &&
+		f.ToAmount.Valid() &&
+		f.IssuedAt.Valid() &&
+		f.ExecutedAt.Valid()
 }

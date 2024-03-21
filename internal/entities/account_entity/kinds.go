@@ -9,4 +9,5 @@ const (
 	CreditAccount       = "debt.credit"
 	IncomeAccount       = "external.income"
 	ExpenseAccount      = "external.expense"
+	invalidAccount      = "invalid"
 )

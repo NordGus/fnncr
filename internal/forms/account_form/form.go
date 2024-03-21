@@ -9,25 +9,25 @@ import (
 
 type (
 	Account interface {
-		GetID() string
-		GetParentID() string
+		ID() string
+		ParentID() string
 
-		GetKind() string
-		GetCurrency() string
-		GetLimit() int64
-		WasArchived() bool
+		Kind() string
+		Currency() string
+		Limit() int64
+		Archived() bool
 
 		GetName() string
-		GetDescription() string
-		GetColor() string
-		GetIcon() string
+		Description() string
+		Color() string
+		Icon() string
 
-		GetInitialAmount() int64
-		GetOpenedAt() time.Time
+		InitialAmount() int64
+		OpenedAt() time.Time
 	}
 
 	Form struct {
-		ID       nullable_value.Value[string] `json:"id"`
+		ID       form_value.Value[string]     `json:"id"`
 		ParentID nullable_value.Value[string] `json:"parentID"`
 
 		Kind      form_value.Value[string] `json:"kind"`
@@ -40,17 +40,20 @@ type (
 		Color       form_value.Value[string] `json:"color"`
 		Icon        form_value.Value[string] `json:"icon"`
 
-		InitialAmount form_value.Value[int64]     `json:"initialAmount"`
-		OpenedAt      form_value.Value[time.Time] `json:"openedAt"`
+		InitialAmount nullable_value.Value[int64]     `json:"initialAmount"`
+		OpenedAt      nullable_value.Value[time.Time] `json:"openedAt"`
 
 		Children []Form `json:"children"`
 
 		IsValid bool `json:"isValid"`
+
+		initialized bool
 	}
 )
 
 func NewEntry(raw Form, validator Validator) Form {
 	f := Form{
+		ID:            form_value.New(raw.ID.Value, validator.IDValidators()...),
 		Kind:          form_value.New(raw.Kind.Value, validator.KindValidators()...),
 		Currency:      form_value.New(raw.Currency.Value, validator.CurrencyValidators()...),
 		Limit:         form_value.New(raw.Limit.Value, validator.LimitValidators()...),
@@ -59,18 +62,20 @@ func NewEntry(raw Form, validator Validator) Form {
 		Description:   form_value.New(raw.Description.Value, validator.DescriptionValidators()...),
 		Color:         form_value.New(raw.Description.Value, validator.ColorValidators()...),
 		Icon:          form_value.New(raw.Icon.Value, validator.IconValidators()...),
-		InitialAmount: form_value.New(raw.InitialAmount.Value, validator.InitialAmountValidators()...),
-		OpenedAt:      form_value.New(raw.OpenedAt.Value, validator.OpenedAtValidators()...),
+		InitialAmount: nullable_value.New(raw.InitialAmount.Value, true, validator.InitialAmountValidators()...),
+		OpenedAt:      nullable_value.New(raw.OpenedAt.Value, raw.OpenedAt.Value.IsZero(), validator.OpenedAtValidators()...),
+		initialized:   true,
 	}
 
-	f.Validate()
+	f.Valid()
 
 	return f
 }
 
 func NewChildEntry(raw Form, validator Validator) Form {
 	f := Form{
-		ParentID:      nullable_value.New(raw.ParentID.Value, validator.ParentIDValidators()...),
+		ID:            form_value.New(raw.ID.Value, validator.IDValidators()...),
+		ParentID:      nullable_value.New(raw.ParentID.Value, true, validator.ParentIDValidators()...),
 		Kind:          form_value.New(raw.Kind.Value, validator.KindValidators()...),
 		Currency:      form_value.New(raw.Currency.Value, validator.CurrencyValidators()...),
 		Limit:         form_value.New(raw.Limit.Value, validator.LimitValidators()...),
@@ -79,56 +84,65 @@ func NewChildEntry(raw Form, validator Validator) Form {
 		Description:   form_value.New(raw.Description.Value, validator.DescriptionValidators()...),
 		Color:         form_value.New(raw.Description.Value, validator.ColorValidators()...),
 		Icon:          form_value.New(raw.Icon.Value, validator.IconValidators()...),
-		InitialAmount: form_value.New(raw.InitialAmount.Value, validator.InitialAmountValidators()...),
-		OpenedAt:      form_value.New(raw.OpenedAt.Value, validator.OpenedAtValidators()...),
+		InitialAmount: nullable_value.New(raw.InitialAmount.Value, true, validator.InitialAmountValidators()...),
+		OpenedAt:      nullable_value.New(raw.OpenedAt.Value, raw.OpenedAt.Value.IsZero(), validator.OpenedAtValidators()...),
+		initialized:   true,
 	}
 
-	f.Validate()
+	f.Valid()
 
 	return f
 }
 
 func New(account Account, children ...Form) Form {
 	f := Form{
-		ID:            nullable_value.New(account.GetID()),
-		Kind:          form_value.New(account.GetKind()),
-		Currency:      form_value.New(account.GetCurrency()),
-		Limit:         form_value.New(account.GetLimit()),
-		IsArchive:     form_value.New(account.WasArchived()),
+		ID:            form_value.New(account.ID()),
+		Kind:          form_value.New(account.Kind()),
+		Currency:      form_value.New(account.Currency()),
+		Limit:         form_value.New(account.Limit()),
+		IsArchive:     form_value.New(account.Archived()),
 		Name:          form_value.New(account.GetName()),
-		Description:   form_value.New(account.GetDescription()),
-		Color:         form_value.New(account.GetColor()),
-		Icon:          form_value.New(account.GetIcon()),
-		InitialAmount: form_value.New(account.GetInitialAmount()),
-		OpenedAt:      form_value.New(account.GetOpenedAt()),
+		Description:   form_value.New(account.Description()),
+		Color:         form_value.New(account.Color()),
+		Icon:          form_value.New(account.Icon()),
+		InitialAmount: nullable_value.New(account.InitialAmount(), true),
+		OpenedAt:      nullable_value.New(account.OpenedAt(), account.OpenedAt().IsZero()),
 		Children:      children,
-		IsValid:       true,
+		initialized:   true,
 	}
+
+	f.Valid()
 
 	return f
 }
 
 func NewChild(account Account) Form {
 	f := Form{
-		ID:            nullable_value.New(account.GetID()),
-		ParentID:      nullable_value.New(account.GetParentID()),
-		Kind:          form_value.New(account.GetKind()),
-		Currency:      form_value.New(account.GetCurrency()),
-		Limit:         form_value.New(account.GetLimit()),
-		IsArchive:     form_value.New(account.WasArchived()),
+		ID:            form_value.New(account.ID()),
+		ParentID:      nullable_value.New(account.ParentID(), true),
+		Kind:          form_value.New(account.Kind()),
+		Currency:      form_value.New(account.Currency()),
+		Limit:         form_value.New(account.Limit()),
+		IsArchive:     form_value.New(account.Archived()),
 		Name:          form_value.New(account.GetName()),
-		Description:   form_value.New(account.GetDescription()),
-		Color:         form_value.New(account.GetColor()),
-		Icon:          form_value.New(account.GetIcon()),
-		InitialAmount: form_value.New(account.GetInitialAmount()),
-		OpenedAt:      form_value.New(account.GetOpenedAt()),
-		IsValid:       true,
+		Description:   form_value.New(account.Description()),
+		Color:         form_value.New(account.Color()),
+		Icon:          form_value.New(account.Icon()),
+		InitialAmount: nullable_value.New(account.InitialAmount(), true),
+		OpenedAt:      nullable_value.New(account.OpenedAt(), account.OpenedAt().IsZero()),
+		initialized:   true,
 	}
+
+	f.Valid()
 
 	return f
 }
 
-func (f *Form) Validate() {
+func (f *Form) Initialized() bool {
+	return f.initialized
+}
+
+func (f *Form) Valid() bool {
 	f.ID.Validate()
 	f.ParentID.Validate()
 	f.Kind.Validate()
@@ -154,4 +168,6 @@ func (f *Form) Validate() {
 		f.Icon.Valid() &&
 		f.InitialAmount.Valid() &&
 		f.OpenedAt.Valid()
+
+	return f.IsValid
 }

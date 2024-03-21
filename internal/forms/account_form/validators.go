@@ -8,7 +8,7 @@ import (
 )
 
 type Validator interface {
-	IDValidators() []nullable_value.Validator[string]
+	IDValidators() []form_value.Validator[string]
 	ParentIDValidators() []nullable_value.Validator[string]
 
 	KindValidators() []form_value.Validator[string]
@@ -21,6 +21,6 @@ type Validator interface {
 	ColorValidators() []form_value.Validator[string]
 	IconValidators() []form_value.Validator[string]
 
-	InitialAmountValidators() []form_value.Validator[int64]
-	OpenedAtValidators() []form_value.Validator[time.Time]
+	InitialAmountValidators() []nullable_value.Validator[int64]
+	OpenedAtValidators() []nullable_value.Validator[time.Time]
 }

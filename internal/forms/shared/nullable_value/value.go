@@ -13,12 +13,12 @@ type (
 	}
 )
 
-func New[Val any](value Val, validators ...Validator[Val]) Value[Val] {
+func New[Val any](value Val, present bool, validators ...Validator[Val]) Value[Val] {
 	return Value[Val]{
 		Value:      value,
 		Errors:     make([]error, 0, 5),
 		validators: validators,
-		present:    true,
+		present:    present,
 	}
 }
 

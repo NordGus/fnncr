@@ -8,15 +8,15 @@ import (
 
 type (
 	Transaction interface {
-		GetID() string
-		GetFromID() string
-		GetToID() string
+		ID() string
+		FromID() string
+		ToID() string
 
-		GetFromAmount() int64
-		GetToAmount() int64
+		FromAmount() int64
+		ToAmount() int64
 
-		GetIssuedAt() time.Time
-		GetExecutedAt() time.Time
+		IssuedAt() time.Time
+		ExecutedAt() time.Time
 	}
 
 	Form struct {
@@ -30,42 +30,50 @@ type (
 		IssuedAt   form_value.Value[time.Time] `json:"issuedAt"`
 		ExecutedAt form_value.Value[time.Time] `json:"executedAt"`
 
-		IsValid bool `json:"isValid"`
+		IsValid     bool `json:"isValid"`
+		initialized bool
 	}
 )
 
 func NewEntry(raw Form, validator Validator) Form {
 	f := Form{
-		ID:         form_value.New(raw.ID.Value, validator.IDValidators()...),
-		FromID:     form_value.New(raw.FromID.Value, validator.FromIDValidators()...),
-		ToID:       form_value.New(raw.ToID.Value, validator.ToIDValidators()...),
-		FromAmount: form_value.New(raw.FromAmount.Value, validator.FromAmountValidators()...),
-		ToAmount:   form_value.New(raw.ToAmount.Value, validator.ToAmountValidators()...),
-		IssuedAt:   form_value.New(raw.IssuedAt.Value, validator.IssuedAtValidators()...),
-		ExecutedAt: form_value.New(raw.ExecutedAt.Value, validator.IssuedAtValidators()...),
+		ID:          form_value.New(raw.ID.Value, validator.IDValidators()...),
+		FromID:      form_value.New(raw.FromID.Value, validator.FromIDValidators()...),
+		ToID:        form_value.New(raw.ToID.Value, validator.ToIDValidators()...),
+		FromAmount:  form_value.New(raw.FromAmount.Value, validator.FromAmountValidators()...),
+		ToAmount:    form_value.New(raw.ToAmount.Value, validator.ToAmountValidators()...),
+		IssuedAt:    form_value.New(raw.IssuedAt.Value, validator.IssuedAtValidators()...),
+		ExecutedAt:  form_value.New(raw.ExecutedAt.Value, validator.IssuedAtValidators()...),
+		initialized: true,
 	}
 
-	f.Validate()
+	f.Valid()
 
 	return f
 }
 
-func New(t Transaction) Form {
+func New(transaction Transaction) Form {
 	f := Form{
-		ID:         form_value.New(t.GetID()),
-		FromID:     form_value.New(t.GetFromID()),
-		ToID:       form_value.New(t.GetToID()),
-		FromAmount: form_value.New(t.GetFromAmount()),
-		ToAmount:   form_value.New(t.GetToAmount()),
-		IssuedAt:   form_value.New(t.GetIssuedAt()),
-		ExecutedAt: form_value.New(t.GetExecutedAt()),
-		IsValid:    true,
+		ID:          form_value.New(transaction.ID()),
+		FromID:      form_value.New(transaction.FromID()),
+		ToID:        form_value.New(transaction.ToID()),
+		FromAmount:  form_value.New(transaction.FromAmount()),
+		ToAmount:    form_value.New(transaction.ToAmount()),
+		IssuedAt:    form_value.New(transaction.IssuedAt()),
+		ExecutedAt:  form_value.New(transaction.ExecutedAt()),
+		initialized: true,
 	}
+
+	f.Valid()
 
 	return f
 }
 
-func (f *Form) Validate() {
+func (f *Form) Initialized() bool {
+	return f.initialized
+}
+
+func (f *Form) Valid() bool {
 	f.ID.Validate()
 	f.FromAmount.Validate()
 	f.ToID.Validate()
@@ -81,4 +89,6 @@ func (f *Form) Validate() {
 		f.ToAmount.Valid() &&
 		f.IssuedAt.Valid() &&
 		f.ExecutedAt.Valid()
+
+	return f.IsValid
 }

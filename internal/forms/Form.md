@@ -9,8 +9,8 @@ outside, it represents the values that compose an [Entity]().
 - Read the details of a persisted [Entity]() in the system.
 
 ## Development Practices
-- Use [Forms](#Form) as [DTOs]() to communicate [Entity]() between the outside
-world and the system.
+- Use [Forms](#Form) as [DTOs](../../docs/concepts/Data%20Transfer%20Object.md)
+to communicate [Entity]() between the outside world and the system.
 - When you are using a [Form](#Form) inside your system commands always 
 validate that has been initialized correctly using its method
 `[form].Initialized()` it only returns `true` if the form was initialized

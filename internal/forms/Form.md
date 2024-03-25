@@ -1,16 +1,19 @@
 # Form
 
 A form is the primary way how the system communicate in detail with the
-outside, it represents the values that compose an [Entity]().
+outside, it represents the values that compose an
+[Entity](../entities/Entity.md).
 
 ## Uses
-- Insert new [Entities]() in the system.
-- Update an existing [Entity]() in the system.
-- Read the details of a persisted [Entity]() in the system.
+- Insert new [Entities](../entities/Entity.md) in the system.
+- Update an existing [Entity](../entities/Entity.md) in the system.
+- Read the details of a persisted [Entity](../entities/Entity.md) in the
+system.
 
 ## Development Practices
 - Use [Forms](#Form) as [DTOs](../../docs/concepts/Data%20Transfer%20Object.md)
-to communicate [Entity]() between the outside world and the system.
+to communicate [Entity](../entities/Entity.md) between the outside world and
+the system.
 - When you are using a [Form](#Form) inside your system commands always 
 validate that has been initialized correctly using its method
 `[form].Initialized()` it only returns `true` if the form was initialized

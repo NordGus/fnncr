@@ -50,3 +50,8 @@ outside, it represents the values that compose an
 
 ### Validation Function
 
+
+# TODO
+- [ ] Write Glossary definitions.
+- [ ] Refactor current implementation to match this spec.
+- [ ] Implement the form generation command/script.

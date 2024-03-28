@@ -12,8 +12,8 @@ outside, it represents the values that compose an
 
 ## Development Practices
 - Use [Forms](#Form) as [DTOs](../../docs/concepts/Data%20Transfer%20Object.md)
-  to communicate [Entity](../entities/Entity.md) between the outside world and
-  the system.
+  to communicate [Entity](../entities/Entity.md) state between the outside
+  world and the system.
 - When you are using a [Form](#Form) inside your system commands always
   validate that has been initialized correctly using its method
   `[form].Initialized()` it only returns `true` if the form was initialized
@@ -23,7 +23,7 @@ outside, it represents the values that compose an
     make generate form [yourformname] value1:type value2:type:nullable
     ```
 - If you need to modify the generated code follow the following criteria:
-  - Do not remove nor modify the `[form].Initialized()` method.
+  - Do not remove the `[form].Initialized()` method.
   - Do not remove nor modify the `initialized` field.
   - When you are initializing a form to insert or update an entity in the
     system, it should be initialized using a function with the pattern
@@ -43,7 +43,13 @@ outside, it represents the values that compose an
 
 ## Glossary
 ### Raw Form
+Is a form not initialized using an initialization method in your form package.
+This would usually happen when parsing the JSON request body inside the http
+rest adapter or any other part you are building data to introduce to your
+system.
 
+> Don't use a raw form inside your systems, always convert them into properly
+> initialized forms,
 
 ### Entity Interface
 
@@ -52,6 +58,6 @@ outside, it represents the values that compose an
 
 
 # TODO
-- [ ] Write Glossary definitions.
+- [] Write Glossary definitions.
 - [ ] Refactor current implementation to match this spec.
 - [ ] Implement the form generation command/script.

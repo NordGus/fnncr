@@ -21,6 +21,9 @@ type Entity struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt time.Time `json:"-"`
+
+	From account.Entity `json:"-"`
+	To   account.Entity `json:"-"`
 }
 
 func New(
@@ -46,5 +49,7 @@ func New(
 		CreatedAt:  createdAt,
 		UpdatedAt:  updatedAt,
 		DeletedAt:  deletedAt,
+		From:       from,
+		To:         to,
 	}
 }

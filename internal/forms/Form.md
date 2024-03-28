@@ -43,26 +43,26 @@ outside, it represents the values that compose an
 
 ## Glossary
 ### Raw Form
-Is a form not initialized using an initialization method in your form package.
-This would usually happen when parsing the JSON request body inside the http
-rest adapter or any other part you are building data to introduce to your
-system.
+Not initialized using an initialization method in your form package. This would
+usually happen when parsing the JSON request body inside the http rest adapter
+or any other part you are building data to introduce to your system.
 
 > Don't use a raw form inside your systems, always convert them into properly
 > initialized forms,
 
 ### Entity Interface
-Is a simple interface that represents the [Entity](../entities/Entity.md) the
-forms is supposed to be a
-[DTO](../../docs/concepts/Data%20Transfer%20Object.md) of.
+Simple interface that represents the [Entity](../entities/Entity.md) the forms
+is supposed to be a [DTO](../../docs/concepts/Data%20Transfer%20Object.md) of.
 
 This is design decision is done to prevent circular dependencies. And also
 facilitate refactoring.
 
 ### Validation Function
-
+Function that should make a single validation on a `form_value` inner value and
+return an error if the value doesn't pass it. Each function is supposed to run a
+just on validation on the value, no more.
 
 # TODO
-- [] Write Glossary definitions.
+- [x] Write Glossary definitions.
 - [ ] Refactor current implementation to match this spec.
 - [ ] Implement the form generation command/script.

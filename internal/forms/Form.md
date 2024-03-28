@@ -48,7 +48,7 @@ usually happen when parsing the JSON request body inside the http rest adapter
 or any other part you are building data to introduce to your system.
 
 > Don't use a raw form inside your systems, always convert them into properly
-> initialized forms,
+> initialized forms.
 
 ### Entity Interface
 Simple interface that represents the [Entity](../entities/Entity.md) the forms

@@ -51,19 +51,20 @@ type (
 	}
 )
 
-func NewEntry(raw Form, validator Validator) Form {
+func NewEntry(raw Form) Form {
 	f := Form{
-		ID:            form_value.New(raw.ID.Value, validator.IDValidators()...),
-		Kind:          form_value.New(raw.Kind.Value, validator.KindValidators()...),
-		Currency:      form_value.New(raw.Currency.Value, validator.CurrencyValidators()...),
-		Limit:         form_value.New(raw.Limit.Value, validator.LimitValidators()...),
-		IsArchive:     form_value.New(raw.IsArchive.Value, validator.IsArchiveValidators()...),
-		Name:          form_value.New(raw.Name.Value, validator.NameValidators()...),
-		Description:   form_value.New(raw.Description.Value, validator.DescriptionValidators()...),
-		Color:         form_value.New(raw.Description.Value, validator.ColorValidators()...),
-		Icon:          form_value.New(raw.Icon.Value, validator.IconValidators()...),
-		InitialAmount: nullable_value.New(raw.InitialAmount.Value, true, validator.InitialAmountValidators()...),
-		OpenedAt:      nullable_value.New(raw.OpenedAt.Value, raw.OpenedAt.Value.IsZero(), validator.OpenedAtValidators()...),
+		ID:            form_value.New(raw.ID.Value),
+		ParentID:      nullable_value.New("", false),
+		Kind:          form_value.New(raw.Kind.Value),
+		Currency:      form_value.New(raw.Currency.Value),
+		Limit:         form_value.New(raw.Limit.Value),
+		IsArchive:     form_value.New(raw.IsArchive.Value),
+		Name:          form_value.New(raw.Name.Value),
+		Description:   form_value.New(raw.Description.Value),
+		Color:         form_value.New(raw.Description.Value),
+		Icon:          form_value.New(raw.Icon.Value),
+		InitialAmount: nullable_value.New(raw.InitialAmount.Value, true),
+		OpenedAt:      nullable_value.New(raw.OpenedAt.Value, raw.OpenedAt.Value.IsZero()),
 		initialized:   true,
 	}
 
@@ -72,20 +73,20 @@ func NewEntry(raw Form, validator Validator) Form {
 	return f
 }
 
-func NewChildEntry(raw Form, validator Validator) Form {
+func NewChildEntry(raw Form) Form {
 	f := Form{
-		ID:            form_value.New(raw.ID.Value, validator.IDValidators()...),
-		ParentID:      nullable_value.New(raw.ParentID.Value, true, validator.ParentIDValidators()...),
-		Kind:          form_value.New(raw.Kind.Value, validator.KindValidators()...),
-		Currency:      form_value.New(raw.Currency.Value, validator.CurrencyValidators()...),
-		Limit:         form_value.New(raw.Limit.Value, validator.LimitValidators()...),
-		IsArchive:     form_value.New(raw.IsArchive.Value, validator.IsArchiveValidators()...),
-		Name:          form_value.New(raw.Name.Value, validator.NameValidators()...),
-		Description:   form_value.New(raw.Description.Value, validator.DescriptionValidators()...),
-		Color:         form_value.New(raw.Description.Value, validator.ColorValidators()...),
-		Icon:          form_value.New(raw.Icon.Value, validator.IconValidators()...),
-		InitialAmount: nullable_value.New(raw.InitialAmount.Value, true, validator.InitialAmountValidators()...),
-		OpenedAt:      nullable_value.New(raw.OpenedAt.Value, raw.OpenedAt.Value.IsZero(), validator.OpenedAtValidators()...),
+		ID:            form_value.New(raw.ID.Value),
+		ParentID:      nullable_value.New(raw.ParentID.Value, true),
+		Kind:          form_value.New(raw.Kind.Value),
+		Currency:      form_value.New(raw.Currency.Value),
+		Limit:         form_value.New(raw.Limit.Value),
+		IsArchive:     form_value.New(raw.IsArchive.Value),
+		Name:          form_value.New(raw.Name.Value),
+		Description:   form_value.New(raw.Description.Value),
+		Color:         form_value.New(raw.Description.Value),
+		Icon:          form_value.New(raw.Icon.Value),
+		InitialAmount: nullable_value.New(raw.InitialAmount.Value, true),
+		OpenedAt:      nullable_value.New(raw.OpenedAt.Value, raw.OpenedAt.Value.IsZero()),
 		initialized:   true,
 	}
 
@@ -97,6 +98,7 @@ func NewChildEntry(raw Form, validator Validator) Form {
 func New(account Account, children ...Form) Form {
 	f := Form{
 		ID:            form_value.New(account.ID()),
+		ParentID:      nullable_value.New("", false),
 		Kind:          form_value.New(account.Kind()),
 		Currency:      form_value.New(account.Currency()),
 		Limit:         form_value.New(account.Limit()),

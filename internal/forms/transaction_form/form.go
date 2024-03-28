@@ -35,15 +35,15 @@ type (
 	}
 )
 
-func NewEntry(raw Form, validator Validator) Form {
+func NewEntry(raw Form) Form {
 	f := Form{
-		ID:          form_value.New(raw.ID.Value, validator.IDValidators()...),
-		FromID:      form_value.New(raw.FromID.Value, validator.FromIDValidators()...),
-		ToID:        form_value.New(raw.ToID.Value, validator.ToIDValidators()...),
-		FromAmount:  form_value.New(raw.FromAmount.Value, validator.FromAmountValidators()...),
-		ToAmount:    form_value.New(raw.ToAmount.Value, validator.ToAmountValidators()...),
-		IssuedAt:    form_value.New(raw.IssuedAt.Value, validator.IssuedAtValidators()...),
-		ExecutedAt:  form_value.New(raw.ExecutedAt.Value, validator.IssuedAtValidators()...),
+		ID:          form_value.New(raw.ID.Value),
+		FromID:      form_value.New(raw.FromID.Value),
+		ToID:        form_value.New(raw.ToID.Value),
+		FromAmount:  form_value.New(raw.FromAmount.Value),
+		ToAmount:    form_value.New(raw.ToAmount.Value),
+		IssuedAt:    form_value.New(raw.IssuedAt.Value),
+		ExecutedAt:  form_value.New(raw.ExecutedAt.Value),
 		initialized: true,
 	}
 

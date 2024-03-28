@@ -1,16 +1,16 @@
 package account_entity
 
 import (
-	"financo/internal/entities/shared/nullable_value"
 	"time"
 
 	"financo/internal/entities/shared/currencies"
+	nullable "financo/internal/entities/shared/nullable_value"
 	"github.com/google/uuid"
 )
 
 type Entity struct {
-	ID       uuid.UUID                       `json:"id"`
-	ParentID nullable_value.Value[uuid.UUID] `json:"parentID"`
+	ID       uuid.UUID                 `json:"id"`
+	ParentID nullable.Value[uuid.UUID] `json:"parentID"`
 
 	Kind      Kind                `json:"kind"`
 	Currency  currencies.Currency `json:"currency"`
@@ -45,7 +45,7 @@ func New(
 ) Entity {
 	return Entity{
 		ID:          id,
-		ParentID:    nullable_value.New(uuid.UUID{}, false),
+		ParentID:    nullable.New(uuid.UUID{}, false),
 		Kind:        t,
 		Currency:    c,
 		Limit:       limit,
@@ -75,7 +75,7 @@ func NewChild(
 ) Entity {
 	return Entity{
 		ID:          id,
-		ParentID:    nullable_value.New(parent.ID, true),
+		ParentID:    nullable.New(parent.ID, true),
 		Kind:        parent.Kind,
 		Currency:    parent.Currency,
 		Limit:       limit,

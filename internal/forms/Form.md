@@ -52,7 +52,12 @@ system.
 > initialized forms,
 
 ### Entity Interface
+Is a simple interface that represents the [Entity](../entities/Entity.md) the
+forms is supposed to be a
+[DTO](../../docs/concepts/Data%20Transfer%20Object.md) of.
 
+This is design decision is done to prevent circular dependencies. And also
+facilitate refactoring.
 
 ### Validation Function
 

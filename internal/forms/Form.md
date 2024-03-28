@@ -65,4 +65,4 @@ just on validation on the value, no more.
 # TODO
 - [x] Write Glossary definitions.
 - [x] Refactor current implementation to match this spec.
-- [ ] Implement the form generation command/script.
+- [X] Implement the form generation command/script.

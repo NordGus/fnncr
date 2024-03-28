@@ -61,8 +61,3 @@ facilitate refactoring.
 Function that should make a single validation on a `form_value` inner value and
 return an error if the value doesn't pass it. Each function is supposed to run a
 just on validation on the value, no more.
-
-# TODO
-- [x] Write Glossary definitions.
-- [x] Refactor current implementation to match this spec.
-- [X] Implement the form generation command/script.

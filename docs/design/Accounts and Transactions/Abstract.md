@@ -5,6 +5,8 @@
 The way Accounts and Transactions are design is like a graph, where Accounts are
 the graph's nodes and the Transactions are its edges.
 
+<img src="Account-Abstract.drawio.svg" alt="diagram">
+
 ## Accounts
 Are containers of state that can represent a capital store or wallet in the
 system, debts held or incurred, available credit or any source of income or

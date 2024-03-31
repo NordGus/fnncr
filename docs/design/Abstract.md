@@ -30,30 +30,22 @@ goals.
   credit lines state.
 - Create multiple accounts to manage and plan my expenses my way.
 - Set and follow savings goals.
+- Operate with multiple currencies depending on the account.
 
 **Features**:
 1. Accounts system `v1`
 2. Transactions system `v1`
 3. Savings Goals system `v1`
+4. Currency system `v1`
 
 ### Phase 2
-**Objectives**:
-- Operate with multiple currencies depending on the account.
-
-**Features**:
-1. Currency system `v1`
-2. Accounts system `v2`
-3. Transactions system `v2`
-4. Savings Goals system `v2`
-
-### Phase 3
 **Objectives**:
 - Design monthly budgets.
 
 **Features**:
 1. Budget System `v1`
 
-### Phase 4
+### Phase 3
 **Objectives**:
 - Design payment plans for my debts.
 - Change between active payment plans for each debt.

@@ -118,3 +118,5 @@ institution, ergo when the money arrived.
 The difference between `issued_at` and `executed_at` represents the lag time
 of the Transaction.
 
+For deletion, each Account can have a timestamp `deleted_at` to indicate it was
+deleted form the system, and it will be completely removed on later time.

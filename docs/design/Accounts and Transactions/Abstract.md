@@ -77,15 +77,34 @@ deleted form the system, and it will be completely removed on later time.
 Transactions are time series-like records that connect money movements between
 [Accounts](#accounts).
 
-| field       | type      | additional                                   |
-|-------------|-----------|----------------------------------------------|
-| id          | uuid      | primary key                                  |
-| from_id     | uuid      | foreign key to accounts, index, not nullable |
-| to_id       | uuid      | foreign key to accounts, index, not nullable |
-| from_amount | integer   | not nullable                                 |
-| to_amount   | integer   | not nullable                                 |
-| issued_at   | date      | index, not nullable                          |
-| executed_at | date      | index                                        |
-| created_at  | timestamp | not nullable                                 |
-| updated_at  | timestamp | not nullable                                 |
-| deleted_at  | timestamp | index                                        |
+| field         | type      | additional                                   |
+|---------------|-----------|----------------------------------------------|
+| id            | uuid      | primary key                                  |
+| source_id     | uuid      | foreign key to accounts, index, not nullable |
+| target_id     | uuid      | foreign key to accounts, index, not nullable |
+| source_amount | integer   | not nullable                                 |
+| target_amount | integer   | not nullable                                 |
+| notes         | text      |                                              |
+| issued_at     | date      | index, not nullable                          |
+| executed_at   | date      | index                                        |
+| created_at    | timestamp | not nullable                                 |
+| updated_at    | timestamp | not nullable                                 |
+| deleted_at    | timestamp | index                                        |
+
+All Transactions need to reference a *Source* Account and a *Target* Account,
+vía `source_id` and `target_id`.
+These relations need to be validated to prevent a circular reference where
+*Source* Account and *Target* Account are the same.
+
+As well, every Transaction, needs to include a `source_amount` and
+`target_amount` fields to store the Transaction's amount, the reason there are
+two separate values, is because the *Source* Account and the *Target* Account
+not necessarily share the same `currency`, so this is used to store the
+Transaction's effective conversion rate.
+So, if *Source* Account and *Target* Account share the same `currency` both,
+`source_amount` and `target_amount`, must be equal.
+And if *Source* Account and *Target* Account `currency` are different,
+`source_account` and `target_amount` should be different,
+storing the amounts for each Account `currency` of the Transaction.
+
+

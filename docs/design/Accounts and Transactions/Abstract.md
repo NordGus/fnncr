@@ -107,4 +107,14 @@ And if *Source* Account and *Target* Account `currency` are different,
 `source_account` and `target_amount` should be different,
 storing the amounts for each Account `currency` of the Transaction.
 
+Every Transaction must have an `issued_at` date, this date represents the date 
+that the Transaction was issued from the *Source* Account, ergo when the money
+left.
+
+At the same time it also have a `executed_at` date, this date represents
+the date that the Transaction was executed by the *Target* Account's
+institution, ergo when the money arrived.
+
+The difference between `issued_at` and `executed_at` represents the lag time
+of the Transaction.
 

@@ -17,37 +17,44 @@ type Entity struct {
 	Limit     int64               `json:"limit"`
 	IsArchive bool                `json:"isArchive"`
 
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Color       string `json:"color"`
-	Icon        string `json:"icon"`
+	Name        string                 `json:"name"`
+	Description nullable.Value[string] `json:"description"`
+	Color       string                 `json:"color"`
+	Icon        string                 `json:"icon"`
 
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	DeletedAt time.Time `json:"-"`
+	CreatedAt time.Time                 `json:"createdAt"`
+	UpdatedAt time.Time                 `json:"updatedAt"`
+	DeletedAt nullable.Value[time.Time] `json:"-"`
 
 	Children []Entity `json:"-"`
 }
 
 func New(
 	id uuid.UUID,
-	t Kind,
-	c currencies.Currency,
+	parentID nullable.Value[uuid.UUID],
+	kind Kind,
+	currency currencies.Currency,
 	name string,
-	description string,
+	description nullable.Value[string],
 	color string,
 	icon string,
 	limit int64,
 	isArchived bool,
 	createdAt time.Time,
 	updatedAt time.Time,
-	deletedAt time.Time,
+	deletedAt nullable.Value[time.Time],
 ) Entity {
+	var children []Entity
+
+	if parentID.Valid() {
+		children = make([]Entity, 0, 10)
+	}
+
 	return Entity{
 		ID:          id,
-		ParentID:    nullable.New(uuid.UUID{}, false),
-		Kind:        t,
-		Currency:    c,
+		ParentID:    parentID,
+		Kind:        kind,
+		Currency:    currency,
 		Limit:       limit,
 		IsArchive:   isArchived,
 		Name:        name,
@@ -57,35 +64,6 @@ func New(
 		CreatedAt:   createdAt,
 		UpdatedAt:   updatedAt,
 		DeletedAt:   deletedAt,
-		Children:    make([]Entity, 0, 10),
-	}
-}
-
-func NewChild(
-	id uuid.UUID,
-	parent Entity,
-	name string,
-	description string,
-	icon string,
-	limit int64,
-	isArchived bool,
-	createdAt time.Time,
-	updatedAt time.Time,
-	deletedAt time.Time,
-) Entity {
-	return Entity{
-		ID:          id,
-		ParentID:    nullable.New(parent.ID, true),
-		Kind:        parent.Kind,
-		Currency:    parent.Currency,
-		Limit:       limit,
-		IsArchive:   isArchived,
-		Name:        name,
-		Description: description,
-		Color:       parent.Color,
-		Icon:        icon,
-		CreatedAt:   createdAt,
-		UpdatedAt:   updatedAt,
-		DeletedAt:   deletedAt,
+		Children:    children,
 	}
 }

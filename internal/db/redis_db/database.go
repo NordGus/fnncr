@@ -10,7 +10,7 @@ import (
 
 type (
 	Service interface {
-		Client() *redis.Client
+		DB() *redis.Client
 		Close() error
 		Health() map[string]string
 	}
@@ -36,7 +36,7 @@ func New(opts redis.Options) Service {
 	return &service{client: client}
 }
 
-func (s *service) Client() *redis.Client {
+func (s *service) DB() *redis.Client {
 	return s.client
 }
 

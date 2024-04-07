@@ -60,11 +60,7 @@ func (p *PostgresRepository) GetByID(ctx context.Context, id uuid.UUID) (account
 		return account.Entity{}, errors.Join(ErrInternalServiceFailure, err)
 	}
 
-	defer func(conn *sql.Conn) {
-		if err := conn.Close(); err != nil {
-			log.Println("accounts_repository: failed to close postgresql connection:", err)
-		}
-	}(conn)
+	defer p.closeDatabaseConnection(conn)
 
 	err = conn.QueryRowContext(
 		ctx,
@@ -140,6 +136,111 @@ func (p *PostgresRepository) GetByID(ctx context.Context, id uuid.UUID) (account
 	), nil
 }
 
+// GetChildrenFor finds the children for the given parent Account.
+// And returns a copy of the given parent with the children attached to it.
+func (p *PostgresRepository) GetChildrenFor(ctx context.Context, parent account.Entity) (account.Entity, error) {
+	conn, err := p.service.DB().Conn(ctx)
+	if err != nil {
+		return parent, errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	defer p.closeDatabaseConnection(conn)
+
+	rows, err := conn.QueryContext(
+		ctx,
+		`
+			SELECT 
+			    accounts.id,
+			    accounts.parent_id,
+			    accounts.kind,
+			    accounts.currency,
+			    accounts.name,
+			    accounts.description,
+			    accounts.color,
+			    accounts.icon,
+			    accounts.limit,
+			    accounts.is_archived,
+			    accounts.created_at,
+			    accounts.updated_at,
+			    accounts.deleted_at,
+			FROM accounts
+			WHERE deleted_at IS NULL
+			  AND accounts.parent_id = $1
+			ORDER BY
+			    accounts.is_archived DESC,
+			    accounts.created_at ASC
+		`,
+		parent.ID.String(),
+	)
+	if err != nil {
+		return parent, errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	for i := 1; rows.Next(); i++ {
+		var (
+			record      postgresRecord
+			id          uuid.UUID
+			description nullable.Value[string]
+		)
+
+		err = rows.Scan(
+			&record.id,
+			&record.parentID,
+			&record.kind,
+			&record.currency,
+			&record.name,
+			&record.description,
+			&record.color,
+			&record.icon,
+			&record.limit,
+			&record.isArchived,
+			&record.createdAt,
+			&record.updatedAt,
+			&record.deletedAt,
+		)
+		if err != nil {
+			return parent, errors.Join(ErrCorruptedAccount, err)
+		}
+
+		id, err = uuid.Parse(record.id)
+		if err != nil {
+			return parent, errors.Join(ErrCorruptedAccount, err)
+		}
+
+		if record.description.Valid {
+			description, err = postgresParseDescription(record.description)
+			if err != nil {
+				return parent, errors.Join(ErrCorruptedAccount, err)
+			}
+		}
+
+		parent.Children = append(
+			parent.Children,
+			account.New(
+				id,
+				nullable.New(parent.ID, true),
+				account.ParseKind(record.kind),
+				currencies.ParseCurrency(record.currency),
+				record.name,
+				description,
+				record.color,
+				record.icon,
+				record.limit,
+				record.isArchived,
+				record.createdAt,
+				record.updatedAt,
+				nullable.Value[time.Time]{},
+			),
+		)
+	}
+
+	if err := rows.Err(); err != nil {
+		return parent, errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	return parent, nil
+}
+
 // Create saves a new account_entity.Entity in the repository.
 // It prevents overwriting existing Account records by first searching by its
 // id, to check if the record already exists.
@@ -182,4 +283,11 @@ func postgresParseDescription(description sql.NullString) (nullable.Value[string
 	}
 
 	return nullable.New(val.(string), true), nil
+}
+
+// closeDatabaseConnection handles closing the given database connection
+func (p *PostgresRepository) closeDatabaseConnection(conn *sql.Conn) {
+	if err := conn.Close(); err != nil {
+		log.Println("accounts_repository: failed to close postgresql connection:", err)
+	}
 }

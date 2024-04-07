@@ -369,6 +369,43 @@ func (p *PostgresRepository) Save(ctx context.Context, acc account.Entity) error
 	return nil
 }
 
+// Delete marks the given account_entity.Entity for deletion in the repository,
+// It also marks its children.
+func (p *PostgresRepository) Delete(ctx context.Context, id uuid.UUID, time time.Time) error {
+	conn, err := p.service.DB().Conn(ctx)
+	if err != nil {
+		return errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	defer p.closeDatabaseConnection(conn)
+
+	result, err := conn.ExecContext(
+		ctx,
+		`
+			UPDATE accounts
+			SET accounts.deleted_at = $1
+			WHERE id = $2
+			   OR parent_id = $2
+		`,
+		time,
+		id.String(),
+	)
+	if err != nil {
+		return errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	if rows < 1 {
+		return ErrCorruptedAccount
+	}
+
+	return nil
+}
+
 // postgresParseParentID is a simple helper function that parses a
 // sql.NullString, representing a postgresRecord parentID, to a
 // nullable_value.Value[uuid.UUID] representing an account_entity.Entity

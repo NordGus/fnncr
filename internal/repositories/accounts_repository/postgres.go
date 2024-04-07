@@ -68,7 +68,25 @@ func (p *PostgresRepository) GetByID(ctx context.Context, id uuid.UUID) (account
 
 	err = conn.QueryRowContext(
 		ctx,
-		"SELECT accounts.* FROM accounts WHERE accounts.deleted_at IS NULL AND accounts.id = $1",
+		`
+			SELECT 
+			    accounts.id,
+			    accounts.parent_id,
+			    accounts.kind,
+			    accounts.currency,
+			    accounts.name,
+			    accounts.description,
+			    accounts.color,
+			    accounts.icon,
+			    accounts.limit,
+			    accounts.is_archived,
+			    accounts.created_at,
+			    accounts.updated_at,
+			    accounts.deleted_at,
+			FROM accounts
+			WHERE deleted_at IS NULL
+			  AND accounts.id = $1
+		`,
 		id.String(),
 	).Scan(
 		&record.id,

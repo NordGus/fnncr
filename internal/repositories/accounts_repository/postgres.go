@@ -176,7 +176,7 @@ func (p *PostgresRepository) GetChildrenFor(ctx context.Context, parent account.
 		return parent, errors.Join(ErrInternalServiceFailure, err)
 	}
 
-	for i := 1; rows.Next(); i++ {
+	for rows.Next() {
 		var (
 			record      postgresRecord
 			id          uuid.UUID
@@ -239,6 +239,121 @@ func (p *PostgresRepository) GetChildrenFor(ctx context.Context, parent account.
 	}
 
 	return parent, nil
+}
+
+// GetAll finds and returns all not deleted Account records in the system.
+// It returns a slice of account_entity.Entity where first it returns all parent
+// accounts and later all the child accounts.
+func (p *PostgresRepository) GetAll(ctx context.Context) ([]account.Entity, error) {
+	accounts := make([]account.Entity, 0, 10)
+
+	conn, err := p.service.DB().Conn(ctx)
+	if err != nil {
+		return accounts, errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	defer p.closeDatabaseConnection(conn)
+
+	rows, err := conn.QueryContext(
+		ctx,
+		`
+			SELECT 
+			    accounts.id,
+			    accounts.parent_id,
+			    accounts.kind,
+			    accounts.currency,
+			    accounts.name,
+			    accounts.description,
+			    accounts.color,
+			    accounts.icon,
+			    accounts.limit,
+			    accounts.is_archived,
+			    accounts.created_at,
+			    accounts.updated_at,
+			    accounts.deleted_at,
+			FROM accounts
+			WHERE deleted_at IS NULL
+			ORDER BY
+			    accounts.parent_id DESC NULLS FIRST,
+			    accounts.is_archived DESC,
+			    accounts.created_at ASC
+		`,
+	)
+	if err != nil {
+		return accounts, errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	for rows.Next() {
+		var (
+			record      postgresRecord
+			id          uuid.UUID
+			parentID    nullable.Value[uuid.UUID]
+			description nullable.Value[string]
+		)
+
+		err = rows.Scan(
+			&record.id,
+			&record.parentID,
+			&record.kind,
+			&record.currency,
+			&record.name,
+			&record.description,
+			&record.color,
+			&record.icon,
+			&record.limit,
+			&record.isArchived,
+			&record.createdAt,
+			&record.updatedAt,
+			&record.deletedAt,
+		)
+		if err != nil {
+			return accounts, errors.Join(ErrCorruptedAccount, err)
+		}
+
+		id, err = uuid.Parse(record.id)
+		if err != nil {
+			return accounts, errors.Join(ErrCorruptedAccount, err)
+		}
+
+		if record.parentID.Valid {
+			parentID, err = postgresParseParentID(record.parentID)
+			if err != nil {
+				return accounts, errors.Join(ErrCorruptedAccount, err)
+			}
+		}
+
+		if record.description.Valid {
+			description, err = postgresParseDescription(record.description)
+			if err != nil {
+				return accounts, errors.Join(ErrCorruptedAccount, err)
+			}
+		}
+
+		accounts = append(
+			accounts,
+			account.New(
+				id,
+				parentID,
+				account.ParseKind(record.kind),
+				currencies.ParseCurrency(record.currency),
+				record.name,
+				description,
+				record.color,
+				record.icon,
+				record.limit,
+				record.isArchived,
+				record.createdAt,
+				record.updatedAt,
+				nullable.Value[time.Time]{},
+			),
+		)
+	}
+
+	if err := rows.Err(); err != nil {
+		return accounts, errors.Join(ErrInternalServiceFailure, err)
+	}
+
+	return accounts, nil
 }
 
 // Create saves a new account_entity.Entity in the repository.

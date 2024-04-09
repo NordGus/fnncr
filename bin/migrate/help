@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# shellcheck disable=SC2068
+docker compose run --rm migrate

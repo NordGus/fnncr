@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-# shellcheck disable=SC2068
-migrate -verbose create -dir=./database/postgresql/migrations -ext=sql $@

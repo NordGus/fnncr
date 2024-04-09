@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+# shellcheck disable=SC2145
+echo "running $@"
+# shellcheck disable=SC2068
+docker compose run --rm migrate -path=/migrations \
+    -database "postgres://financo:local_dev@db:5432/financo_dev?sslmode=disable" \
+    -verbose $@

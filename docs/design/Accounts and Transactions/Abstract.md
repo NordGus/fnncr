@@ -22,7 +22,7 @@ expense.
 | description | text      |                                       |
 | color       | text      | not nullable                          |
 | icon        | text      | not nullable                          |
-| credit      | bigint    | not nullable, default `0`             |
+| amount      | bigint    | not nullable, default `0`             |
 | is_archived | boolean   | index, not nullable, default `false`  |
 | created_at  | timestamp | not nullable                          |
 | updated_at  | timestamp | not nullable                          |
@@ -59,9 +59,9 @@ This would indicate the system if the user should indicate the amount received
 by the target account to store as the transaction's exchange rate and maintain
 system coherency.
 
-Accounts must have a `limit`, this value will be used on `debt` family Accounts 
-to define the credit limit for `debt.credit` Accounts or the amount owed/own for
-`debt.loan` Accounts.
+Accounts must have a `amount`,
+this value will be used on `debt` family Accounts to define the credit limit
+for `debt.credit` Accounts or the amount owed/own for `debt.loan` Accounts.
 For all other Accounts' `kind` this value should be `0` for normalization
 purposes and for future flexibility.
 

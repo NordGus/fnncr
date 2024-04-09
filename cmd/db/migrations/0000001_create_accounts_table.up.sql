@@ -9,7 +9,7 @@ CREATE TABLE public.accounts (
     description TEXT,
     color VARCHAR NOT NULL,
     icon VARCHAR NOT NULL,
-    credit BIGINT NOT NULL DEFAULT 0,
+    amount BIGINT NOT NULL DEFAULT 0,
     is_archived BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),

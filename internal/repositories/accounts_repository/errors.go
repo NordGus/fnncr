@@ -6,6 +6,7 @@ var (
 	ErrAccountNotFound        = errors.New("accounts_repository: not found")
 	ErrAccountExists          = errors.New("accounts_repository: already exists")
 	ErrFailedToSaveAccount    = errors.New("accounts_repository: failed to save account")
+	ErrFailedToDeleteAccount  = errors.New("accounts_repository: failed to delete account")
 	ErrCorruptedAccount       = errors.New("accounts_repository: corrupted account")
 	ErrInternalServiceFailure = errors.New("accounts_repository: internal service failure")
 )

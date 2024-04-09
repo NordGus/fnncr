@@ -400,7 +400,7 @@ func (p *PostgresRepository) Delete(ctx context.Context, id uuid.UUID, time time
 	}
 
 	if rows < 1 {
-		return ErrCorruptedAccount
+		return ErrFailedToDeleteAccount
 	}
 
 	return nil

@@ -12,21 +12,21 @@ Accounts are containers that can represent a capital store or wallet in the
 system, debts held or incurred, available credit or any source of income or
 expense.
 
-| field       | type      | additional                           |
-|-------------|-----------|--------------------------------------|
-| id          | uuid      | primary key                          |
-| parent_id   | uuid      | index                                |
-| kind        | text      | index, not nullable                  |
-| currency    | text      | index, not nullable                  |
-| name        | text      | not nullable                         |
-| description | text      |                                      |
-| color       | text      | not nullable                         |
-| icon        | text      | not nullable                         |
-| limit       | integer   | not nullable, default `0`            |
-| is_archived | boolean   | index, not nullable, default `false` |
-| created_at  | timestamp | not nullable                         |
-| updated_at  | timestamp | not nullable                         |
-| deleted_at  | timestamp | index                                |
+| field       | type      | additional                            |
+|-------------|-----------|---------------------------------------|
+| id          | uuid      | primary key                           |
+| parent_id   | uuid      | index                                 |
+| kind        | text      | index, not nullable                   |
+| currency    | text      | index, not nullable                   |
+| name        | text      | not nullable                          |
+| description | text      |                                       |
+| color       | text      | not nullable                          |
+| icon        | text      | not nullable                          |
+| credit      | bigint    | not nullable, default `0`             |
+| is_archived | boolean   | index, not nullable, default `false`  |
+| created_at  | timestamp | not nullable                          |
+| updated_at  | timestamp | not nullable                          |
+| deleted_at  | timestamp | index                                 |
 
 An Account can have a parent account vía the `parent_id`.
 This is a design decision made, so the user can define child accounts,
